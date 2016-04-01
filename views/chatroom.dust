@@ -9,6 +9,6 @@
   <body>
     <div id="main">Loading...</div>
     <script src="/socket.io/socket.io.js"></script>
-	<script src="/js/app.js"></script>
+	<script src="/js/chatroom.js"></script>
   </body>
 </html>

@@ -21,10 +21,6 @@ class Messager extends Component {
         e.preventDefault();
         const {userId} = this.props;
         const {text} = this.state;
-        // this.props.onSendMessage({
-        //     senderId: senderId,
-        //     content: text
-        // });
         this.props.socket.emit('client send', {
             senderId: userId,
             chatroomId: this.props.chatroomId,
@@ -66,9 +62,6 @@ class Messager extends Component {
                     </form>
                     <div className="input-group-btn">
                         <a className="send-button btn btn-default">送出</a>
-                    </div>
-                    <div className="input-group-btn" onClick={onFetchMessage}>
-                        <a className="send-button btn btn-default">更新</a>
                     </div>
                 </div>
             </div>

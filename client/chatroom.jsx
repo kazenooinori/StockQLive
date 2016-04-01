@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import Messager from "./containers/messager.jsx";
 import {createStore, applyMiddleware} from "redux";
 import {Provider} from "react-redux";
-import reducer from "./reducers";
+import reducer from "./reducers/chatroom";
 import thunkMiddleWare from "redux-thunk";
 import createLogger from 'redux-logger'
 
