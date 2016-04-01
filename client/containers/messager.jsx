@@ -1,6 +1,7 @@
 import React from "react";
 import TextMessage from "../components/text-message.jsx";
 import InformationRail from "./information-rail";
+import MenuRail from "./menu-rail";
 import {connect} from "react-redux";
 import * as ChaActions from '../actions/cha-actions';
 
@@ -52,6 +53,7 @@ class Messager extends Component {
         const {messages, onFetchMessage} = this.props;
         return (
             <div className="messager">
+                <MenuRail/>
                 <div className="main-messager">
                     <div className="message-box" ref="messageBox">
                         <div className="message-list" ref="messageList">
