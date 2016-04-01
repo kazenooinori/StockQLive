@@ -1,10 +1,31 @@
+.messager {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    overflow: scroll;
+}
+.message-box {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 300px;
+    bottom: 0px;
+    overflow: scroll;
+    padding-bottom: 34px;
+}
 .message-input-area {
     position: absolute;
     bottom: 0px;
     left: 0px;
-    right: 0px;
-    height: 34px;
+    right: 300px;
+    height: 38px;
 }
+.message-input-area .input {
+    width: 100%;
+}
+
 
 .message {
     padding: 5px 16px 10px 16px;
@@ -34,12 +55,25 @@
     color: #535353;
 }
 
-.message-box {
+
+.information-rail {
     position: absolute;
     top: 0px;
-    left: 0px;
     right: 0px;
     bottom: 0px;
+    width: 300px;
     overflow: scroll;
-    padding-bottom: 34px;
+}
+.information-rail>.menu {
+    margin: 0px !important;
+    padding-top: 8px;
+}
+.information-rail>.board {
+    position: absolute;
+    top: 50px;
+    right: 0px;
+    bottom: 0px;
+    width: 100%;
+    overflow: scroll;
+    margin: 0px;
 }

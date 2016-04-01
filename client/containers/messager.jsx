@@ -1,5 +1,6 @@
 import React from "react";
 import TextMessage from "../components/text-message.jsx";
+import InformationRail from "./information-rail";
 import {connect} from "react-redux";
 import * as ChaActions from '../actions/cha-actions';
 
@@ -51,19 +52,21 @@ class Messager extends Component {
         const {messages, onFetchMessage} = this.props;
         return (
             <div className="messager">
-                <div className="message-box" ref="messageBox">
-                    <div className="message-list" ref="messageList">
-                        {this.renderTextMessage(messages)}
+                <div className="main-messager">
+                    <div className="message-box" ref="messageBox">
+                        <div className="message-list" ref="messageList">
+                            {this.renderTextMessage(messages)}
+                        </div>
+                    </div>
+                    <div className="message-input-area">
+                        <form onSubmit={this.handleSubmitMessage.bind(this)}>
+                            <div className="ui input">
+                                <input ref="textInput" type="text" placeholder="說說話" onInput={this.handleInputText.bind(this)} value={this.state.text}/>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <div className="message-input-area input-group">
-                    <form onSubmit={this.handleSubmitMessage.bind(this)}>
-                        <input ref="textInput" type="text" className="message-input-box form-control" onInput={this.handleInputText.bind(this)} value={this.state.text}/>
-                    </form>
-                    <div className="input-group-btn">
-                        <a className="send-button btn btn-default">送出</a>
-                    </div>
-                </div>
+                <InformationRail/>
             </div>
         );
     }
