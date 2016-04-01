@@ -1,0 +1,45 @@
+.message-input-area {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    height: 34px;
+}
+
+.message {
+    padding: 5px 16px 10px 16px;
+}
+.message .head {
+    position: relative;
+}
+.message .head .avatar {
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    position: absolute;
+}
+.message .head .avatar img {
+    width: 32px;
+    height: 32px;
+}
+.message .head .name {
+    padding-left: 40px;
+    font-weight: bold;
+    margin: 0px;
+    font-size: 14px;
+}
+.message .content {
+    padding: 0px 0px 0px 40px;
+    font-size: 18px;
+    color: #535353;
+}
+
+.message-box {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    overflow: scroll;
+    padding-bottom: 34px;
+}
