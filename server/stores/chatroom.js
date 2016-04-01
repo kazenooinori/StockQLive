@@ -1,6 +1,6 @@
-import Chatroom from "../models/chatroom";
+const Chatroom = require("../models/chatroom");
 
-export function createChatroom () {
+function createChatroom () {
     return new Promise((resolve, reject) => {
         Chatroom.create({name: "Test"}, (error, chatroom) => {
             if (error) {
@@ -11,3 +11,7 @@ export function createChatroom () {
         });
     });
 }
+
+module.exports = {
+    createChatroom,
+};

@@ -1,8 +1,8 @@
-import MessageModel from "../models/message";
-import mongoose from "mongoose";
+const MessageModel = require("../models/message");
+const mongoose = require("mongoose");
 const {ObjectId} = mongoose.Types;
 
-export function createMessage (attributes) {
+function createMessage (attributes) {
     return new Promise((resolve, reject) => {
         MessageModel.create({
             senderId: attributes.senderId,
@@ -18,8 +18,13 @@ export function createMessage (attributes) {
     });
 }
 
-export function findMessage (attributes) {
+function findMessage (attributes) {
     return MessageModel.find({
         chatroomId: attributes.chatroomId,
     }, "senderId chatroomId content createdAt updatedAt").exec();
 }
+
+module.exports = {
+    createMessage,
+    findMessage,
+};

@@ -1,6 +1,6 @@
-import express from "express";
-import * as ChatroomStore from "../stores/chatroom";
-import * as MessageStore from "../stores/message";
+const express = require("express");
+const ChatroomStore = require("../stores/chatroom");
+const MessageStore = require("../stores/message");
 const router = express.Router();
 
 router.get("/", function (req, res) {
