@@ -40,6 +40,7 @@ app.use("/", require("./routes/index"));
 app.use("/chatroom", require("./routes/chatroom"));
 
 // api
+app.use("/signup", require("./routes/signup"));
 //app.use("/requests", require("./routes/request"));
 
 // catch 404 and handle it

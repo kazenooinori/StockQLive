@@ -62,15 +62,15 @@
 
 	var _reactRedux = __webpack_require__(162);
 
-	var _chatroom = __webpack_require__(187);
+	var _chatroom = __webpack_require__(188);
 
 	var _chatroom2 = _interopRequireDefault(_chatroom);
 
-	var _reduxThunk = __webpack_require__(189);
+	var _reduxThunk = __webpack_require__(190);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-	var _reduxLogger = __webpack_require__(190);
+	var _reduxLogger = __webpack_require__(191);
 
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 
@@ -19719,7 +19719,7 @@
 
 	var _informationRail2 = _interopRequireDefault(_informationRail);
 
-	var _menuRail = __webpack_require__(194);
+	var _menuRail = __webpack_require__(187);
 
 	var _menuRail2 = _interopRequireDefault(_menuRail);
 
@@ -22069,9 +22069,95 @@
 	    value: true
 	});
 
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(158);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _reactRedux = __webpack_require__(162);
+
+	var _chaActions = __webpack_require__(183);
+
+	var ChaActions = _interopRequireWildcard(_chaActions);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var Component = _react2.default.Component;
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var MenuRail = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "MenuRail",
+	    componentDidMount: function componentDidMount() {
+	        $(_reactDom2.default.findDOMNode(this.refs.menu)).find('.item').tab();
+	    },
+	    render: function render() {
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "menu-rail" },
+	            _react2.default.createElement(
+	                "a",
+	                { className: "logo" },
+	                _react2.default.createElement("img", { src: "/images/logo.png" })
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "ui secondary menu", ref: "menu" },
+	                _react2.default.createElement(
+	                    "a",
+	                    { className: "item active", "data-tab": "channe" },
+	                    "Channel"
+	                ),
+	                _react2.default.createElement(
+	                    "a",
+	                    { className: "item", "data-tab": "members" },
+	                    "Members"
+	                )
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "ui tab segment board active", "data-tab": "channe" },
+	                "Channel放在這裡"
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "ui tab segment board", "data-tab": "members" },
+	                "Members放在這裡"
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = MenuRail;
+
+/***/ },
+/* 188 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
 	var _redux = __webpack_require__(168);
 
-	var _messages = __webpack_require__(188);
+	var _messages = __webpack_require__(189);
 
 	var _messages2 = _interopRequireDefault(_messages);
 
@@ -22084,7 +22170,7 @@
 	exports.default = rootReducer;
 
 /***/ },
-/* 188 */
+/* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22129,7 +22215,7 @@
 	}
 
 /***/ },
-/* 189 */
+/* 190 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -22148,7 +22234,7 @@
 	module.exports = thunkMiddleware;
 
 /***/ },
-/* 190 */
+/* 191 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -22344,95 +22430,6 @@
 	}
 
 	module.exports = createLogger;
-
-/***/ },
-/* 191 */,
-/* 192 */,
-/* 193 */,
-/* 194 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(158);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	var _reactRedux = __webpack_require__(162);
-
-	var _chaActions = __webpack_require__(183);
-
-	var ChaActions = _interopRequireWildcard(_chaActions);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var Component = _react2.default.Component;
-	var PropTypes = _react2.default.PropTypes;
-
-
-	var MenuRail = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "MenuRail",
-	    componentDidMount: function componentDidMount() {
-	        $(_reactDom2.default.findDOMNode(this.refs.menu)).find('.item').tab();
-	    },
-	    render: function render() {
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "menu-rail" },
-	            _react2.default.createElement(
-	                "a",
-	                { className: "logo" },
-	                _react2.default.createElement("img", { src: "/images/logo.png" })
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "ui secondary menu", ref: "menu" },
-	                _react2.default.createElement(
-	                    "a",
-	                    { className: "item active", "data-tab": "channe" },
-	                    "Channel"
-	                ),
-	                _react2.default.createElement(
-	                    "a",
-	                    { className: "item", "data-tab": "members" },
-	                    "Members"
-	                )
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "ui tab segment board active", "data-tab": "channe" },
-	                "Channel放在這裡"
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "ui tab segment board", "data-tab": "members" },
-	                "Members放在這裡"
-	            )
-	        );
-	    }
-	}));
-
-	exports.default = MenuRail;
 
 /***/ }
 /******/ ]);
