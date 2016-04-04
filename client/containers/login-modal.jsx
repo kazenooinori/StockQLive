@@ -22,8 +22,6 @@ const LoginModal = React.createClass({
 
         $('.login-form').form({
             onSuccess: function (event, submitObject) {
-                console.log("onLogin", arguments);
-                console.log(submitObject);
                 event.preventDefault();
 
                 fetch("/login", {
@@ -33,6 +31,7 @@ const LoginModal = React.createClass({
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify(submitObject),
+                    credentials: 'include',
                 })
                 .then(fetchUtils.checkStatus)
                 .then(fetchUtils.parseJSON)
@@ -40,7 +39,7 @@ const LoginModal = React.createClass({
                     console.log("success", data);
                 })
                 .catch((error) => {
-                    console.log("fail", error);
+                    console.error("login fail", error);
                 });
             },
             fields: {

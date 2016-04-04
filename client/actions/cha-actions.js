@@ -1,5 +1,6 @@
 import * as types from "../constants/action-types";
-import fatch from "isomorphic-fetch";
+import fetch from "isomorphic-fetch";
+import * as fetchUtils from "../../lib/fetch-utils";
 
 export function sendMessage (message) {
     return {
@@ -26,7 +27,13 @@ export function fetchMessages (chatroomId) {
     return function (dispatch, getState) {
         // should inform that the app is going to fetch messages
         //dispatch(requestMessages());
-        return fetch("/chatroom/" + chatroomId + "/messages")
+        return fetch("/chatroom/" + chatroomId + "/messages", {
+            method: "GET",
+            headers: {
+                "Accept": "application/json",
+            },
+            credentials: 'include',
+        })
         .then(response => {
             return response.json();
         })
@@ -43,7 +50,7 @@ export function fetchMessages (chatroomId) {
 export function createRequest (request) {
     return function (dispatch, getState) {
         return fetch("/requests", {
-            method: "post",
+            method: "POST",
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
@@ -51,6 +58,7 @@ export function createRequest (request) {
             body: JSON.stringify({
                 request: request
             }),
+            credentials: 'include',
         })
         .then((response) => {
             return response.json();
@@ -71,7 +79,7 @@ export function createRequest (request) {
 export function fetchAllRequests () {
     return function (dispatch, getState) {
         return fetch("/requests", {
-            method: "get",
+            method: "GEt",
             headers: {
                 "Accept": "application/json",
             },
@@ -87,6 +95,28 @@ export function fetchAllRequests () {
         })
         .catch((error) => {
             console.error(error);
+        });
+    };
+}
+
+export function initUser () {
+    return function(dispatch, getState) {
+        return fetch("/user/me", {
+            method: "GET",
+            headers: {
+                "Accept": "application/json",
+            },
+            credentials: 'include',
+        })
+        .then(fetchUtils.checkStatus)
+        .then((response) => {
+            return response.json();
+        })
+        .then((user) => {
+            console.log("fetch user", user);
+        })
+        .catch((error) => {
+            console.error("fetch user error", error);
         });
     };
 }

@@ -21162,6 +21162,7 @@
 	exports.fetchMessages = fetchMessages;
 	exports.createRequest = createRequest;
 	exports.fetchAllRequests = fetchAllRequests;
+	exports.initUser = initUser;
 
 	var _actionTypes = __webpack_require__(184);
 
@@ -21170,6 +21171,10 @@
 	var _isomorphicFetch = __webpack_require__(185);
 
 	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+	var _fetchUtils = __webpack_require__(190);
+
+	var fetchUtils = _interopRequireWildcard(_fetchUtils);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21200,7 +21205,13 @@
 	    return function (dispatch, getState) {
 	        // should inform that the app is going to fetch messages
 	        //dispatch(requestMessages());
-	        return fetch("/chatroom/" + chatroomId + "/messages").then(function (response) {
+	        return (0, _isomorphicFetch2.default)("/chatroom/" + chatroomId + "/messages", {
+	            method: "GET",
+	            headers: {
+	                "Accept": "application/json"
+	            },
+	            credentials: 'include'
+	        }).then(function (response) {
 	            return response.json();
 	        }).then(function (json) {
 	            dispatch(appendMessages(json));
@@ -21212,15 +21223,16 @@
 
 	function createRequest(request) {
 	    return function (dispatch, getState) {
-	        return fetch("/requests", {
-	            method: "post",
+	        return (0, _isomorphicFetch2.default)("/requests", {
+	            method: "POST",
 	            headers: {
 	                "Accept": "application/json",
 	                "Content-Type": "application/json"
 	            },
 	            body: JSON.stringify({
 	                request: request
-	            })
+	            }),
+	            credentials: 'include'
 	        }).then(function (response) {
 	            return response.json();
 	        }).then(function (json) {
@@ -21236,8 +21248,8 @@
 
 	function fetchAllRequests() {
 	    return function (dispatch, getState) {
-	        return fetch("/requests", {
-	            method: "get",
+	        return (0, _isomorphicFetch2.default)("/requests", {
+	            method: "GEt",
 	            headers: {
 	                "Accept": "application/json"
 	            }
@@ -21250,6 +21262,24 @@
 	            });
 	        }).catch(function (error) {
 	            console.error(error);
+	        });
+	    };
+	}
+
+	function initUser() {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/user/me", {
+	            method: "GET",
+	            headers: {
+	                "Accept": "application/json"
+	            },
+	            credentials: 'include'
+	        }).then(fetchUtils.checkStatus).then(function (response) {
+	            return response.json();
+	        }).then(function (user) {
+	            console.log("fetch user", user);
+	        }).catch(function (error) {
+	            console.error("fetch user error", error);
 	        });
 	    };
 	}
@@ -21683,7 +21713,31 @@
 /* 187 */,
 /* 188 */,
 /* 189 */,
-/* 190 */,
+/* 190 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.checkStatus = checkStatus;
+	exports.parseJSON = parseJSON;
+	function checkStatus(res) {
+	    if (res.status >= 200 && res.status < 300) {
+	        return res;
+	    } else {
+	        var error = new Error(res.statusText);
+	        error.res = res;
+	        throw error;
+	    }
+	}
+
+	function parseJSON(res) {
+	    return res.json();
+	}
+
+/***/ },
 /* 191 */,
 /* 192 */,
 /* 193 */

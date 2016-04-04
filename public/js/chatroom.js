@@ -19807,8 +19807,10 @@
 	            var _props = this.props;
 	            var onFetchMessage = _props.onFetchMessage;
 	            var chatroomId = _props.chatroomId;
+	            var onInitUser = _props.onInitUser;
 
 	            onFetchMessage(chatroomId);
+	            onInitUser();
 	        }
 	    }, {
 	        key: "componentDidUpdate",
@@ -19888,6 +19890,9 @@
 	};
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	    return {
+	        onInitUser: function onInitUser() {
+	            dispatch(ChaActions.initUser());
+	        },
 	        onSendMessage: function onSendMessage(message) {
 	            dispatch(ChaActions.sendMessage(message));
 	        },
@@ -21547,6 +21552,7 @@
 	exports.fetchMessages = fetchMessages;
 	exports.createRequest = createRequest;
 	exports.fetchAllRequests = fetchAllRequests;
+	exports.initUser = initUser;
 
 	var _actionTypes = __webpack_require__(184);
 
@@ -21555,6 +21561,10 @@
 	var _isomorphicFetch = __webpack_require__(185);
 
 	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+	var _fetchUtils = __webpack_require__(190);
+
+	var fetchUtils = _interopRequireWildcard(_fetchUtils);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21585,7 +21595,13 @@
 	    return function (dispatch, getState) {
 	        // should inform that the app is going to fetch messages
 	        //dispatch(requestMessages());
-	        return fetch("/chatroom/" + chatroomId + "/messages").then(function (response) {
+	        return (0, _isomorphicFetch2.default)("/chatroom/" + chatroomId + "/messages", {
+	            method: "GET",
+	            headers: {
+	                "Accept": "application/json"
+	            },
+	            credentials: 'include'
+	        }).then(function (response) {
 	            return response.json();
 	        }).then(function (json) {
 	            dispatch(appendMessages(json));
@@ -21597,15 +21613,16 @@
 
 	function createRequest(request) {
 	    return function (dispatch, getState) {
-	        return fetch("/requests", {
-	            method: "post",
+	        return (0, _isomorphicFetch2.default)("/requests", {
+	            method: "POST",
 	            headers: {
 	                "Accept": "application/json",
 	                "Content-Type": "application/json"
 	            },
 	            body: JSON.stringify({
 	                request: request
-	            })
+	            }),
+	            credentials: 'include'
 	        }).then(function (response) {
 	            return response.json();
 	        }).then(function (json) {
@@ -21621,8 +21638,8 @@
 
 	function fetchAllRequests() {
 	    return function (dispatch, getState) {
-	        return fetch("/requests", {
-	            method: "get",
+	        return (0, _isomorphicFetch2.default)("/requests", {
+	            method: "GEt",
 	            headers: {
 	                "Accept": "application/json"
 	            }
@@ -21635,6 +21652,24 @@
 	            });
 	        }).catch(function (error) {
 	            console.error(error);
+	        });
+	    };
+	}
+
+	function initUser() {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/user/me", {
+	            method: "GET",
+	            headers: {
+	                "Accept": "application/json"
+	            },
+	            credentials: 'include'
+	        }).then(fetchUtils.checkStatus).then(function (response) {
+	            return response.json();
+	        }).then(function (user) {
+	            console.log("fetch user", user);
+	        }).catch(function (error) {
+	            console.error("fetch user error", error);
 	        });
 	    };
 	}
@@ -22235,8 +22270,6 @@
 
 	        $('.login-form').form({
 	            onSuccess: function onSuccess(event, submitObject) {
-	                console.log("onLogin", arguments);
-	                console.log(submitObject);
 	                event.preventDefault();
 
 	                (0, _isomorphicFetch2.default)("/login", {
@@ -22245,11 +22278,12 @@
 	                        "Accept": "application/json",
 	                        "Content-Type": "application/json"
 	                    },
-	                    body: JSON.stringify(submitObject)
+	                    body: JSON.stringify(submitObject),
+	                    credentials: 'include'
 	                }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (data) {
 	                    console.log("success", data);
 	                }).catch(function (error) {
-	                    console.log("fail", error);
+	                    console.error("login fail", error);
 	                });
 	            },
 	            fields: {

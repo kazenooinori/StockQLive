@@ -17,14 +17,15 @@ app.use(logger("dev"));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(flash());
 app.use(session({
     secret: "secret",
     resave: true,
-    saveUninitialized: false,
+    saveUninitialized: true,
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(flash());
+
 
 const mongoose = require('mongoose');
 const serverConfig = require("./config");
@@ -42,6 +43,7 @@ app.use("/", require("./routes/index"));
 app.use("/chatroom", require("./routes/chatroom"));
 
 // api
+app.use("/user", require("./routes/user"));
 app.use("/signup", require("./routes/signup"));
 app.use("/login", require("./routes/login"));
 

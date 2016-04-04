@@ -40,8 +40,9 @@ class Messager extends Component {
     }
     componentDidMount() {
         // initialize messages
-        const {onFetchMessage, chatroomId} = this.props;
+        const {onFetchMessage, chatroomId, onInitUser} = this.props;
         onFetchMessage(chatroomId);
+        onInitUser();
     }
     componentDidUpdate() {
         const {messageBox, messageList} = this.refs;
@@ -91,6 +92,9 @@ const mapStateToProps = function (state) {
 }
 const mapDispatchToProps = function (dispatch) {
     return {
+        onInitUser: function () {
+            dispatch(ChaActions.initUser());
+        },
         onSendMessage: function (message) {
             dispatch(ChaActions.sendMessage(message));
         },
