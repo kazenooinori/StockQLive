@@ -3,7 +3,7 @@ var {PropTypes} = React;
 
 export default class TextMessage extends React.Component {
     render () {
-        const {senderId, content} = this.props.message;
+        const {senderId, senderUsername, content} = this.props.message;
         return (
             <div className="message text-message">
                 <div className="head">
@@ -11,7 +11,7 @@ export default class TextMessage extends React.Component {
                         <img src="/images/head.png"/>
                     </div>
                     <p className="name">
-                        {senderId}
+                        {senderUsername}
                     </p>
                 </div>
                 <div className="content">

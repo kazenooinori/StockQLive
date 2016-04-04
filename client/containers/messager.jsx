@@ -22,10 +22,11 @@ class Messager extends Component {
     }
     handleSubmitMessage (e) {
         e.preventDefault();
-        const {userId} = this.props;
+        const {user} = this.props;
         const {text} = this.state;
         this.props.socket.emit('client send', {
-            senderId: userId,
+            senderId: user._id,
+            senderUsername: user.username,
             chatroomId: this.props.chatroomId,
             content: text,
         });
@@ -51,6 +52,23 @@ class Messager extends Component {
     renderTextMessage (messages) {
         return messages.map((message, index) => (<TextMessage key={index} message={message}/>));
     }
+    renderMessageInputArea (user) {
+        if (user.username) {
+            return (
+                <form onSubmit={this.handleSubmitMessage.bind(this)}>
+                    <div className="ui input">
+                        <input ref="textInput" type="text" placeholder="說說話" onInput={this.handleInputText.bind(this)} value={this.state.text}/>
+                    </div>
+                </form>
+            );
+        } else {
+            return (
+                <div className="ui input">
+                    <input ref="textInput" type="text" placeholder="請先登入" disabled/>
+                </div>
+            )
+        }
+    }
     render () {
         const {messages, onFetchMessage, onLogInUser, user} = this.props;
         return (
@@ -63,11 +81,7 @@ class Messager extends Component {
                         </div>
                     </div>
                     <div className="message-input-area">
-                        <form onSubmit={this.handleSubmitMessage.bind(this)}>
-                            <div className="ui input">
-                                <input ref="textInput" type="text" placeholder="說說話" onInput={this.handleInputText.bind(this)} value={this.state.text}/>
-                            </div>
-                        </form>
+                        {this.renderMessageInputArea(user)}
                     </div>
                 </div>
                 <InformationRail/>

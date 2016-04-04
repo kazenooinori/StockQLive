@@ -19781,11 +19781,12 @@
 	        key: "handleSubmitMessage",
 	        value: function handleSubmitMessage(e) {
 	            e.preventDefault();
-	            var userId = this.props.userId;
+	            var user = this.props.user;
 	            var text = this.state.text;
 
 	            this.props.socket.emit('client send', {
-	                senderId: userId,
+	                senderId: user._id,
+	                senderUsername: user.username,
 	                chatroomId: this.props.chatroomId,
 	                content: text
 	            });
@@ -19829,6 +19830,27 @@
 	            });
 	        }
 	    }, {
+	        key: "renderMessageInputArea",
+	        value: function renderMessageInputArea(user) {
+	            if (user.username) {
+	                return _react2.default.createElement(
+	                    "form",
+	                    { onSubmit: this.handleSubmitMessage.bind(this) },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "ui input" },
+	                        _react2.default.createElement("input", { ref: "textInput", type: "text", placeholder: "說說話", onInput: this.handleInputText.bind(this), value: this.state.text })
+	                    )
+	                );
+	            } else {
+	                return _react2.default.createElement(
+	                    "div",
+	                    { className: "ui input" },
+	                    _react2.default.createElement("input", { ref: "textInput", type: "text", placeholder: "請先登入", disabled: true })
+	                );
+	            }
+	        }
+	    }, {
 	        key: "render",
 	        value: function render() {
 	            var _props2 = this.props;
@@ -19856,15 +19878,7 @@
 	                    _react2.default.createElement(
 	                        "div",
 	                        { className: "message-input-area" },
-	                        _react2.default.createElement(
-	                            "form",
-	                            { onSubmit: this.handleSubmitMessage.bind(this) },
-	                            _react2.default.createElement(
-	                                "div",
-	                                { className: "ui input" },
-	                                _react2.default.createElement("input", { ref: "textInput", type: "text", placeholder: "說說話", onInput: this.handleInputText.bind(this), value: this.state.text })
-	                            )
-	                        )
+	                        this.renderMessageInputArea(user)
 	                    )
 	                ),
 	                _react2.default.createElement(_informationRail2.default, null),
@@ -19972,6 +19986,7 @@
 	        value: function render() {
 	            var _props$message = this.props.message;
 	            var senderId = _props$message.senderId;
+	            var senderUsername = _props$message.senderUsername;
 	            var content = _props$message.content;
 
 	            return _react2.default.createElement(
@@ -19988,7 +20003,7 @@
 	                    _react2.default.createElement(
 	                        "p",
 	                        { className: "name" },
-	                        senderId
+	                        senderUsername
 	                    )
 	                ),
 	                _react2.default.createElement(

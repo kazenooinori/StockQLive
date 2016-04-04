@@ -6,6 +6,10 @@ const MessageSchema = new Schema({
         type: String,
         required: true,
     },
+    senderUsername: {
+        type: String,
+        required: true,
+    },
     chatroomId: {
         type: String,
         required: true,
