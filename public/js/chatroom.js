@@ -19719,11 +19719,11 @@
 
 	var _informationRail2 = _interopRequireDefault(_informationRail);
 
-	var _menuRail = __webpack_require__(187);
+	var _menuRail = __webpack_require__(188);
 
 	var _menuRail2 = _interopRequireDefault(_menuRail);
 
-	var _loginModal = __webpack_require__(188);
+	var _loginModal = __webpack_require__(189);
 
 	var _loginModal2 = _interopRequireDefault(_loginModal);
 
@@ -19834,6 +19834,8 @@
 	            var _props2 = this.props;
 	            var messages = _props2.messages;
 	            var onFetchMessage = _props2.onFetchMessage;
+	            var onLogInUser = _props2.onLogInUser;
+	            var user = _props2.user;
 
 	            return _react2.default.createElement(
 	                "div",
@@ -19866,7 +19868,8 @@
 	                    )
 	                ),
 	                _react2.default.createElement(_informationRail2.default, null),
-	                _react2.default.createElement(_loginModal2.default, null)
+	                _react2.default.createElement(_loginModal2.default, {
+	                    onLogInUser: onLogInUser })
 	            );
 	        }
 	    }]);
@@ -19876,8 +19879,14 @@
 
 	Messager.propTypes = {
 	    userId: PropTypes.string.isRequired,
+	    user: PropTypes.shape({
+	        _id: PropTypes.string.isRequired,
+	        username: PropTypes.string.isRequired
+	    }),
 	    chatroomId: PropTypes.string.isRequired,
 	    messages: PropTypes.array.isRequired,
+	    onInitUser: PropTypes.func.isRequired,
+	    onLogInUser: PropTypes.func.isRequired,
 	    onSendMessage: PropTypes.func.isRequired,
 	    onFetchMessage: PropTypes.func.isRequired,
 	    onAppendMessage: PropTypes.func.isRequired
@@ -19885,6 +19894,7 @@
 
 	var mapStateToProps = function mapStateToProps(state) {
 	    return {
+	        user: state.user,
 	        messages: state.messages
 	    };
 	};
@@ -19892,6 +19902,9 @@
 	    return {
 	        onInitUser: function onInitUser() {
 	            dispatch(ChaActions.initUser());
+	        },
+	        onLogInUser: function onLogInUser(user) {
+	            dispatch(ChaActions.logInUser(user));
 	        },
 	        onSendMessage: function onSendMessage(message) {
 	            dispatch(ChaActions.sendMessage(message));
@@ -21552,6 +21565,8 @@
 	exports.fetchMessages = fetchMessages;
 	exports.createRequest = createRequest;
 	exports.fetchAllRequests = fetchAllRequests;
+	exports.logInUser = logInUser;
+	exports.logOutUser = logOutUser;
 	exports.initUser = initUser;
 
 	var _actionTypes = __webpack_require__(184);
@@ -21562,7 +21577,7 @@
 
 	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
-	var _fetchUtils = __webpack_require__(190);
+	var _fetchUtils = __webpack_require__(187);
 
 	var fetchUtils = _interopRequireWildcard(_fetchUtils);
 
@@ -21656,6 +21671,17 @@
 	    };
 	}
 
+	function logInUser(user) {
+	    return {
+	        type: types.LOGIN,
+	        user: user
+	    };
+	}
+	function logOutUser(user) {
+	    return {
+	        type: types.LOGOUT
+	    };
+	}
 	function initUser() {
 	    return function (dispatch, getState) {
 	        return (0, _isomorphicFetch2.default)("/user/me", {
@@ -21667,7 +21693,10 @@
 	        }).then(fetchUtils.checkStatus).then(function (response) {
 	            return response.json();
 	        }).then(function (user) {
-	            console.log("fetch user", user);
+	            dispatch({
+	                type: types.LOGIN,
+	                user: user
+	            });
 	        }).catch(function (error) {
 	            console.error("fetch user error", error);
 	        });
@@ -21691,6 +21720,9 @@
 
 	var FETCH_ALL_REQUESTS = exports.FETCH_ALL_REQUESTS = "FETCH_ALL_REQUESTS";
 	var APPEND_REQUESTS = exports.APPEND_REQUESTS = "APPEND_REQUESTS";
+
+	var LOGIN = exports.LOGIN = "LOGIN";
+	var LOGOUT = exports.LOGOUT = "LOGOUT";
 
 /***/ },
 /* 185 */
@@ -22101,6 +22133,31 @@
 
 /***/ },
 /* 187 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.checkStatus = checkStatus;
+	exports.parseJSON = parseJSON;
+	function checkStatus(res) {
+	    if (res.status >= 200 && res.status < 300) {
+	        return res;
+	    } else {
+	        var error = new Error(res.statusText);
+	        error.res = res;
+	        throw error;
+	    }
+	}
+
+	function parseJSON(res) {
+	    return res.json();
+	}
+
+/***/ },
+/* 188 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22123,7 +22180,7 @@
 
 	var ChaActions = _interopRequireWildcard(_chaActions);
 
-	var _loginModal = __webpack_require__(188);
+	var _loginModal = __webpack_require__(189);
 
 	var _loginModal2 = _interopRequireDefault(_loginModal);
 
@@ -22147,11 +22204,50 @@
 
 	var MenuRail = _wrapComponent("_component")(_react2.default.createClass({
 	    displayName: "MenuRail",
+
+	    propTypes: {
+	        user: PropTypes.shape({
+	            _id: PropTypes.string.isRequired,
+	            username: PropTypes.string.isRequired
+	        })
+	    },
 	    onClickLogin: function onClickLogin() {
 	        $("#login-modal").modal("show");
 	    },
 	    componentDidMount: function componentDidMount() {
 	        $(_reactDom2.default.findDOMNode(this.refs.menu)).find('.item').tab();
+	    },
+	    renderLoginStatus: function renderLoginStatus() {
+	        var _props = this.props;
+	        var user = _props.user;
+	        var onLogOutUser = _props.onLogOutUser;
+
+	        if (user.username) {
+	            return _react2.default.createElement(
+	                "div",
+	                { className: "login" },
+	                user.username,
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "button-groups" },
+	                    _react2.default.createElement(
+	                        "button",
+	                        { className: "ui yellow button", onClick: onLogOutUser },
+	                        "logout"
+	                    )
+	                )
+	            );
+	        } else {
+	            return _react2.default.createElement(
+	                "div",
+	                { className: "button-groups" },
+	                _react2.default.createElement(
+	                    "button",
+	                    { className: "ui primary button", onClick: this.onClickLogin },
+	                    "login"
+	                )
+	            );
+	        }
 	    },
 	    render: function render() {
 	        return _react2.default.createElement(
@@ -22162,15 +22258,7 @@
 	                { className: "logo" },
 	                _react2.default.createElement("img", { src: "/images/logo.png" })
 	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "button-groups" },
-	                _react2.default.createElement(
-	                    "button",
-	                    { className: "ui primary button", onClick: this.onClickLogin },
-	                    "login"
-	                )
-	            ),
+	            this.renderLoginStatus(),
 	            _react2.default.createElement(
 	                "div",
 	                { className: "ui secondary menu", ref: "menu" },
@@ -22199,10 +22287,23 @@
 	    }
 	}));
 
-	exports.default = MenuRail;
+	var mapStateToProps = function mapStateToProps(state) {
+	    return {
+	        user: state.user
+	    };
+	};
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	    return {
+	        onLogOutUser: function onLogOutUser() {
+	            dispatch(ChaActions.logOutUser());
+	        }
+	    };
+	};
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(MenuRail);
 
 /***/ },
-/* 188 */
+/* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22225,7 +22326,7 @@
 
 	var ChaActions = _interopRequireWildcard(_chaActions);
 
-	var _loginForm = __webpack_require__(189);
+	var _loginForm = __webpack_require__(190);
 
 	var _loginForm2 = _interopRequireDefault(_loginForm);
 
@@ -22233,7 +22334,7 @@
 
 	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
-	var _fetchUtils = __webpack_require__(190);
+	var _fetchUtils = __webpack_require__(187);
 
 	var fetchUtils = _interopRequireWildcard(_fetchUtils);
 
@@ -22257,6 +22358,10 @@
 
 	var LoginModal = _wrapComponent("_component")(_react2.default.createClass({
 	    displayName: "LoginModal",
+
+	    propTypes: {
+	        onLogInUser: PropTypes.func
+	    },
 	    componentDidMount: function componentDidMount() {
 	        $(_reactDom2.default.findDOMNode(this.refs.loginModal)).modal({
 	            onApprove: function onApprove(element) {
@@ -22267,6 +22372,8 @@
 	            },
 	            blurring: true
 	        });
+
+	        var onLogInUser = this.props.onLogInUser;
 
 	        $('.login-form').form({
 	            onSuccess: function onSuccess(event, submitObject) {
@@ -22280,8 +22387,10 @@
 	                    },
 	                    body: JSON.stringify(submitObject),
 	                    credentials: 'include'
-	                }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (data) {
-	                    console.log("success", data);
+	                }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (user) {
+	                    onLogInUser(user);
+
+	                    //$('.login-form').modal("hide");
 	                }).catch(function (error) {
 	                    console.error("login fail", error);
 	                });
@@ -22318,7 +22427,7 @@
 	exports.default = LoginModal;
 
 /***/ },
-/* 189 */
+/* 190 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22385,31 +22494,6 @@
 	exports.default = LoginForm;
 
 /***/ },
-/* 190 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.checkStatus = checkStatus;
-	exports.parseJSON = parseJSON;
-	function checkStatus(res) {
-	    if (res.status >= 200 && res.status < 300) {
-	        return res;
-	    } else {
-	        var error = new Error(res.statusText);
-	        error.res = res;
-	        throw error;
-	    }
-	}
-
-	function parseJSON(res) {
-	    return res.json();
-	}
-
-/***/ },
 /* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -22421,64 +22505,25 @@
 
 	var _redux = __webpack_require__(168);
 
-	var _messages = __webpack_require__(192);
+	var _messages = __webpack_require__(196);
 
 	var _messages2 = _interopRequireDefault(_messages);
+
+	var _user = __webpack_require__(197);
+
+	var _user2 = _interopRequireDefault(_user);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var rootReducer = (0, _redux.combineReducers)({
-	    messages: _messages2.default
+	    messages: _messages2.default,
+	    user: _user2.default
 	});
 
 	exports.default = rootReducer;
 
 /***/ },
-/* 192 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = messages;
-
-	var _actionTypes = __webpack_require__(184);
-
-	var types = _interopRequireWildcard(_actionTypes);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-	function messages() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
-	    var action = arguments[1];
-
-	    switch (action.type) {
-	        case types.SEND_MESSAGE:
-	            return [].concat(_toConsumableArray(state), [action.message]);
-	        case types.APPEND_MESSAGES:
-	            return [].concat(_toConsumableArray(state), _toConsumableArray(action.messages));
-	        case types.APPEND_MESSAGE:
-	            var message = action.message;
-
-	            var shouldAppend = true;
-	            state.every(function (existedMessage) {
-	                shouldAppend = existedMessage._id !== message._id;
-	                return shouldAppend;
-	            });
-	            if (shouldAppend) {
-	                return [].concat(_toConsumableArray(state), [message]);
-	            }
-	            return state;
-	        default:
-	            return state;
-	    }
-	}
-
-/***/ },
+/* 192 */,
 /* 193 */
 /***/ function(module, exports) {
 
@@ -22694,6 +22739,86 @@
 	}
 
 	module.exports = createLogger;
+
+/***/ },
+/* 195 */,
+/* 196 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = messages;
+
+	var _actionTypes = __webpack_require__(184);
+
+	var types = _interopRequireWildcard(_actionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	function messages() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.SEND_MESSAGE:
+	            return [].concat(_toConsumableArray(state), [action.message]);
+	        case types.APPEND_MESSAGES:
+	            return [].concat(_toConsumableArray(state), _toConsumableArray(action.messages));
+	        case types.APPEND_MESSAGE:
+	            var message = action.message;
+
+	            var shouldAppend = true;
+	            state.every(function (existedMessage) {
+	                shouldAppend = existedMessage._id !== message._id;
+	                return shouldAppend;
+	            });
+	            if (shouldAppend) {
+	                return [].concat(_toConsumableArray(state), [message]);
+	            }
+	            return state;
+	        default:
+	            return state;
+	    }
+	}
+
+/***/ },
+/* 197 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = user;
+
+	var _actionTypes = __webpack_require__(184);
+
+	var types = _interopRequireWildcard(_actionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function user() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? { _id: "", username: "" } : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.LOGIN:
+	            return Object.assign({}, action.user);
+	        case types.LOGOUT:
+	            return {
+	                _id: "",
+	                username: ""
+	            };
+	        default:
+	            return state;
+	    }
+	}
 
 /***/ }
 /******/ ]);

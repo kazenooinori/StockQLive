@@ -52,7 +52,7 @@ class Messager extends Component {
         return messages.map((message, index) => (<TextMessage key={index} message={message}/>));
     }
     render () {
-        const {messages, onFetchMessage} = this.props;
+        const {messages, onFetchMessage, onLogInUser, user} = this.props;
         return (
             <div className="messager">
                 <MenuRail/>
@@ -71,15 +71,22 @@ class Messager extends Component {
                     </div>
                 </div>
                 <InformationRail/>
-                <LoginModal/>
+                <LoginModal
+                    onLogInUser={onLogInUser}/>
             </div>
         );
     }
 }
 Messager.propTypes = {
     userId: PropTypes.string.isRequired,
+    user: PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        username: PropTypes.string.isRequired,
+    }),
     chatroomId: PropTypes.string.isRequired,
     messages: PropTypes.array.isRequired,
+    onInitUser: PropTypes.func.isRequired,
+    onLogInUser: PropTypes.func.isRequired,
     onSendMessage: PropTypes.func.isRequired,
     onFetchMessage: PropTypes.func.isRequired,
     onAppendMessage: PropTypes.func.isRequired,
@@ -87,13 +94,17 @@ Messager.propTypes = {
 
 const mapStateToProps = function (state) {
     return {
-        messages: state.messages
+        user: state.user,
+        messages: state.messages,
     };
 }
 const mapDispatchToProps = function (dispatch) {
     return {
         onInitUser: function () {
             dispatch(ChaActions.initUser());
+        },
+        onLogInUser: function (user) {
+            dispatch(ChaActions.logInUser(user));
         },
         onSendMessage: function (message) {
             dispatch(ChaActions.sendMessage(message));

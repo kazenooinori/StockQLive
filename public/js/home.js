@@ -70,7 +70,7 @@
 
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 
-	var _receptionist3 = __webpack_require__(196);
+	var _receptionist3 = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./reducers/receptionist\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 
 	var _receptionist4 = _interopRequireDefault(_receptionist3);
 
@@ -21302,6 +21302,9 @@
 	var FETCH_ALL_REQUESTS = exports.FETCH_ALL_REQUESTS = "FETCH_ALL_REQUESTS";
 	var APPEND_REQUESTS = exports.APPEND_REQUESTS = "APPEND_REQUESTS";
 
+	var LOGIN = exports.LOGIN = "LOGIN";
+	var LOGOUT = exports.LOGOUT = "LOGOUT";
+
 /***/ },
 /* 185 */
 /***/ function(module, exports, __webpack_require__) {
@@ -22114,63 +22117,6 @@
 	};
 
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Receptionist);
-
-/***/ },
-/* 196 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _redux = __webpack_require__(168);
-
-	var _requests = __webpack_require__(197);
-
-	var _requests2 = _interopRequireDefault(_requests);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var rootReducer = (0, _redux.combineReducers)({
-	    requests: _requests2.default
-	});
-
-	exports.default = rootReducer;
-
-/***/ },
-/* 197 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = requests;
-
-	var _actionTypes = __webpack_require__(184);
-
-	var types = _interopRequireWildcard(_actionTypes);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-	function requests() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
-	    var action = arguments[1];
-
-	    switch (action.type) {
-	        case types.APPEND_REQUESTS:
-	            return [].concat(_toConsumableArray(state), _toConsumableArray(action.requests));
-	        case types.APPEND_REQUEST:
-	            return [].concat(_toConsumableArray(state), [action.request]);
-	        default:
-	            return state;
-	    }
-	}
 
 /***/ }
 /******/ ]);

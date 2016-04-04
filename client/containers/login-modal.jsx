@@ -9,6 +9,9 @@ import * as fetchUtils from "../../lib/fetch-utils.js";
 const {Component, PropTypes} = React;
 
 const LoginModal = React.createClass({
+    propTypes: {
+        onLogInUser: PropTypes.func,
+    },
     componentDidMount () {
         $(ReactDOM.findDOMNode(this.refs.loginModal)).modal({
             onApprove: function (element) {
@@ -20,6 +23,7 @@ const LoginModal = React.createClass({
             blurring: true,
         });
 
+        const {onLogInUser} = this.props;
         $('.login-form').form({
             onSuccess: function (event, submitObject) {
                 event.preventDefault();
@@ -35,8 +39,10 @@ const LoginModal = React.createClass({
                 })
                 .then(fetchUtils.checkStatus)
                 .then(fetchUtils.parseJSON)
-                .then((data) => {
-                    console.log("success", data);
+                .then((user) => {
+                    onLogInUser(user);
+
+                    //$('.login-form').modal("hide");
                 })
                 .catch((error) => {
                     console.error("login fail", error);
@@ -61,7 +67,6 @@ const LoginModal = React.createClass({
                     </div>
                 </div>
             </div>
-
         );
     }
 });

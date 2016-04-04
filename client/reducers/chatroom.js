@@ -1,8 +1,10 @@
 import {combineReducers} from "redux";
-import messages from "./messages";
+import messages from "./singles/messages";
+import user from "./singles/user";
 
 const rootReducer = combineReducers({
-    messages
+    messages,
+    user,
 });
 
 export default rootReducer;

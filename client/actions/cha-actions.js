@@ -99,6 +99,17 @@ export function fetchAllRequests () {
     };
 }
 
+export function logInUser (user) {
+    return {
+        type: types.LOGIN,
+        user,
+    };
+}
+export function logOutUser (user) {
+    return {
+        type: types.LOGOUT,
+    };
+}
 export function initUser () {
     return function(dispatch, getState) {
         return fetch("/user/me", {
@@ -113,7 +124,10 @@ export function initUser () {
             return response.json();
         })
         .then((user) => {
-            console.log("fetch user", user);
+            dispatch({
+                type: types.LOGIN,
+                user,
+            });
         })
         .catch((error) => {
             console.error("fetch user error", error);

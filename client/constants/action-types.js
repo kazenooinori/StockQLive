@@ -6,3 +6,6 @@ export const APPEND_REQUEST = "APPEND_REQUEST";
 
 export const FETCH_ALL_REQUESTS = "FETCH_ALL_REQUESTS";
 export const APPEND_REQUESTS = "APPEND_REQUESTS";
+
+export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";
