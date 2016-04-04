@@ -19727,6 +19727,10 @@
 
 	var _loginModal2 = _interopRequireDefault(_loginModal);
 
+	var _signupModal = __webpack_require__(198);
+
+	var _signupModal2 = _interopRequireDefault(_signupModal);
+
 	var _reactRedux = __webpack_require__(162);
 
 	var _chaActions = __webpack_require__(183);
@@ -19857,6 +19861,7 @@
 	            var messages = _props2.messages;
 	            var onFetchMessage = _props2.onFetchMessage;
 	            var onLogInUser = _props2.onLogInUser;
+	            var onSignUpUser = _props2.onSignUpUser;
 	            var user = _props2.user;
 
 	            return _react2.default.createElement(
@@ -19883,7 +19888,9 @@
 	                ),
 	                _react2.default.createElement(_informationRail2.default, null),
 	                _react2.default.createElement(_loginModal2.default, {
-	                    onLogInUser: onLogInUser })
+	                    onLogInUser: onLogInUser }),
+	                _react2.default.createElement(_signupModal2.default, {
+	                    onSignUpUser: onSignUpUser })
 	            );
 	        }
 	    }]);
@@ -19901,6 +19908,7 @@
 	    messages: PropTypes.array.isRequired,
 	    onInitUser: PropTypes.func.isRequired,
 	    onLogInUser: PropTypes.func.isRequired,
+	    onSignUpUser: PropTypes.func.isRequired,
 	    onSendMessage: PropTypes.func.isRequired,
 	    onFetchMessage: PropTypes.func.isRequired,
 	    onAppendMessage: PropTypes.func.isRequired
@@ -19919,6 +19927,9 @@
 	        },
 	        onLogInUser: function onLogInUser(user) {
 	            dispatch(ChaActions.logInUser(user));
+	        },
+	        onSignUpUser: function onSignUpUser(user) {
+	            dispatch(ChaActions.signUpUser(user));
 	        },
 	        onSendMessage: function onSendMessage(message) {
 	            dispatch(ChaActions.sendMessage(message));
@@ -21580,6 +21591,7 @@
 	exports.fetchMessages = fetchMessages;
 	exports.createRequest = createRequest;
 	exports.fetchAllRequests = fetchAllRequests;
+	exports.signUpUser = signUpUser;
 	exports.logInUser = logInUser;
 	exports.logOutUser = logOutUser;
 	exports.initUser = initUser;
@@ -21686,10 +21698,44 @@
 	    };
 	}
 
-	function logInUser(user) {
-	    return {
-	        type: types.LOGIN,
-	        user: user
+	function signUpUser(toSignUpUser) {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/signup", {
+	            method: 'POST',
+	            headers: {
+	                "Accept": "application/json",
+	                "Content-Type": "application/json"
+	            },
+	            body: JSON.stringify(toSignUpUser),
+	            credentials: 'include'
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (user) {
+	            dispatch({
+	                type: types.LOGIN,
+	                user: user
+	            });
+	        }).catch(function (error) {
+	            console.error("signup fail", error);
+	        });
+	    };
+	}
+	function logInUser(toLogInUser) {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/login", {
+	            method: 'POST',
+	            headers: {
+	                "Accept": "application/json",
+	                "Content-Type": "application/json"
+	            },
+	            body: JSON.stringify(toLogInUser),
+	            credentials: 'include'
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (user) {
+	            dispatch({
+	                type: types.LOGIN,
+	                user: user
+	            });
+	        }).catch(function (error) {
+	            console.error("login fail", error);
+	        });
 	    };
 	}
 	function logOutUser(user) {
@@ -22207,10 +22253,6 @@
 
 	var ChaActions = _interopRequireWildcard(_chaActions);
 
-	var _loginModal = __webpack_require__(189);
-
-	var _loginModal2 = _interopRequireDefault(_loginModal);
-
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -22241,8 +22283,17 @@
 	    onClickLogin: function onClickLogin() {
 	        $("#login-modal").modal("show");
 	    },
+	    onClickSignUp: function onClickSignUp() {
+	        $("#signup-modal").modal("show");
+	    },
 	    componentDidMount: function componentDidMount() {
 	        $(_reactDom2.default.findDOMNode(this.refs.menu)).find('.item').tab();
+	    },
+	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	        if (this.props.user._id !== nextProps.user._id) {
+	            $("#login-modal").modal("hide");
+	            $("#signup-modal").modal("hide");
+	        }
 	    },
 	    renderLoginStatus: function renderLoginStatus() {
 	        var _props = this.props;
@@ -22272,6 +22323,11 @@
 	                    "button",
 	                    { className: "ui primary button", onClick: this.onClickLogin },
 	                    "login"
+	                ),
+	                _react2.default.createElement(
+	                    "button",
+	                    { className: "ui green button", onClick: this.onClickSignUp },
+	                    "signup"
 	                )
 	            );
 	        }
@@ -22347,25 +22403,9 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _reactRedux = __webpack_require__(162);
-
-	var _chaActions = __webpack_require__(183);
-
-	var ChaActions = _interopRequireWildcard(_chaActions);
-
 	var _loginForm = __webpack_require__(190);
 
 	var _loginForm2 = _interopRequireDefault(_loginForm);
-
-	var _isomorphicFetch = __webpack_require__(185);
-
-	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
-
-	var _fetchUtils = __webpack_require__(187);
-
-	var fetchUtils = _interopRequireWildcard(_fetchUtils);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22379,7 +22419,6 @@
 	    };
 	}
 
-	var Component = _react2.default.Component;
 	var PropTypes = _react2.default.PropTypes;
 
 
@@ -22391,12 +22430,6 @@
 	    },
 	    componentDidMount: function componentDidMount() {
 	        $(_reactDom2.default.findDOMNode(this.refs.loginModal)).modal({
-	            onApprove: function onApprove(element) {
-	                console.log("going login");
-	            },
-	            onHidden: function onHidden() {
-	                console.log("close");
-	            },
 	            blurring: true
 	        });
 
@@ -22406,21 +22439,7 @@
 	            onSuccess: function onSuccess(event, submitObject) {
 	                event.preventDefault();
 
-	                (0, _isomorphicFetch2.default)("/login", {
-	                    method: 'POST',
-	                    headers: {
-	                        "Accept": "application/json",
-	                        "Content-Type": "application/json"
-	                    },
-	                    body: JSON.stringify(submitObject),
-	                    credentials: 'include'
-	                }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (user) {
-	                    onLogInUser(user);
-
-	                    $("#login-modal").modal("hide");
-	                }).catch(function (error) {
-	                    console.error("login fail", error);
-	                });
+	                onLogInUser(submitObject);
 	            },
 	            fields: {
 	                username: 'empty',
@@ -22479,10 +22498,6 @@
 	    };
 	}
 
-	var Component = _react2.default.Component;
-	var PropTypes = _react2.default.PropTypes;
-
-
 	var LoginForm = _wrapComponent("_component")(_react2.default.createClass({
 	    displayName: "LoginForm",
 	    render: function render() {
@@ -22507,11 +22522,11 @@
 	                    null,
 	                    "Password"
 	                ),
-	                _react2.default.createElement("input", { type: "text", name: "password", placeholder: "Password" })
+	                _react2.default.createElement("input", { type: "password", name: "password", placeholder: "Password" })
 	            ),
 	            _react2.default.createElement(
 	                "button",
-	                { className: "ui button", onClick: this.onLogin },
+	                { className: "ui button" },
 	                "Login"
 	            )
 	        );
@@ -22846,6 +22861,156 @@
 	            return state;
 	    }
 	}
+
+/***/ },
+/* 198 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(158);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _signupForm = __webpack_require__(199);
+
+	var _signupForm2 = _interopRequireDefault(_signupForm);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var SignUpModal = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "SignUpModal",
+
+	    propTypes: {
+	        onSignUpUser: PropTypes.func
+	    },
+	    componentDidMount: function componentDidMount() {
+	        $(_reactDom2.default.findDOMNode(this.refs.signupModal)).modal({
+	            blurring: true
+	        });
+
+	        var onSignUpUser = this.props.onSignUpUser;
+
+	        $('.signup-form').form({
+	            onSuccess: function onSuccess(event, submitObject) {
+	                event.preventDefault();
+
+	                onSignUpUser(submitObject);
+	            },
+	            fields: {
+	                username: 'empty',
+	                password: ['empty']
+	            }
+	        });
+	    },
+	    render: function render() {
+	        return _react2.default.createElement(
+	            "div",
+	            { id: "signup-modal", className: "ui modal small", ref: "signupModal" },
+	            _react2.default.createElement("i", { className: "close icon" }),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "header" },
+	                "Modal Title"
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "content" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "description" },
+	                    _react2.default.createElement(_signupForm2.default, null)
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = SignUpModal;
+
+/***/ },
+/* 199 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var SignUpForm = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "SignUpForm",
+	    render: function render() {
+	        return _react2.default.createElement(
+	            "form",
+	            { className: "ui form signup-form" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "field" },
+	                _react2.default.createElement(
+	                    "label",
+	                    null,
+	                    "Username"
+	                ),
+	                _react2.default.createElement("input", { type: "text", name: "username", placeholder: "Username" })
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "field" },
+	                _react2.default.createElement(
+	                    "label",
+	                    null,
+	                    "Password"
+	                ),
+	                _react2.default.createElement("input", { type: "text", name: "password", placeholder: "Password" })
+	            ),
+	            _react2.default.createElement(
+	                "button",
+	                { className: "ui button" },
+	                "Signup"
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = SignUpForm;
 
 /***/ }
 /******/ ]);

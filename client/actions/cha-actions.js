@@ -99,10 +99,52 @@ export function fetchAllRequests () {
     };
 }
 
-export function logInUser (user) {
-    return {
-        type: types.LOGIN,
-        user,
+export function signUpUser (toSignUpUser) {
+    return function (dispatch, getState) {
+        return fetch("/signup", {
+            method: 'POST',
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(toSignUpUser),
+            credentials: 'include',
+        })
+        .then(fetchUtils.checkStatus)
+        .then(fetchUtils.parseJSON)
+        .then((user) => {
+            dispatch({
+                type: types.LOGIN,
+                user,
+            });
+        })
+        .catch((error) => {
+            console.error("signup fail", error);
+        });
+    };
+}
+export function logInUser (toLogInUser) {
+    return function(dispatch, getState) {
+        return fetch("/login", {
+            method: 'POST',
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(toLogInUser),
+            credentials: 'include',
+        })
+        .then(fetchUtils.checkStatus)
+        .then(fetchUtils.parseJSON)
+        .then((user) => {
+            dispatch({
+                type: types.LOGIN,
+                user,
+            });
+        })
+        .catch((error) => {
+            console.error("login fail", error);
+        });
     };
 }
 export function logOutUser (user) {

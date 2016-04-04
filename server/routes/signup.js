@@ -10,11 +10,14 @@ router.post("/", (req, res) => {
     };
     UserStore.signup(attributes)
     .then((user) => {
-        res.json(user);
-        res.end();
+        req.logIn(user, function(err) {
+            if (err) { return next(err); }
+            res.json(user);
+            res.end();
+        });
     })
     .catch((error) => {
-        console.error(error);
+        console.error("signup", error);
         res.json(error);
         res.end();
     });

@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import {connect} from "react-redux";
 import * as ChaActions from "../actions/cha-actions";
-import LoginModal from "./login-modal";
 
 const {Component, PropTypes} = React;
 
@@ -16,8 +15,17 @@ const MenuRail = React.createClass({
     onClickLogin () {
         $("#login-modal").modal("show");
     },
+    onClickSignUp () {
+        $("#signup-modal").modal("show");
+    },
     componentDidMount () {
         $(ReactDOM.findDOMNode(this.refs.menu)).find('.item').tab();
+    },
+    componentWillReceiveProps (nextProps) {
+        if (this.props.user._id !== nextProps.user._id) {
+            $("#login-modal").modal("hide");
+            $("#signup-modal").modal("hide");
+        }
     },
     renderLoginStatus () {
         const {user, onLogOutUser} = this.props;
@@ -37,6 +45,9 @@ const MenuRail = React.createClass({
                 <div className="button-groups">
                     <button className="ui primary button" onClick={this.onClickLogin}>
                         login
+                    </button>
+                    <button className="ui green button" onClick={this.onClickSignUp}>
+                        signup
                     </button>
                 </div>
             );

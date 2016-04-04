@@ -3,6 +3,7 @@ import TextMessage from "../components/text-message.jsx";
 import InformationRail from "./information-rail";
 import MenuRail from "./menu-rail";
 import LoginModal from "./login-modal";
+import SignUpModal from "./signup-modal";
 import {connect} from "react-redux";
 import * as ChaActions from '../actions/cha-actions';
 
@@ -70,7 +71,7 @@ class Messager extends Component {
         }
     }
     render () {
-        const {messages, onFetchMessage, onLogInUser, user} = this.props;
+        const {messages, onFetchMessage, onLogInUser, onSignUpUser, user} = this.props;
         return (
             <div className="messager">
                 <MenuRail/>
@@ -87,6 +88,8 @@ class Messager extends Component {
                 <InformationRail/>
                 <LoginModal
                     onLogInUser={onLogInUser}/>
+                <SignUpModal
+                    onSignUpUser={onSignUpUser}/>
             </div>
         );
     }
@@ -101,6 +104,7 @@ Messager.propTypes = {
     messages: PropTypes.array.isRequired,
     onInitUser: PropTypes.func.isRequired,
     onLogInUser: PropTypes.func.isRequired,
+    onSignUpUser: PropTypes.func.isRequired,
     onSendMessage: PropTypes.func.isRequired,
     onFetchMessage: PropTypes.func.isRequired,
     onAppendMessage: PropTypes.func.isRequired,
@@ -119,6 +123,9 @@ const mapDispatchToProps = function (dispatch) {
         },
         onLogInUser: function (user) {
             dispatch(ChaActions.logInUser(user));
+        },
+        onSignUpUser: function (user) {
+            dispatch(ChaActions.signUpUser(user));
         },
         onSendMessage: function (message) {
             dispatch(ChaActions.sendMessage(message));
