@@ -106,8 +106,23 @@ export function logInUser (user) {
     };
 }
 export function logOutUser (user) {
-    return {
-        type: types.LOGOUT,
+    return function(dispatch, getState) {
+        return fetch("/logout", {
+            method: "GET",
+            headers: {
+                "Accept": "application/json",
+            },
+            credentials: 'include',
+        })
+        .then(fetchUtils.checkStatus)
+        .then(() => {
+            dispatch({
+                type: types.LOGOUT,
+            });
+        })
+        .catch((error) => {
+            console.error("logout user error", error);
+        });
     };
 }
 export function initUser () {

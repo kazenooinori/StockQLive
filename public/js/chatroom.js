@@ -21678,8 +21678,20 @@
 	    };
 	}
 	function logOutUser(user) {
-	    return {
-	        type: types.LOGOUT
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/logout", {
+	            method: "GET",
+	            headers: {
+	                "Accept": "application/json"
+	            },
+	            credentials: 'include'
+	        }).then(fetchUtils.checkStatus).then(function () {
+	            dispatch({
+	                type: types.LOGOUT
+	            });
+	        }).catch(function (error) {
+	            console.error("logout user error", error);
+	        });
 	    };
 	}
 	function initUser() {
