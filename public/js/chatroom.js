@@ -62,15 +62,15 @@
 
 	var _reactRedux = __webpack_require__(162);
 
-	var _chatroom = __webpack_require__(188);
+	var _chatroom = __webpack_require__(191);
 
 	var _chatroom2 = _interopRequireDefault(_chatroom);
 
-	var _reduxThunk = __webpack_require__(190);
+	var _reduxThunk = __webpack_require__(193);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-	var _reduxLogger = __webpack_require__(191);
+	var _reduxLogger = __webpack_require__(194);
 
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 
@@ -19723,6 +19723,10 @@
 
 	var _menuRail2 = _interopRequireDefault(_menuRail);
 
+	var _loginModal = __webpack_require__(188);
+
+	var _loginModal2 = _interopRequireDefault(_loginModal);
+
 	var _reactRedux = __webpack_require__(162);
 
 	var _chaActions = __webpack_require__(183);
@@ -19859,7 +19863,8 @@
 	                        )
 	                    )
 	                ),
-	                _react2.default.createElement(_informationRail2.default, null)
+	                _react2.default.createElement(_informationRail2.default, null),
+	                _react2.default.createElement(_loginModal2.default, null)
 	            );
 	        }
 	    }]);
@@ -22083,6 +22088,10 @@
 
 	var ChaActions = _interopRequireWildcard(_chaActions);
 
+	var _loginModal = __webpack_require__(188);
+
+	var _loginModal2 = _interopRequireDefault(_loginModal);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -22103,6 +22112,9 @@
 
 	var MenuRail = _wrapComponent("_component")(_react2.default.createClass({
 	    displayName: "MenuRail",
+	    onClickLogin: function onClickLogin() {
+	        $("#login-modal").modal("show");
+	    },
 	    componentDidMount: function componentDidMount() {
 	        $(_reactDom2.default.findDOMNode(this.refs.menu)).find('.item').tab();
 	    },
@@ -22114,6 +22126,15 @@
 	                "a",
 	                { className: "logo" },
 	                _react2.default.createElement("img", { src: "/images/logo.png" })
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "button-groups" },
+	                _react2.default.createElement(
+	                    "button",
+	                    { className: "ui primary button", onClick: this.onClickLogin },
+	                    "login"
+	                )
 	            ),
 	            _react2.default.createElement(
 	                "div",
@@ -22155,9 +22176,218 @@
 	    value: true
 	});
 
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(158);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _reactRedux = __webpack_require__(162);
+
+	var _chaActions = __webpack_require__(183);
+
+	var ChaActions = _interopRequireWildcard(_chaActions);
+
+	var _loginForm = __webpack_require__(189);
+
+	var _loginForm2 = _interopRequireDefault(_loginForm);
+
+	var _isomorphicFetch = __webpack_require__(185);
+
+	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+	var _fetchUtils = __webpack_require__(190);
+
+	var fetchUtils = _interopRequireWildcard(_fetchUtils);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var Component = _react2.default.Component;
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var LoginModal = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "LoginModal",
+	    componentDidMount: function componentDidMount() {
+	        $(_reactDom2.default.findDOMNode(this.refs.loginModal)).modal({
+	            onApprove: function onApprove(element) {
+	                console.log("going login");
+	            },
+	            onHidden: function onHidden() {
+	                console.log("close");
+	            },
+	            blurring: true
+	        });
+
+	        $('.login-form').form({
+	            onSuccess: function onSuccess(event, submitObject) {
+	                console.log("onLogin", arguments);
+	                console.log(submitObject);
+	                event.preventDefault();
+
+	                (0, _isomorphicFetch2.default)("/login", {
+	                    method: 'POST',
+	                    headers: {
+	                        "Accept": "application/json",
+	                        "Content-Type": "application/json"
+	                    },
+	                    body: JSON.stringify(submitObject)
+	                }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (data) {
+	                    console.log("success", data);
+	                }).catch(function (error) {
+	                    console.log("fail", error);
+	                });
+	            },
+	            fields: {
+	                username: 'empty',
+	                password: ['empty']
+	            }
+	        });
+	    },
+	    render: function render() {
+	        return _react2.default.createElement(
+	            "div",
+	            { id: "login-modal", className: "ui modal small", ref: "loginModal" },
+	            _react2.default.createElement("i", { className: "close icon" }),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "header" },
+	                "Modal Title"
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "content" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "description" },
+	                    _react2.default.createElement(_loginForm2.default, null)
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = LoginModal;
+
+/***/ },
+/* 189 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var Component = _react2.default.Component;
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var LoginForm = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "LoginForm",
+	    render: function render() {
+	        return _react2.default.createElement(
+	            "form",
+	            { className: "ui form login-form" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "field" },
+	                _react2.default.createElement(
+	                    "label",
+	                    null,
+	                    "Username"
+	                ),
+	                _react2.default.createElement("input", { type: "text", name: "username", placeholder: "Username" })
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "field" },
+	                _react2.default.createElement(
+	                    "label",
+	                    null,
+	                    "Password"
+	                ),
+	                _react2.default.createElement("input", { type: "text", name: "password", placeholder: "Password" })
+	            ),
+	            _react2.default.createElement(
+	                "button",
+	                { className: "ui button", onClick: this.onLogin },
+	                "Login"
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = LoginForm;
+
+/***/ },
+/* 190 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.checkStatus = checkStatus;
+	exports.parseJSON = parseJSON;
+	function checkStatus(res) {
+	    if (res.status >= 200 && res.status < 300) {
+	        return res;
+	    } else {
+	        var error = new Error(res.statusText);
+	        error.res = res;
+	        throw error;
+	    }
+	}
+
+	function parseJSON(res) {
+	    return res.json();
+	}
+
+/***/ },
+/* 191 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
 	var _redux = __webpack_require__(168);
 
-	var _messages = __webpack_require__(189);
+	var _messages = __webpack_require__(192);
 
 	var _messages2 = _interopRequireDefault(_messages);
 
@@ -22170,7 +22400,7 @@
 	exports.default = rootReducer;
 
 /***/ },
-/* 189 */
+/* 192 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22215,7 +22445,7 @@
 	}
 
 /***/ },
-/* 190 */
+/* 193 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -22234,7 +22464,7 @@
 	module.exports = thunkMiddleware;
 
 /***/ },
-/* 191 */
+/* 194 */
 /***/ function(module, exports) {
 
 	"use strict";

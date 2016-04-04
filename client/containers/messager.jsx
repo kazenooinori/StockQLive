@@ -2,6 +2,7 @@ import React from "react";
 import TextMessage from "../components/text-message.jsx";
 import InformationRail from "./information-rail";
 import MenuRail from "./menu-rail";
+import LoginModal from "./login-modal";
 import {connect} from "react-redux";
 import * as ChaActions from '../actions/cha-actions';
 
@@ -69,6 +70,7 @@ class Messager extends Component {
                     </div>
                 </div>
                 <InformationRail/>
+                <LoginModal/>
             </div>
         );
     }

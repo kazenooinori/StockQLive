@@ -17,7 +17,6 @@ app.use(logger("dev"));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(flash());
 app.use(session({
     secret: "secret",
     resave: true,
@@ -25,6 +24,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 
 const mongoose = require('mongoose');
 const serverConfig = require("./config");

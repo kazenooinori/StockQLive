@@ -7,13 +7,8 @@ const passportConfig = {
     successFlash: "successfully log in",
     failureFlash: "incorrect username or password",
 };
-router.post("/", (req, res) => {
-    req.login(req.body, function(err) {
-        if (err) { return next(err); }
-        res.json({
-            user: req.user
-        });
-    });
+router.post("/",  passport.authenticate('local', passportConfig), function(req, res) {
+    res.json(req.user);
 });
 
 module.exports = router;

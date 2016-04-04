@@ -2,10 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom";
 import {connect} from "react-redux";
 import * as ChaActions from "../actions/cha-actions";
+import LoginModal from "./login-modal";
 
 const {Component, PropTypes} = React;
 
 const MenuRail = React.createClass({
+    onClickLogin () {
+        $("#login-modal").modal("show");
+    },
     componentDidMount () {
         $(ReactDOM.findDOMNode(this.refs.menu)).find('.item').tab();
     },
@@ -15,6 +19,11 @@ const MenuRail = React.createClass({
                 <a className="logo">
                     <img src="/images/logo.png"/>
                 </a>
+                <div className="button-groups">
+                    <button className="ui primary button" onClick={this.onClickLogin}>
+                        login
+                    </button>
+                </div>
                 <div className="ui secondary menu" ref="menu">
                     <a className="item active" data-tab="channe">Channel</a>
                     <a className="item" data-tab="members">Members</a>
