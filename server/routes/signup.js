@@ -9,12 +9,13 @@ router.post("/", (req, res) => {
         password: body.password,
     };
     UserStore.signup(attributes)
-    .then(() => {
-        res.write("success");
+    .then((user) => {
+        res.json(user);
         res.end();
     })
     .catch((error) => {
-        res.write("error");
+        console.error(error);
+        res.json(error);
         res.end();
     });
 });

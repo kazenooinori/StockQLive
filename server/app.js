@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const cons = require('consolidate');
 const session = require('express-session');
+const flash = require("connect-flash");
 
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'dust');
@@ -16,6 +17,7 @@ app.use(logger("dev"));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(flash());
 app.use(session({
     secret: "secret",
     resave: true,
@@ -41,7 +43,7 @@ app.use("/chatroom", require("./routes/chatroom"));
 
 // api
 app.use("/signup", require("./routes/signup"));
-//app.use("/requests", require("./routes/request"));
+app.use("/login", require("./routes/login"));
 
 // catch 404 and handle it
 app.use(function (req, res, next) {

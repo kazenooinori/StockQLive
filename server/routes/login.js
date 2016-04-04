@@ -3,9 +3,16 @@ const router = express.Router();
 const UserStore = require("../stores/user");
 const passport = require("passport");
 
-router.post("/", passport.authenticate('local', {failureFlash: true}), (req, res) => {
-    res.json({
-        user: req.user
+const passportConfig = {
+    successFlash: "successfully log in",
+    failureFlash: "incorrect username or password",
+};
+router.post("/", (req, res) => {
+    req.login(req.body, function(err) {
+        if (err) { return next(err); }
+        res.json({
+            user: req.user
+        });
     });
 });
 

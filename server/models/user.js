@@ -2,7 +2,10 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-    username: String,
+    username: {
+        type: String,
+        unique: true,
+    },
     password: String,
     provider: String,
     displayName: String,
@@ -15,4 +18,4 @@ const UserSchema = new Schema({
     photos: String,
 });
 
-export default mongoose.model("User", UserSchema);
+module.exports = mongoose.model("User", UserSchema);
