@@ -42,7 +42,7 @@ const LoginModal = React.createClass({
                 .then((user) => {
                     onLogInUser(user);
 
-                    //$('.login-form').modal("hide");
+                    $("#login-modal").modal("hide");
                 })
                 .catch((error) => {
                     console.error("login fail", error);

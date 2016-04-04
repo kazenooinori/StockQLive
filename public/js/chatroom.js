@@ -22402,7 +22402,7 @@
 	                }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (user) {
 	                    onLogInUser(user);
 
-	                    //$('.login-form').modal("hide");
+	                    $("#login-modal").modal("hide");
 	                }).catch(function (error) {
 	                    console.error("login fail", error);
 	                });
