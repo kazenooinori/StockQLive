@@ -126,3 +126,7 @@
 .stock-list .stock-item .label {
     float: right;
 }
+
+.stock-popup {
+    width: 300px;
+}

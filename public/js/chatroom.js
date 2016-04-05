@@ -33207,6 +33207,15 @@
 	    displayName: "InformationRail",
 	    componentDidMount: function componentDidMount() {
 	        $(_reactDom2.default.findDOMNode(this.refs.menu)).find('.item').tab();
+	        $(".stock-item .content").popup({
+	            inline: true,
+	            hoverable: true,
+	            position: 'bottom left',
+	            delay: {
+	                show: 300,
+	                hide: 200
+	            }
+	        });
 	    },
 	    render: function render() {
 	        return _react2.default.createElement(
@@ -33257,31 +33266,127 @@
 	                                    "22.34"
 	                                )
 	                            )
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "stock-item item" },
+	                        ),
 	                        _react2.default.createElement(
 	                            "div",
-	                            { className: "content" },
+	                            { className: "stock-popup ui popup" },
 	                            _react2.default.createElement(
 	                                "div",
-	                                { className: "description clearfix" },
+	                                { className: "header" },
+	                                "台積電5278"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "ui middle aligned divided list" },
 	                                _react2.default.createElement(
-	                                    "span",
-	                                    { className: "name" },
-	                                    "宏達電HTC5566"
+	                                    "div",
+	                                    { className: "item" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "content" },
+	                                        _react2.default.createElement(
+	                                            "div",
+	                                            { className: "header" },
+	                                            _react2.default.createElement(
+	                                                "span",
+	                                                { className: "name" },
+	                                                "目前股價"
+	                                            ),
+	                                            _react2.default.createElement(
+	                                                "div",
+	                                                { className: "ui horizontal label" },
+	                                                "455.33"
+	                                            )
+	                                        )
+	                                    )
 	                                ),
 	                                _react2.default.createElement(
 	                                    "div",
-	                                    { className: "ui green horizontal label" },
-	                                    "-2.3%"
+	                                    { className: "item" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "content" },
+	                                        _react2.default.createElement(
+	                                            "div",
+	                                            { className: "header" },
+	                                            _react2.default.createElement(
+	                                                "span",
+	                                                { className: "name" },
+	                                                "漲幅"
+	                                            ),
+	                                            _react2.default.createElement(
+	                                                "div",
+	                                                { className: "ui red horizontal label" },
+	                                                "0.5%"
+	                                            )
+	                                        )
+	                                    )
 	                                ),
 	                                _react2.default.createElement(
 	                                    "div",
-	                                    { className: "ui horizontal label" },
-	                                    "150.34"
+	                                    { className: "item" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "content" },
+	                                        _react2.default.createElement(
+	                                            "div",
+	                                            { className: "header" },
+	                                            _react2.default.createElement(
+	                                                "span",
+	                                                { className: "name" },
+	                                                "成交量"
+	                                            ),
+	                                            _react2.default.createElement(
+	                                                "div",
+	                                                { className: "ui horizontal label" },
+	                                                "5566"
+	                                            )
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "item" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "content" },
+	                                        _react2.default.createElement(
+	                                            "div",
+	                                            { className: "header" },
+	                                            _react2.default.createElement(
+	                                                "span",
+	                                                { className: "name" },
+	                                                "最高"
+	                                            ),
+	                                            _react2.default.createElement(
+	                                                "div",
+	                                                { className: "ui horizontal label" },
+	                                                "43"
+	                                            )
+	                                        )
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "item" },
+	                                    _react2.default.createElement(
+	                                        "div",
+	                                        { className: "content" },
+	                                        _react2.default.createElement(
+	                                            "div",
+	                                            { className: "header" },
+	                                            _react2.default.createElement(
+	                                                "span",
+	                                                { className: "name" },
+	                                                "最低"
+	                                            ),
+	                                            _react2.default.createElement(
+	                                                "div",
+	                                                { className: "ui horizontal label" },
+	                                                "39"
+	                                            )
+	                                        )
+	                                    )
 	                                )
 	                            )
 	                        )
