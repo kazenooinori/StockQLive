@@ -17,7 +17,26 @@ const InformationRail = React.createClass({
                     <a className="item" data-tab="news">新聞</a>
                 </div>
                 <div className="ui tab segment board active" data-tab="stockprice">
-                    股價放在這裡
+                    <div className="stock-list ui middle aligned selection list">
+                        <div className="stock-item item">
+                            <div className="content">
+                                <div className="description clearfix">
+                                    <span className="name">台積電5278</span>
+                                    <div className="ui red horizontal label">+0.5%</div>
+                                    <div className="ui horizontal label">22.34</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="stock-item item">
+                            <div className="content">
+                                <div className="description clearfix">
+                                    <span className="name">宏達電HTC5566</span>
+                                    <div className="ui green horizontal label">-2.3%</div>
+                                    <div className="ui horizontal label">150.34</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div className="ui tab segment board" data-tab="news">
                     新聞放在這裡

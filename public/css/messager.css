@@ -118,3 +118,11 @@
     display: inline-block;
     margin: 0px 5px;
 }
+
+.stock-list .stock-item .name {
+    display: inline-block;
+    padding-top: 4px;
+}
+.stock-list .stock-item .label {
+    float: right;
+}
