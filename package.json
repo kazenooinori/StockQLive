@@ -34,6 +34,7 @@
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "isomorphic-fetch": "^2.2.1",
+    "moment": "^2.12.0",
     "mongoose": "^4.4.4",
     "morgan": "^1.6.1",
     "passport": "^0.3.2",

@@ -1,29 +1,31 @@
 import React from "react";
-var {PropTypes} = React;
+import * as momentUtils from "../../lib/moment-utils";
 
-export default class TextMessage extends React.Component {
+const {PropTypes} = React;
+
+const TextMessage = React.createClass({
+    propTypes: {
+        message: PropTypes.object
+    },
     render () {
-        const {senderId, senderUsername, content} = this.props.message;
+        const {senderUsername, content, createdAt} = this.props.message;
         return (
-            <div className="message text-message">
-                <div className="head">
-                    <div className="avatar">
-                        <img src="/images/head.png"/>
-                    </div>
-                    <p className="name">
-                        {senderUsername}
-                    </p>
-                </div>
+            <div className="comment">
+                <a className="avatar">
+                    <img src="/images/head.png"/>
+                </a>
                 <div className="content">
-                    {content}
+                    <a className="author">{senderUsername}</a>
+                    <div className="metadata">
+                        <span className="date">{momentUtils.relativeDateTime(createdAt)}</span>
+                    </div>
+                    <div className="text">
+                        {content}
+                    </div>
                 </div>
             </div>
         );
     }
-}
-TextMessage.propTypes = {
-    message: PropTypes.object
-};
-TextMessage.defaultProps = {
-    message: "",
-};
+});
+
+export default TextMessage;

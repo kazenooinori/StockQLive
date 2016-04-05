@@ -13,7 +13,10 @@
     right: 300px;
     bottom: 0px;
     overflow: scroll;
-    padding-bottom: 34px;
+    padding: 20px 10px 38px 10px;
+}
+.messager-header {
+    background-color: white;
 }
 .message-input-area {
     position: absolute;

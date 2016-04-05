@@ -45,6 +45,10 @@ class Messager extends Component {
         const {onFetchMessage, chatroomId, onInitUser} = this.props;
         onFetchMessage(chatroomId);
         onInitUser();
+
+        $('.ui.sticky.messager-header').sticky({
+            context: '#message-box'
+        });
     }
     componentDidUpdate() {
         const {messageBox, messageList} = this.refs;
@@ -76,9 +80,12 @@ class Messager extends Component {
             <div className="messager">
                 <MenuRail/>
                 <div className="main-messager">
-                    <div className="message-box" ref="messageBox">
-                        <div className="message-list" ref="messageList">
-                            {this.renderTextMessage(messages)}
+                    <div id="message-box" className="message-box" ref="messageBox">
+                        <h3 className="ui dividing header messager-header sticky" style={{paddingTop: "10px"}}>台積電</h3>
+                        <div className="ui comments">
+                            <div className="message-list" ref="messageList">
+                                {this.renderTextMessage(messages)}
+                            </div>
                         </div>
                     </div>
                     <div className="message-input-area">
