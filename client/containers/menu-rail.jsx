@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import {connect} from "react-redux";
 import * as ChaActions from "../actions/cha-actions";
+import LoggedInController from "../components/logged-in-controller";
+import LoggingInController from "../components/logging-in-controller";
 
 const {Component, PropTypes} = React;
 
@@ -31,25 +33,15 @@ const MenuRail = React.createClass({
         const {user, onLogOutUser} = this.props;
         if (user.username) {
             return (
-                <div className="login">
-                    {user.username}
-                    <div className="button-groups">
-                        <button className="ui yellow button" onClick={onLogOutUser}>
-                            logout
-                        </button>
-                    </div>
-                </div>
+                <LoggedInController
+                    user={user}
+                    onLogOutUser={onLogOutUser}/>
             );
         } else {
             return (
-                <div className="button-groups">
-                    <button className="ui primary button" onClick={this.onClickLogin}>
-                        login
-                    </button>
-                    <button className="ui green button" onClick={this.onClickSignUp}>
-                        signup
-                    </button>
-                </div>
+                <LoggingInController
+                    onClickLogin={this.onClickLogin}
+                    onClickSignUp={this.onClickSignUp}/>
             );
         }
     },

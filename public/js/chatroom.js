@@ -62,15 +62,15 @@
 
 	var _reactRedux = __webpack_require__(162);
 
-	var _chatroom = __webpack_require__(191);
+	var _chatroom = __webpack_require__(193);
 
 	var _chatroom2 = _interopRequireDefault(_chatroom);
 
-	var _reduxThunk = __webpack_require__(193);
+	var _reduxThunk = __webpack_require__(196);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-	var _reduxLogger = __webpack_require__(194);
+	var _reduxLogger = __webpack_require__(197);
 
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 
@@ -19723,11 +19723,11 @@
 
 	var _menuRail2 = _interopRequireDefault(_menuRail);
 
-	var _loginModal = __webpack_require__(189);
+	var _loginModal = __webpack_require__(198);
 
 	var _loginModal2 = _interopRequireDefault(_loginModal);
 
-	var _signupModal = __webpack_require__(198);
+	var _signupModal = __webpack_require__(199);
 
 	var _signupModal2 = _interopRequireDefault(_signupModal);
 
@@ -22253,6 +22253,14 @@
 
 	var ChaActions = _interopRequireWildcard(_chaActions);
 
+	var _loggedInController = __webpack_require__(201);
+
+	var _loggedInController2 = _interopRequireDefault(_loggedInController);
+
+	var _loggingInController = __webpack_require__(200);
+
+	var _loggingInController2 = _interopRequireDefault(_loggingInController);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -22301,35 +22309,13 @@
 	        var onLogOutUser = _props.onLogOutUser;
 
 	        if (user.username) {
-	            return _react2.default.createElement(
-	                "div",
-	                { className: "login" },
-	                user.username,
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "button-groups" },
-	                    _react2.default.createElement(
-	                        "button",
-	                        { className: "ui yellow button", onClick: onLogOutUser },
-	                        "logout"
-	                    )
-	                )
-	            );
+	            return _react2.default.createElement(_loggedInController2.default, {
+	                user: user,
+	                onLogOutUser: onLogOutUser });
 	        } else {
-	            return _react2.default.createElement(
-	                "div",
-	                { className: "button-groups" },
-	                _react2.default.createElement(
-	                    "button",
-	                    { className: "ui primary button", onClick: this.onClickLogin },
-	                    "login"
-	                ),
-	                _react2.default.createElement(
-	                    "button",
-	                    { className: "ui green button", onClick: this.onClickSignUp },
-	                    "signup"
-	                )
-	            );
+	            return _react2.default.createElement(_loggingInController2.default, {
+	                onClickLogin: this.onClickLogin,
+	                onClickSignUp: this.onClickSignUp });
 	        }
 	    },
 	    render: function render() {
@@ -22386,93 +22372,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(MenuRail);
 
 /***/ },
-/* 189 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(158);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	var _loginForm = __webpack_require__(190);
-
-	var _loginForm2 = _interopRequireDefault(_loginForm);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var PropTypes = _react2.default.PropTypes;
-
-
-	var LoginModal = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "LoginModal",
-
-	    propTypes: {
-	        onLogInUser: PropTypes.func
-	    },
-	    componentDidMount: function componentDidMount() {
-	        $(_reactDom2.default.findDOMNode(this.refs.loginModal)).modal({
-	            blurring: true
-	        });
-
-	        var onLogInUser = this.props.onLogInUser;
-
-	        $('.login-form').form({
-	            onSuccess: function onSuccess(event, submitObject) {
-	                event.preventDefault();
-
-	                onLogInUser(submitObject);
-	            },
-	            fields: {
-	                username: 'empty',
-	                password: ['empty']
-	            }
-	        });
-	    },
-	    render: function render() {
-	        return _react2.default.createElement(
-	            "div",
-	            { id: "login-modal", className: "ui modal small", ref: "loginModal" },
-	            _react2.default.createElement("i", { className: "close icon" }),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "header" },
-	                "Modal Title"
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "content" },
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "description" },
-	                    _react2.default.createElement(_loginForm2.default, null)
-	                )
-	            )
-	        );
-	    }
-	}));
-
-	exports.default = LoginModal;
-
-/***/ },
+/* 189 */,
 /* 190 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -22536,7 +22436,71 @@
 	exports.default = LoginForm;
 
 /***/ },
-/* 191 */
+/* 191 */,
+/* 192 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var SignUpForm = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "SignUpForm",
+	    render: function render() {
+	        return _react2.default.createElement(
+	            "form",
+	            { className: "ui form signup-form" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "field" },
+	                _react2.default.createElement(
+	                    "label",
+	                    null,
+	                    "Username"
+	                ),
+	                _react2.default.createElement("input", { type: "text", name: "username", placeholder: "Username" })
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "field" },
+	                _react2.default.createElement(
+	                    "label",
+	                    null,
+	                    "Password"
+	                ),
+	                _react2.default.createElement("input", { type: "text", name: "password", placeholder: "Password" })
+	            ),
+	            _react2.default.createElement(
+	                "button",
+	                { className: "ui button" },
+	                "Signup"
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = SignUpForm;
+
+/***/ },
+/* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22547,11 +22511,11 @@
 
 	var _redux = __webpack_require__(168);
 
-	var _messages = __webpack_require__(196);
+	var _messages = __webpack_require__(194);
 
 	var _messages2 = _interopRequireDefault(_messages);
 
-	var _user = __webpack_require__(197);
+	var _user = __webpack_require__(195);
 
 	var _user2 = _interopRequireDefault(_user);
 
@@ -22565,8 +22529,86 @@
 	exports.default = rootReducer;
 
 /***/ },
-/* 192 */,
-/* 193 */
+/* 194 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = messages;
+
+	var _actionTypes = __webpack_require__(184);
+
+	var types = _interopRequireWildcard(_actionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	function messages() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.SEND_MESSAGE:
+	            return [].concat(_toConsumableArray(state), [action.message]);
+	        case types.APPEND_MESSAGES:
+	            return [].concat(_toConsumableArray(state), _toConsumableArray(action.messages));
+	        case types.APPEND_MESSAGE:
+	            var message = action.message;
+
+	            var shouldAppend = true;
+	            state.every(function (existedMessage) {
+	                shouldAppend = existedMessage._id !== message._id;
+	                return shouldAppend;
+	            });
+	            if (shouldAppend) {
+	                return [].concat(_toConsumableArray(state), [message]);
+	            }
+	            return state;
+	        default:
+	            return state;
+	    }
+	}
+
+/***/ },
+/* 195 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = user;
+
+	var _actionTypes = __webpack_require__(184);
+
+	var types = _interopRequireWildcard(_actionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function user() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? { _id: "", username: "" } : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.LOGIN:
+	            return Object.assign({}, action.user);
+	        case types.LOGOUT:
+	            return {
+	                _id: "",
+	                username: ""
+	            };
+	        default:
+	            return state;
+	    }
+	}
+
+/***/ },
+/* 196 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -22585,7 +22627,7 @@
 	module.exports = thunkMiddleware;
 
 /***/ },
-/* 194 */
+/* 197 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -22783,86 +22825,6 @@
 	module.exports = createLogger;
 
 /***/ },
-/* 195 */,
-/* 196 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = messages;
-
-	var _actionTypes = __webpack_require__(184);
-
-	var types = _interopRequireWildcard(_actionTypes);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-	function messages() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
-	    var action = arguments[1];
-
-	    switch (action.type) {
-	        case types.SEND_MESSAGE:
-	            return [].concat(_toConsumableArray(state), [action.message]);
-	        case types.APPEND_MESSAGES:
-	            return [].concat(_toConsumableArray(state), _toConsumableArray(action.messages));
-	        case types.APPEND_MESSAGE:
-	            var message = action.message;
-
-	            var shouldAppend = true;
-	            state.every(function (existedMessage) {
-	                shouldAppend = existedMessage._id !== message._id;
-	                return shouldAppend;
-	            });
-	            if (shouldAppend) {
-	                return [].concat(_toConsumableArray(state), [message]);
-	            }
-	            return state;
-	        default:
-	            return state;
-	    }
-	}
-
-/***/ },
-/* 197 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = user;
-
-	var _actionTypes = __webpack_require__(184);
-
-	var types = _interopRequireWildcard(_actionTypes);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function user() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? { _id: "", username: "" } : arguments[0];
-	    var action = arguments[1];
-
-	    switch (action.type) {
-	        case types.LOGIN:
-	            return Object.assign({}, action.user);
-	        case types.LOGOUT:
-	            return {
-	                _id: "",
-	                username: ""
-	            };
-	        default:
-	            return state;
-	    }
-	}
-
-/***/ },
 /* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -22880,7 +22842,94 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _signupForm = __webpack_require__(199);
+	var _loginForm = __webpack_require__(190);
+
+	var _loginForm2 = _interopRequireDefault(_loginForm);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var LoginModal = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "LoginModal",
+
+	    propTypes: {
+	        onLogInUser: PropTypes.func
+	    },
+	    componentDidMount: function componentDidMount() {
+	        $(_reactDom2.default.findDOMNode(this.refs.loginModal)).modal({
+	            blurring: true
+	        });
+
+	        var onLogInUser = this.props.onLogInUser;
+
+	        $('.login-form').form({
+	            onSuccess: function onSuccess(event, submitObject) {
+	                event.preventDefault();
+
+	                onLogInUser(submitObject);
+	            },
+	            fields: {
+	                username: 'empty',
+	                password: ['empty']
+	            }
+	        });
+	    },
+	    render: function render() {
+	        return _react2.default.createElement(
+	            "div",
+	            { id: "login-modal", className: "ui modal small", ref: "loginModal" },
+	            _react2.default.createElement("i", { className: "close icon" }),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "header" },
+	                "Modal Title"
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "content" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "description" },
+	                    _react2.default.createElement(_loginForm2.default, null)
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = LoginModal;
+
+/***/ },
+/* 199 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(158);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _signupForm = __webpack_require__(192);
 
 	var _signupForm2 = _interopRequireDefault(_signupForm);
 
@@ -22950,7 +22999,7 @@
 	exports.default = SignUpModal;
 
 /***/ },
-/* 199 */
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22975,42 +23024,106 @@
 	    };
 	}
 
-	var SignUpForm = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "SignUpForm",
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var LoggingInController = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "LoggingInController",
+
+	    propTypes: {
+	        onClickLogin: PropTypes.func,
+	        onClickSignUp: PropTypes.func
+	    },
 	    render: function render() {
+	        var _props = this.props;
+	        var onClickLogin = _props.onClickLogin;
+	        var onClickSignUp = _props.onClickSignUp;
+
 	        return _react2.default.createElement(
-	            "form",
-	            { className: "ui form signup-form" },
+	            "div",
+	            { className: "login" },
 	            _react2.default.createElement(
 	                "div",
-	                { className: "field" },
+	                { className: "button-groups" },
 	                _react2.default.createElement(
-	                    "label",
-	                    null,
-	                    "Username"
+	                    "button",
+	                    { className: "ui primary button", onClick: onClickLogin },
+	                    "login"
 	                ),
-	                _react2.default.createElement("input", { type: "text", name: "username", placeholder: "Username" })
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "field" },
 	                _react2.default.createElement(
-	                    "label",
-	                    null,
-	                    "Password"
-	                ),
-	                _react2.default.createElement("input", { type: "text", name: "password", placeholder: "Password" })
-	            ),
-	            _react2.default.createElement(
-	                "button",
-	                { className: "ui button" },
-	                "Signup"
+	                    "button",
+	                    { className: "ui green button", onClick: onClickSignUp },
+	                    "signup"
+	                )
 	            )
 	        );
 	    }
 	}));
 
-	exports.default = SignUpForm;
+	exports.default = LoggingInController;
+
+/***/ },
+/* 201 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var LoggedInController = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "LoggedInController",
+
+	    propTypes: {
+	        user: PropTypes.shape({
+	            _id: PropTypes.string,
+	            username: PropTypes.string
+	        }),
+	        onLogOutUser: PropTypes.func
+	    },
+	    render: function render() {
+	        var _props = this.props;
+	        var user = _props.user;
+	        var onLogOutUser = _props.onLogOutUser;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "login" },
+	            user.username,
+	            _react2.default.createElement(
+	                "div",
+	                { className: "button-groups" },
+	                _react2.default.createElement(
+	                    "button",
+	                    { className: "ui yellow button", onClick: onLogOutUser },
+	                    "logout"
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = LoggedInController;
 
 /***/ }
 /******/ ]);

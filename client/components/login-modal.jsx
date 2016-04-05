@@ -1,24 +1,24 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import SignUpForm from "../components/signup-form";
+import LoginForm from "./login-form";
 
 const {PropTypes} = React;
 
-const SignUpModal = React.createClass({
+const LoginModal = React.createClass({
     propTypes: {
-        onSignUpUser: PropTypes.func,
+        onLogInUser: PropTypes.func,
     },
     componentDidMount () {
-        $(ReactDOM.findDOMNode(this.refs.signupModal)).modal({
+        $(ReactDOM.findDOMNode(this.refs.loginModal)).modal({
             blurring: true,
         });
 
-        const {onSignUpUser} = this.props;
-        $('.signup-form').form({
+        const {onLogInUser} = this.props;
+        $('.login-form').form({
             onSuccess: function (event, submitObject) {
                 event.preventDefault();
 
-                onSignUpUser(submitObject);
+                onLogInUser(submitObject);
             },
             fields: {
                 username : 'empty',
@@ -28,14 +28,14 @@ const SignUpModal = React.createClass({
     },
     render () {
         return (
-            <div id="signup-modal" className="ui modal small" ref="signupModal">
+            <div id="login-modal" className="ui modal small" ref="loginModal">
                 <i className="close icon"></i>
                 <div className="header">
                     Modal Title
                 </div>
                 <div className="content">
                     <div className="description">
-                        <SignUpForm/>
+                        <LoginForm/>
                     </div>
                 </div>
             </div>
@@ -43,4 +43,4 @@ const SignUpModal = React.createClass({
     }
 });
 
-export default SignUpModal;
+export default LoginModal;
