@@ -21,7 +21,7 @@ const MenuRail = React.createClass({
         $("#signup-modal").modal("show");
     },
     componentDidMount () {
-        $(ReactDOM.findDOMNode(this.refs.menu)).find('.item').tab();
+        // $(ReactDOM.findDOMNode(this.refs.menu)).find('.item').tab();
     },
     componentWillReceiveProps (nextProps) {
         if (this.props.user._id !== nextProps.user._id) {
@@ -52,15 +52,29 @@ const MenuRail = React.createClass({
                     <img src="/images/logo.png"/>
                 </a>
                 {this.renderLoginStatus()}
-                <div className="ui secondary menu" ref="menu">
-                    <a className="item active" data-tab="channe">Channel</a>
-                    <a className="item" data-tab="members">Members</a>
-                </div>
                 <div className="ui tab segment board active" data-tab="channe">
-                    Channel放在這裡
-                </div>
-                <div className="ui tab segment board" data-tab="members">
-                    Members放在這裡
+                    <div className="channel-list ui middle aligned selection list">
+                        <div className="channel-item item">
+                            <div className="content">
+                                <div className="description clearfix">
+                                    <span className="name">#股市達人鄭瑞宗</span>
+                                    <div className="ui horizontal label">
+                                        <i className="users icon"></i>25
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="channel-item item">
+                            <div className="content">
+                                <div className="description clearfix">
+                                    <span className="name">#雷浩斯教你牛眼看市</span>
+                                    <div className="ui horizontal label">
+                                        <i className="users icon"></i>25
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         );

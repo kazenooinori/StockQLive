@@ -35429,7 +35429,7 @@
 	        $("#signup-modal").modal("show");
 	    },
 	    componentDidMount: function componentDidMount() {
-	        $(_reactDom2.default.findDOMNode(this.refs.menu)).find('.item').tab();
+	        // $(ReactDOM.findDOMNode(this.refs.menu)).find('.item').tab();
 	    },
 	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
 	        if (this.props.user._id !== nextProps.user._id) {
@@ -35464,27 +35464,57 @@
 	            this.renderLoginStatus(),
 	            _react2.default.createElement(
 	                "div",
-	                { className: "ui secondary menu", ref: "menu" },
-	                _react2.default.createElement(
-	                    "a",
-	                    { className: "item active", "data-tab": "channe" },
-	                    "Channel"
-	                ),
-	                _react2.default.createElement(
-	                    "a",
-	                    { className: "item", "data-tab": "members" },
-	                    "Members"
-	                )
-	            ),
-	            _react2.default.createElement(
-	                "div",
 	                { className: "ui tab segment board active", "data-tab": "channe" },
-	                "Channel放在這裡"
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "ui tab segment board", "data-tab": "members" },
-	                "Members放在這裡"
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "channel-list ui middle aligned selection list" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "channel-item item" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "content" },
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "description clearfix" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "name" },
+	                                    "#股市達人鄭瑞宗"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "ui horizontal label" },
+	                                    _react2.default.createElement("i", { className: "users icon" }),
+	                                    "25"
+	                                )
+	                            )
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "channel-item item" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "content" },
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "description clearfix" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "name" },
+	                                    "#雷浩斯教你牛眼看市"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "div",
+	                                    { className: "ui horizontal label" },
+	                                    _react2.default.createElement("i", { className: "users icon" }),
+	                                    "25"
+	                                )
+	                            )
+	                        )
+	                    )
+	                )
 	            )
 	        );
 	    }

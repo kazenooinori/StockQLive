@@ -104,7 +104,7 @@
 }
 .menu-rail>.board {
     position: absolute;
-    top: 200px;
+    top: 135px;
     right: 0px;
     bottom: 0px;
     width: 100%;
@@ -119,11 +119,11 @@
     margin: 0px 5px;
 }
 
-.stock-list .stock-item .name {
+.list .item .name {
     display: inline-block;
     padding-top: 4px;
 }
-.stock-list .stock-item .label {
+.list .item .label {
     float: right;
 }
 
