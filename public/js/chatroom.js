@@ -33185,6 +33185,10 @@
 
 	var ChaActions = _interopRequireWildcard(_chaActions);
 
+	var _stockItem = __webpack_require__(301);
+
+	var _stockItem2 = _interopRequireDefault(_stockItem);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -33207,15 +33211,6 @@
 	    displayName: "InformationRail",
 	    componentDidMount: function componentDidMount() {
 	        $(_reactDom2.default.findDOMNode(this.refs.menu)).find('.item').tab();
-	        $(".stock-item .content").popup({
-	            inline: true,
-	            hoverable: true,
-	            position: 'bottom left',
-	            delay: {
-	                show: 300,
-	                hide: 200
-	            }
-	        });
 	    },
 	    render: function render() {
 	        return _react2.default.createElement(
@@ -33241,156 +33236,10 @@
 	                _react2.default.createElement(
 	                    "div",
 	                    { className: "stock-list ui middle aligned selection list" },
-	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "stock-item item" },
-	                        _react2.default.createElement(
-	                            "div",
-	                            { className: "content" },
-	                            _react2.default.createElement(
-	                                "div",
-	                                { className: "description clearfix" },
-	                                _react2.default.createElement(
-	                                    "span",
-	                                    { className: "name" },
-	                                    "台積電5278"
-	                                ),
-	                                _react2.default.createElement(
-	                                    "div",
-	                                    { className: "ui red horizontal label" },
-	                                    "+0.5%"
-	                                ),
-	                                _react2.default.createElement(
-	                                    "div",
-	                                    { className: "ui horizontal label" },
-	                                    "22.34"
-	                                )
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            "div",
-	                            { className: "stock-popup ui popup" },
-	                            _react2.default.createElement(
-	                                "div",
-	                                { className: "header" },
-	                                "台積電5278"
-	                            ),
-	                            _react2.default.createElement(
-	                                "div",
-	                                { className: "ui middle aligned divided list" },
-	                                _react2.default.createElement(
-	                                    "div",
-	                                    { className: "item" },
-	                                    _react2.default.createElement(
-	                                        "div",
-	                                        { className: "content" },
-	                                        _react2.default.createElement(
-	                                            "div",
-	                                            { className: "header" },
-	                                            _react2.default.createElement(
-	                                                "span",
-	                                                { className: "name" },
-	                                                "目前股價"
-	                                            ),
-	                                            _react2.default.createElement(
-	                                                "div",
-	                                                { className: "ui horizontal label" },
-	                                                "455.33"
-	                                            )
-	                                        )
-	                                    )
-	                                ),
-	                                _react2.default.createElement(
-	                                    "div",
-	                                    { className: "item" },
-	                                    _react2.default.createElement(
-	                                        "div",
-	                                        { className: "content" },
-	                                        _react2.default.createElement(
-	                                            "div",
-	                                            { className: "header" },
-	                                            _react2.default.createElement(
-	                                                "span",
-	                                                { className: "name" },
-	                                                "漲幅"
-	                                            ),
-	                                            _react2.default.createElement(
-	                                                "div",
-	                                                { className: "ui red horizontal label" },
-	                                                "0.5%"
-	                                            )
-	                                        )
-	                                    )
-	                                ),
-	                                _react2.default.createElement(
-	                                    "div",
-	                                    { className: "item" },
-	                                    _react2.default.createElement(
-	                                        "div",
-	                                        { className: "content" },
-	                                        _react2.default.createElement(
-	                                            "div",
-	                                            { className: "header" },
-	                                            _react2.default.createElement(
-	                                                "span",
-	                                                { className: "name" },
-	                                                "成交量"
-	                                            ),
-	                                            _react2.default.createElement(
-	                                                "div",
-	                                                { className: "ui horizontal label" },
-	                                                "5566"
-	                                            )
-	                                        )
-	                                    )
-	                                ),
-	                                _react2.default.createElement(
-	                                    "div",
-	                                    { className: "item" },
-	                                    _react2.default.createElement(
-	                                        "div",
-	                                        { className: "content" },
-	                                        _react2.default.createElement(
-	                                            "div",
-	                                            { className: "header" },
-	                                            _react2.default.createElement(
-	                                                "span",
-	                                                { className: "name" },
-	                                                "最高"
-	                                            ),
-	                                            _react2.default.createElement(
-	                                                "div",
-	                                                { className: "ui horizontal label" },
-	                                                "43"
-	                                            )
-	                                        )
-	                                    )
-	                                ),
-	                                _react2.default.createElement(
-	                                    "div",
-	                                    { className: "item" },
-	                                    _react2.default.createElement(
-	                                        "div",
-	                                        { className: "content" },
-	                                        _react2.default.createElement(
-	                                            "div",
-	                                            { className: "header" },
-	                                            _react2.default.createElement(
-	                                                "span",
-	                                                { className: "name" },
-	                                                "最低"
-	                                            ),
-	                                            _react2.default.createElement(
-	                                                "div",
-	                                                { className: "ui horizontal label" },
-	                                                "39"
-	                                            )
-	                                        )
-	                                    )
-	                                )
-	                            )
-	                        )
-	                    )
+	                    _react2.default.createElement(_stockItem2.default, {
+	                        name: "台積電5278" }),
+	                    _react2.default.createElement(_stockItem2.default, {
+	                        name: "宏達電5566" })
 	                )
 	            ),
 	            _react2.default.createElement(
@@ -36407,6 +36256,262 @@
 	}
 
 	module.exports = createLogger;
+
+/***/ },
+/* 301 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(158);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _stockItemPopup = __webpack_require__(302);
+
+	var _stockItemPopup2 = _interopRequireDefault(_stockItemPopup);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var StockItem = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "StockItem",
+
+	    propTypes: {
+	        name: PropTypes.string.isRequired
+	    },
+	    componentDidMount: function componentDidMount() {
+	        $(_reactDom2.default.findDOMNode(this)).find(".content").popup({
+	            inline: true,
+	            hoverable: true,
+	            position: 'bottom left',
+	            delay: {
+	                show: 300,
+	                hide: 200
+	            }
+	        });
+	    },
+	    render: function render() {
+	        var name = this.props.name;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "stock-item item" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "content" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "description clearfix" },
+	                    _react2.default.createElement(
+	                        "span",
+	                        { className: "name" },
+	                        name
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "ui red horizontal label" },
+	                        "+0.5%"
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "ui horizontal label" },
+	                        "22.34"
+	                    )
+	                )
+	            ),
+	            _react2.default.createElement(_stockItemPopup2.default, this.props)
+	        );
+	    }
+	}));
+
+	exports.default = StockItem;
+
+/***/ },
+/* 302 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var StockItemPopup = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "StockItemPopup",
+
+	    propTypes: {
+	        name: PropTypes.string.isRequired
+	    },
+	    render: function render() {
+	        var name = this.props.name;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "stock-popup ui popup" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "header" },
+	                name
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "ui middle aligned divided list" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "content" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "header" },
+	                            _react2.default.createElement(
+	                                "span",
+	                                { className: "name" },
+	                                "目前股價"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "ui horizontal label" },
+	                                "455.33"
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "content" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "header" },
+	                            _react2.default.createElement(
+	                                "span",
+	                                { className: "name" },
+	                                "漲幅"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "ui red horizontal label" },
+	                                "0.5%"
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "content" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "header" },
+	                            _react2.default.createElement(
+	                                "span",
+	                                { className: "name" },
+	                                "成交量"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "ui horizontal label" },
+	                                "5566"
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "content" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "header" },
+	                            _react2.default.createElement(
+	                                "span",
+	                                { className: "name" },
+	                                "最高"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "ui horizontal label" },
+	                                "43"
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "content" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "header" },
+	                            _react2.default.createElement(
+	                                "span",
+	                                { className: "name" },
+	                                "最低"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "ui horizontal label" },
+	                                "39"
+	                            )
+	                        )
+	                    )
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = StockItemPopup;
 
 /***/ }
 /******/ ]);
