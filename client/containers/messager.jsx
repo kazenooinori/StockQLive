@@ -4,6 +4,7 @@ import InformationRail from "./information-rail";
 import MenuRail from "./menu-rail";
 import LoginModal from "../components/login-modal";
 import SignUpModal from "../components/signup-modal";
+import CreateChannelModal from "../components/create-channel-modal";
 import {connect} from "react-redux";
 import * as ChaActions from '../actions/cha-actions';
 
@@ -97,6 +98,7 @@ class Messager extends Component {
                     onLogInUser={onLogInUser}/>
                 <SignUpModal
                     onSignUpUser={onSignUpUser}/>
+                <CreateChannelModal/>
             </div>
         );
     }

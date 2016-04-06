@@ -19731,6 +19731,10 @@
 
 	var _signupModal2 = _interopRequireDefault(_signupModal);
 
+	var _createChannelModal = __webpack_require__(303);
+
+	var _createChannelModal2 = _interopRequireDefault(_createChannelModal);
+
 	var _reactRedux = __webpack_require__(263);
 
 	var _chaActions = __webpack_require__(284);
@@ -19903,7 +19907,8 @@
 	                _react2.default.createElement(_loginModal2.default, {
 	                    onLogInUser: onLogInUser }),
 	                _react2.default.createElement(_signupModal2.default, {
-	                    onSignUpUser: onSignUpUser })
+	                    onSignUpUser: onSignUpUser }),
+	                _react2.default.createElement(_createChannelModal2.default, null)
 	            );
 	        }
 	    }]);
@@ -35428,6 +35433,9 @@
 	    onClickSignUp: function onClickSignUp() {
 	        $("#signup-modal").modal("show");
 	    },
+	    onClickCreateChannel: function onClickCreateChannel() {
+	        $("#create-channel-modal").modal("show");
+	    },
 	    componentDidMount: function componentDidMount() {
 	        // $(ReactDOM.findDOMNode(this.refs.menu)).find('.item').tab();
 	    },
@@ -35452,6 +35460,13 @@
 	                onClickSignUp: this.onClickSignUp });
 	        }
 	    },
+	    renderCreateChannel: function renderCreateChannel() {
+	        return _react2.default.createElement(
+	            "button",
+	            { className: "ui blue basic button", onClick: this.onClickCreateChannel },
+	            "新增頻道"
+	        );
+	    },
 	    render: function render() {
 	        return _react2.default.createElement(
 	            "div",
@@ -35464,7 +35479,8 @@
 	            this.renderLoginStatus(),
 	            _react2.default.createElement(
 	                "div",
-	                { className: "ui tab segment board active", "data-tab": "channe" },
+	                { className: "ui tab segment board active" },
+	                this.renderCreateChannel(),
 	                _react2.default.createElement(
 	                    "div",
 	                    { className: "channel-list ui middle aligned selection list" },
@@ -36542,6 +36558,109 @@
 	}));
 
 	exports.default = StockItemPopup;
+
+/***/ },
+/* 303 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(158);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var CreateChannelModal = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "CreateChannelModal",
+	    componentDidMount: function componentDidMount() {
+	        $(_reactDom2.default.findDOMNode(this.refs.createChannelModal)).modal({
+	            blurring: true
+	        });
+
+	        // const {onSignUpUser} = this.props;
+	        $('.create-channel-form').form({
+	            onSuccess: function onSuccess(event, submitObject) {
+	                event.preventDefault();
+	                console.log(submitObject);
+	                // onSignUpUser(submitObject);
+	            },
+	            fields: {
+	                channel: 'empty',
+	                channelOwner: ['empty']
+	            }
+	        });
+	    },
+	    render: function render() {
+	        return _react2.default.createElement(
+	            "div",
+	            { id: "create-channel-modal", className: "ui modal small", ref: "createChannelModal" },
+	            _react2.default.createElement("i", { className: "close icon" }),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "header" },
+	                "新增頻道"
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "content" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "description" },
+	                    _react2.default.createElement(
+	                        "form",
+	                        { className: "ui form create-channel-form" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "field" },
+	                            _react2.default.createElement(
+	                                "label",
+	                                null,
+	                                "頻道名稱"
+	                            ),
+	                            _react2.default.createElement("input", { type: "text", name: "channel", placeholder: "頻道名稱" })
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "field" },
+	                            _react2.default.createElement(
+	                                "label",
+	                                null,
+	                                "頻道主"
+	                            ),
+	                            _react2.default.createElement("input", { type: "text", name: "channelOwner", placeholder: "頻道主" })
+	                        ),
+	                        _react2.default.createElement(
+	                            "button",
+	                            { className: "ui button" },
+	                            "新增"
+	                        )
+	                    )
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = CreateChannelModal;
 
 /***/ }
 /******/ ]);

@@ -20,6 +20,9 @@ const MenuRail = React.createClass({
     onClickSignUp () {
         $("#signup-modal").modal("show");
     },
+    onClickCreateChannel () {
+        $("#create-channel-modal").modal("show");
+    },
     componentDidMount () {
         // $(ReactDOM.findDOMNode(this.refs.menu)).find('.item').tab();
     },
@@ -45,6 +48,11 @@ const MenuRail = React.createClass({
             );
         }
     },
+    renderCreateChannel () {
+        return (
+            <button className="ui blue basic button" onClick={this.onClickCreateChannel}>新增頻道</button>
+        );
+    },
     render () {
         return (
             <div className="menu-rail">
@@ -52,7 +60,8 @@ const MenuRail = React.createClass({
                     <img src="/images/logo.png"/>
                 </a>
                 {this.renderLoginStatus()}
-                <div className="ui tab segment board active" data-tab="channe">
+                <div className="ui tab segment board active">
+                    {this.renderCreateChannel()}
                     <div className="channel-list ui middle aligned selection list">
                         <div className="channel-item item">
                             <div className="content">
