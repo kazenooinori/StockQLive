@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const UserStore = require("../stores/user");
-const ChatroomStore = require("../stores/chatroom");
-const ChannelStore = require("../stores/channel");
+const UserStore = require("../../stores/user");
+const ChatroomStore = require("../../stores/chatroom");
+const ChannelStore = require("../../stores/channel");
 
 router.get("/", (req, res) => {
     ChannelStore.findChannels()

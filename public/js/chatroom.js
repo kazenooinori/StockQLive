@@ -34739,8 +34739,6 @@
 	exports.appendMessages = appendMessages;
 	exports.appendMessage = appendMessage;
 	exports.fetchMessages = fetchMessages;
-	exports.createRequest = createRequest;
-	exports.fetchAllRequests = fetchAllRequests;
 	exports.signUpUser = signUpUser;
 	exports.logInUser = logInUser;
 	exports.logOutUser = logOutUser;
@@ -34789,7 +34787,7 @@
 	    return function (dispatch, getState) {
 	        // should inform that the app is going to fetch messages
 	        //dispatch(requestMessages());
-	        return (0, _isomorphicFetch2.default)("/chatroom/" + chatroomId + "/messages", {
+	        return (0, _isomorphicFetch2.default)("/api/chatroom/" + chatroomId + "/messages", {
 	            method: "GET",
 	            headers: {
 	                "Accept": "application/json"
@@ -34805,54 +34803,9 @@
 	    };
 	}
 
-	function createRequest(request) {
-	    return function (dispatch, getState) {
-	        return (0, _isomorphicFetch2.default)("/requests", {
-	            method: "POST",
-	            headers: {
-	                "Accept": "application/json",
-	                "Content-Type": "application/json"
-	            },
-	            body: JSON.stringify({
-	                request: request
-	            }),
-	            credentials: 'include'
-	        }).then(function (response) {
-	            return response.json();
-	        }).then(function (json) {
-	            dispatch({
-	                type: types.APPEND_REQUEST,
-	                request: json
-	            });
-	        }).catch(function (error) {
-	            console.error(error);
-	        });
-	    };
-	}
-
-	function fetchAllRequests() {
-	    return function (dispatch, getState) {
-	        return (0, _isomorphicFetch2.default)("/requests", {
-	            method: "GEt",
-	            headers: {
-	                "Accept": "application/json"
-	            }
-	        }).then(function (response) {
-	            return response.json();
-	        }).then(function (json) {
-	            dispatch({
-	                type: types.APPEND_REQUESTS,
-	                requests: json
-	            });
-	        }).catch(function (error) {
-	            console.error(error);
-	        });
-	    };
-	}
-
 	function signUpUser(toSignUpUser) {
 	    return function (dispatch, getState) {
-	        return (0, _isomorphicFetch2.default)("/signup", {
+	        return (0, _isomorphicFetch2.default)("/api/signup", {
 	            method: 'POST',
 	            headers: {
 	                "Accept": "application/json",
@@ -34872,7 +34825,7 @@
 	}
 	function logInUser(toLogInUser) {
 	    return function (dispatch, getState) {
-	        return (0, _isomorphicFetch2.default)("/login", {
+	        return (0, _isomorphicFetch2.default)("/api/login", {
 	            method: 'POST',
 	            headers: {
 	                "Accept": "application/json",
@@ -34892,7 +34845,7 @@
 	}
 	function logOutUser(user) {
 	    return function (dispatch, getState) {
-	        return (0, _isomorphicFetch2.default)("/logout", {
+	        return (0, _isomorphicFetch2.default)("/api/logout", {
 	            method: "GET",
 	            headers: {
 	                "Accept": "application/json"
@@ -34909,7 +34862,7 @@
 	}
 	function initUser() {
 	    return function (dispatch, getState) {
-	        return (0, _isomorphicFetch2.default)("/user/me", {
+	        return (0, _isomorphicFetch2.default)("/api/user/me", {
 	            method: "GET",
 	            headers: {
 	                "Accept": "application/json"
@@ -34930,7 +34883,7 @@
 
 	function createChannel(channel) {
 	    return function (dispatch, getState) {
-	        return (0, _isomorphicFetch2.default)("/channel", {
+	        return (0, _isomorphicFetch2.default)("/api/channel", {
 	            method: "POST",
 	            headers: {
 	                "Content-Type": "application/json",
@@ -34950,7 +34903,7 @@
 	}
 	function fetchChannels() {
 	    return function (dispatch, getState) {
-	        return (0, _isomorphicFetch2.default)("/channel", {
+	        return (0, _isomorphicFetch2.default)("/api/channel", {
 	            method: "GET",
 	            headers: {
 	                "Content-Type": "application/json",

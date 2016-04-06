@@ -43,11 +43,12 @@ app.use("/", require("./routes/index"));
 app.use("/chatroom", require("./routes/chatroom"));
 
 // api
-app.use("/user", require("./routes/user"));
-app.use("/channel", require("./routes/channel"));
-app.use("/signup", require("./routes/signup"));
-app.use("/login", require("./routes/login"));
-app.use("/logout", require("./routes/logout"));
+app.use("/api/user", require("./routes/api/user"));
+app.use("/api/channel", require("./routes/api/channel"));
+app.use("/api/chatroom", require("./routes/api/chatroom"));
+app.use("/api/signup", require("./routes/api/signup"));
+app.use("/api/login", require("./routes/api/login"));
+app.use("/api/logout", require("./routes/api/logout"));
 
 // catch 404 and handle it
 app.use(function (req, res, next) {

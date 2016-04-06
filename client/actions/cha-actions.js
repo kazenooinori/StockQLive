@@ -27,7 +27,7 @@ export function fetchMessages (chatroomId) {
     return function (dispatch, getState) {
         // should inform that the app is going to fetch messages
         //dispatch(requestMessages());
-        return fetch("/chatroom/" + chatroomId + "/messages", {
+        return fetch("/api/chatroom/" + chatroomId + "/messages", {
             method: "GET",
             headers: {
                 "Accept": "application/json",
@@ -46,62 +46,9 @@ export function fetchMessages (chatroomId) {
     };
 }
 
-
-export function createRequest (request) {
-    return function (dispatch, getState) {
-        return fetch("/requests", {
-            method: "POST",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                request: request
-            }),
-            credentials: 'include',
-        })
-        .then((response) => {
-            return response.json();
-        })
-        .then((json) => {
-            dispatch({
-                type: types.APPEND_REQUEST,
-                request: json,
-            });
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-    };
-}
-
-
-export function fetchAllRequests () {
-    return function (dispatch, getState) {
-        return fetch("/requests", {
-            method: "GEt",
-            headers: {
-                "Accept": "application/json",
-            },
-        })
-        .then((response) => {
-            return response.json();
-        })
-        .then((json) => {
-            dispatch({
-                type: types.APPEND_REQUESTS,
-                requests: json,
-            });
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-    };
-}
-
 export function signUpUser (toSignUpUser) {
     return function (dispatch, getState) {
-        return fetch("/signup", {
+        return fetch("/api/signup", {
             method: 'POST',
             headers: {
                 "Accept": "application/json",
@@ -125,7 +72,7 @@ export function signUpUser (toSignUpUser) {
 }
 export function logInUser (toLogInUser) {
     return function(dispatch, getState) {
-        return fetch("/login", {
+        return fetch("/api/login", {
             method: 'POST',
             headers: {
                 "Accept": "application/json",
@@ -149,7 +96,7 @@ export function logInUser (toLogInUser) {
 }
 export function logOutUser (user) {
     return function(dispatch, getState) {
-        return fetch("/logout", {
+        return fetch("/api/logout", {
             method: "GET",
             headers: {
                 "Accept": "application/json",
@@ -169,7 +116,7 @@ export function logOutUser (user) {
 }
 export function initUser () {
     return function(dispatch, getState) {
-        return fetch("/user/me", {
+        return fetch("/api/user/me", {
             method: "GET",
             headers: {
                 "Accept": "application/json",
@@ -195,7 +142,7 @@ export function initUser () {
 
 export function createChannel (channel) {
     return function (dispatch, getState) {
-        return fetch("/channel", {
+        return fetch("/api/channel", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -219,7 +166,7 @@ export function createChannel (channel) {
 }
 export function fetchChannels () {
     return function (dispatch, getState) {
-        return fetch("/channel", {
+        return fetch("/api/channel", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
