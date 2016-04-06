@@ -43,9 +43,10 @@ class Messager extends Component {
     }
     componentDidMount() {
         // initialize messages
-        const {onFetchMessage, chatroomId, onInitUser} = this.props;
-        onFetchMessage(chatroomId);
+        const {onFetchMessages, onFetchChannels, chatroomId, onInitUser} = this.props;
         onInitUser();
+        onFetchChannels();
+        onFetchMessages(chatroomId);
 
         $('.ui.sticky.messager-header').sticky({
             context: '#message-box'
@@ -76,7 +77,7 @@ class Messager extends Component {
         }
     }
     render () {
-        const {messages, onFetchMessage, onLogInUser, onSignUpUser, onCreateChannel, user} = this.props;
+        const {messages, onFetchMessages, onLogInUser, onSignUpUser, onCreateChannel, user} = this.props;
         return (
             <div className="messager">
                 <MenuRail/>
@@ -113,10 +114,11 @@ Messager.propTypes = {
     chatroomId: PropTypes.string.isRequired,
     messages: PropTypes.array.isRequired,
     onInitUser: PropTypes.func.isRequired,
+    onFetchChannels: PropTypes.func.isRequired,
     onLogInUser: PropTypes.func.isRequired,
     onSignUpUser: PropTypes.func.isRequired,
     onSendMessage: PropTypes.func.isRequired,
-    onFetchMessage: PropTypes.func.isRequired,
+    onFetchMessages: PropTypes.func.isRequired,
     onAppendMessage: PropTypes.func.isRequired,
 };
 
@@ -140,8 +142,11 @@ const mapDispatchToProps = function (dispatch) {
         onSendMessage: function (message) {
             dispatch(ChaActions.sendMessage(message));
         },
-        onFetchMessage: function (chatroomId) {
+        onFetchMessages: function (chatroomId) {
             dispatch(ChaActions.fetchMessages(chatroomId));
+        },
+        onFetchChannels: function () {
+            dispatch(ChaActions.fetchChannels());
         },
         onAppendMessage: function (message) {
             dispatch(ChaActions.appendMessage(message));

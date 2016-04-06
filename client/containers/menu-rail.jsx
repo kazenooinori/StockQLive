@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import * as ChaActions from "../actions/cha-actions";
 import LoggedInController from "../components/logged-in-controller";
 import LoggingInController from "../components/logging-in-controller";
+import ChannelItem from "../components/channel-item";
 
 const {Component, PropTypes} = React;
 
@@ -13,6 +14,8 @@ const MenuRail = React.createClass({
             _id: PropTypes.string.isRequired,
             username: PropTypes.string.isRequired,
         }),
+        channels: PropTypes.array.isRequired,
+        onLogOutUser: PropTypes.func.isRequired,
     },
     onClickLogin () {
         $("#login-modal").modal("show");
@@ -22,9 +25,6 @@ const MenuRail = React.createClass({
     },
     onClickCreateChannel () {
         $("#create-channel-modal").modal("show");
-    },
-    componentDidMount () {
-        // $(ReactDOM.findDOMNode(this.refs.menu)).find('.item').tab();
     },
     componentWillReceiveProps (nextProps) {
         if (this.props.user._id !== nextProps.user._id) {
@@ -53,7 +53,15 @@ const MenuRail = React.createClass({
             <button className="ui blue basic button" onClick={this.onClickCreateChannel}>新增頻道</button>
         );
     },
+    renderChannels (channels) {
+        return channels.map((channel) => {
+            return (
+                <ChannelItem key={channel._id} {...channel}/>
+            );
+        });
+    },
     render () {
+        const {channels} = this.props;
         return (
             <div className="menu-rail">
                 <a className="logo">
@@ -63,26 +71,7 @@ const MenuRail = React.createClass({
                 <div className="ui tab segment board active">
                     {this.renderCreateChannel()}
                     <div className="channel-list ui middle aligned selection list">
-                        <div className="channel-item item">
-                            <div className="content">
-                                <div className="description clearfix">
-                                    <span className="name">#股市達人鄭瑞宗</span>
-                                    <div className="ui horizontal label">
-                                        <i className="users icon"></i>25
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="channel-item item">
-                            <div className="content">
-                                <div className="description clearfix">
-                                    <span className="name">#雷浩斯教你牛眼看市</span>
-                                    <div className="ui horizontal label">
-                                        <i className="users icon"></i>25
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {this.renderChannels(channels)}
                     </div>
                 </div>
             </div>
@@ -92,7 +81,8 @@ const MenuRail = React.createClass({
 
 const mapStateToProps = function (state) {
     return {
-        user: state.user
+        channels: state.channels,
+        user: state.user,
     };
 };
 const mapDispatchToProps = function (dispatch) {

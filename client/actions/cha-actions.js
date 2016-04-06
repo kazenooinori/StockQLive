@@ -207,7 +207,33 @@ export function createChannel (channel) {
         .then(fetchUtils.checkStatus)
         .then(fetchUtils.parseJSON)
         .then((channel) => {
-            console.log(channel);
+            dispatch({
+                type: types.APPEND_CHANNEL,
+                channel,
+            });
+        })
+        .catch((error) => {
+            console.error("create channel error", error);
+        });
+    };
+}
+export function fetchChannels () {
+    return function (dispatch, getState) {
+        return fetch("/channel", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            credentials: true,
+        })
+        .then(fetchUtils.checkStatus)
+        .then(fetchUtils.parseJSON)
+        .then((channels) => {
+            dispatch({
+                type: types.APPEND_CHANNELS,
+                channels,
+            });
         })
         .catch((error) => {
             console.error("create channel error", error);

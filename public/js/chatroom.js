@@ -19814,12 +19814,14 @@
 	        value: function componentDidMount() {
 	            // initialize messages
 	            var _props = this.props;
-	            var onFetchMessage = _props.onFetchMessage;
+	            var onFetchMessages = _props.onFetchMessages;
+	            var onFetchChannels = _props.onFetchChannels;
 	            var chatroomId = _props.chatroomId;
 	            var onInitUser = _props.onInitUser;
 
-	            onFetchMessage(chatroomId);
 	            onInitUser();
+	            onFetchChannels();
+	            onFetchMessages(chatroomId);
 
 	            $('.ui.sticky.messager-header').sticky({
 	                context: '#message-box'
@@ -19867,7 +19869,7 @@
 	        value: function render() {
 	            var _props2 = this.props;
 	            var messages = _props2.messages;
-	            var onFetchMessage = _props2.onFetchMessage;
+	            var onFetchMessages = _props2.onFetchMessages;
 	            var onLogInUser = _props2.onLogInUser;
 	            var onSignUpUser = _props2.onSignUpUser;
 	            var onCreateChannel = _props2.onCreateChannel;
@@ -19927,10 +19929,11 @@
 	    chatroomId: PropTypes.string.isRequired,
 	    messages: PropTypes.array.isRequired,
 	    onInitUser: PropTypes.func.isRequired,
+	    onFetchChannels: PropTypes.func.isRequired,
 	    onLogInUser: PropTypes.func.isRequired,
 	    onSignUpUser: PropTypes.func.isRequired,
 	    onSendMessage: PropTypes.func.isRequired,
-	    onFetchMessage: PropTypes.func.isRequired,
+	    onFetchMessages: PropTypes.func.isRequired,
 	    onAppendMessage: PropTypes.func.isRequired
 	};
 
@@ -19954,8 +19957,11 @@
 	        onSendMessage: function onSendMessage(message) {
 	            dispatch(ChaActions.sendMessage(message));
 	        },
-	        onFetchMessage: function onFetchMessage(chatroomId) {
+	        onFetchMessages: function onFetchMessages(chatroomId) {
 	            dispatch(ChaActions.fetchMessages(chatroomId));
+	        },
+	        onFetchChannels: function onFetchChannels() {
+	            dispatch(ChaActions.fetchChannels());
 	        },
 	        onAppendMessage: function onAppendMessage(message) {
 	            dispatch(ChaActions.appendMessage(message));
@@ -34740,6 +34746,7 @@
 	exports.logOutUser = logOutUser;
 	exports.initUser = initUser;
 	exports.createChannel = createChannel;
+	exports.fetchChannels = fetchChannels;
 
 	var _actionTypes = __webpack_require__(285);
 
@@ -34932,7 +34939,29 @@
 	            body: JSON.stringify(channel),
 	            credentials: true
 	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (channel) {
-	            console.log(channel);
+	            dispatch({
+	                type: types.APPEND_CHANNEL,
+	                channel: channel
+	            });
+	        }).catch(function (error) {
+	            console.error("create channel error", error);
+	        });
+	    };
+	}
+	function fetchChannels() {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/channel", {
+	            method: "GET",
+	            headers: {
+	                "Content-Type": "application/json",
+	                "Accept": "application/json"
+	            },
+	            credentials: true
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (channels) {
+	            dispatch({
+	                type: types.APPEND_CHANNELS,
+	                channels: channels
+	            });
 	        }).catch(function (error) {
 	            console.error("create channel error", error);
 	        });
@@ -34953,6 +34982,9 @@
 	var APPEND_MESSAGES = exports.APPEND_MESSAGES = "APPEND_MESSAGES";
 	var CREATE_REQUEST = exports.CREATE_REQUEST = "CREATE_REQUEST";
 	var APPEND_REQUEST = exports.APPEND_REQUEST = "APPEND_REQUEST";
+
+	var APPEND_CHANNEL = exports.APPEND_CHANNEL = "APPEND_CHANNEL";
+	var APPEND_CHANNELS = exports.APPEND_CHANNELS = "APPEND_CHANNELS";
 
 	var FETCH_ALL_REQUESTS = exports.FETCH_ALL_REQUESTS = "FETCH_ALL_REQUESTS";
 	var APPEND_REQUESTS = exports.APPEND_REQUESTS = "APPEND_REQUESTS";
@@ -35654,6 +35686,8 @@
 
 	"use strict";
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
@@ -35680,6 +35714,10 @@
 
 	var _loggingInController2 = _interopRequireDefault(_loggingInController);
 
+	var _channelItem = __webpack_require__(306);
+
+	var _channelItem2 = _interopRequireDefault(_channelItem);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -35705,7 +35743,9 @@
 	        user: PropTypes.shape({
 	            _id: PropTypes.string.isRequired,
 	            username: PropTypes.string.isRequired
-	        })
+	        }),
+	        channels: PropTypes.array.isRequired,
+	        onLogOutUser: PropTypes.func.isRequired
 	    },
 	    onClickLogin: function onClickLogin() {
 	        $("#login-modal").modal("show");
@@ -35715,9 +35755,6 @@
 	    },
 	    onClickCreateChannel: function onClickCreateChannel() {
 	        $("#create-channel-modal").modal("show");
-	    },
-	    componentDidMount: function componentDidMount() {
-	        // $(ReactDOM.findDOMNode(this.refs.menu)).find('.item').tab();
 	    },
 	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
 	        if (this.props.user._id !== nextProps.user._id) {
@@ -35747,7 +35784,14 @@
 	            "新增頻道"
 	        );
 	    },
+	    renderChannels: function renderChannels(channels) {
+	        return channels.map(function (channel) {
+	            return _react2.default.createElement(_channelItem2.default, _extends({ key: channel._id }, channel));
+	        });
+	    },
 	    render: function render() {
+	        var channels = this.props.channels;
+
 	        return _react2.default.createElement(
 	            "div",
 	            { className: "menu-rail" },
@@ -35764,52 +35808,7 @@
 	                _react2.default.createElement(
 	                    "div",
 	                    { className: "channel-list ui middle aligned selection list" },
-	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "channel-item item" },
-	                        _react2.default.createElement(
-	                            "div",
-	                            { className: "content" },
-	                            _react2.default.createElement(
-	                                "div",
-	                                { className: "description clearfix" },
-	                                _react2.default.createElement(
-	                                    "span",
-	                                    { className: "name" },
-	                                    "#股市達人鄭瑞宗"
-	                                ),
-	                                _react2.default.createElement(
-	                                    "div",
-	                                    { className: "ui horizontal label" },
-	                                    _react2.default.createElement("i", { className: "users icon" }),
-	                                    "25"
-	                                )
-	                            )
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "channel-item item" },
-	                        _react2.default.createElement(
-	                            "div",
-	                            { className: "content" },
-	                            _react2.default.createElement(
-	                                "div",
-	                                { className: "description clearfix" },
-	                                _react2.default.createElement(
-	                                    "span",
-	                                    { className: "name" },
-	                                    "#雷浩斯教你牛眼看市"
-	                                ),
-	                                _react2.default.createElement(
-	                                    "div",
-	                                    { className: "ui horizontal label" },
-	                                    _react2.default.createElement("i", { className: "users icon" }),
-	                                    "25"
-	                                )
-	                            )
-	                        )
-	                    )
+	                    this.renderChannels(channels)
 	                )
 	            )
 	        );
@@ -35818,6 +35817,7 @@
 
 	var mapStateToProps = function mapStateToProps(state) {
 	    return {
+	        channels: state.channels,
 	        user: state.user
 	    };
 	};
@@ -36381,6 +36381,10 @@
 
 	var _redux = __webpack_require__(269);
 
+	var _channels = __webpack_require__(305);
+
+	var _channels2 = _interopRequireDefault(_channels);
+
 	var _messages = __webpack_require__(300);
 
 	var _messages2 = _interopRequireDefault(_messages);
@@ -36392,6 +36396,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var rootReducer = (0, _redux.combineReducers)({
+	    channels: _channels2.default,
 	    messages: _messages2.default,
 	    user: _user2.default
 	});
@@ -36693,6 +36698,110 @@
 	}
 
 	module.exports = createLogger;
+
+/***/ },
+/* 304 */,
+/* 305 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = Channels;
+
+	var _actionTypes = __webpack_require__(285);
+
+	var types = _interopRequireWildcard(_actionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	function Channels() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.APPEND_CHANNELS:
+	            return [].concat(_toConsumableArray(state), _toConsumableArray(action.channels));
+	        case types.APPEND_CHANNEL:
+	            return [].concat(_toConsumableArray(state), [action.channel]);
+	        default:
+	            return state;
+	    }
+	}
+
+/***/ },
+/* 306 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var ChannelItem = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "ChannelItem",
+
+	    propTypes: {
+	        name: PropTypes.string.isRequired,
+	        chatroomId: PropTypes.string.isRequired
+	    },
+	    render: function render() {
+	        var _props = this.props;
+	        var name = _props.name;
+	        var chatroomId = _props.chatroomId;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "channel-item item" },
+	            _react2.default.createElement(
+	                "a",
+	                { className: "content", href: "/chatroom/" + chatroomId },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "description clearfix" },
+	                    _react2.default.createElement(
+	                        "span",
+	                        { className: "name" },
+	                        "#",
+	                        name
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "ui horizontal label" },
+	                        _react2.default.createElement("i", { className: "users icon" }),
+	                        "25"
+	                    )
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = ChannelItem;
 
 /***/ }
 /******/ ]);
