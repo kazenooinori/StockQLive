@@ -34929,6 +34929,7 @@
 	                "Content-Type": "application/json",
 	                "Accept": "application/json"
 	            },
+	            body: JSON.stringify(channel),
 	            credentials: true
 	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (channel) {
 	            console.log(channel);
@@ -36287,6 +36288,9 @@
 	    };
 	}
 
+	var PropTypes = _react2.default.PropTypes;
+
+
 	var CreateChannelModal = _wrapComponent("_component")(_react2.default.createClass({
 	    displayName: "CreateChannelModal",
 
@@ -36339,7 +36343,7 @@
 	                                null,
 	                                "頻道名稱"
 	                            ),
-	                            _react2.default.createElement("input", { type: "text", name: "channel", placeholder: "頻道名稱" })
+	                            _react2.default.createElement("input", { type: "text", name: "name", placeholder: "頻道名稱" })
 	                        ),
 	                        _react2.default.createElement(
 	                            "div",
@@ -36349,7 +36353,7 @@
 	                                null,
 	                                "頻道主"
 	                            ),
-	                            _react2.default.createElement("input", { type: "text", name: "channelOwner", placeholder: "頻道主" })
+	                            _react2.default.createElement("input", { type: "text", name: "ownerUsername", placeholder: "頻道主" })
 	                        ),
 	                        _react2.default.createElement(
 	                            "button",

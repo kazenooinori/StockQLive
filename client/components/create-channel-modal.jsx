@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
+const {PropTypes} = React;
+
 const CreateChannelModal = React.createClass({
     propTypes: {
         onCreateChannel: PropTypes.func,
@@ -35,11 +37,11 @@ const CreateChannelModal = React.createClass({
                         <form className="ui form create-channel-form">
                             <div className="field">
                                 <label>頻道名稱</label>
-                                <input type="text" name="channel" placeholder="頻道名稱"/>
+                                <input type="text" name="name" placeholder="頻道名稱"/>
                             </div>
                             <div className="field">
                                 <label>頻道主</label>
-                                <input type="text" name="channelOwner" placeholder="頻道主"/>
+                                <input type="text" name="ownerUsername" placeholder="頻道主"/>
                             </div>
                             <button className="ui button">新增</button>
                         </form>

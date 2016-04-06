@@ -201,6 +201,7 @@ export function createChannel (channel) {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
             },
+            body: JSON.stringify(channel),
             credentials: true,
         })
         .then(fetchUtils.checkStatus)
