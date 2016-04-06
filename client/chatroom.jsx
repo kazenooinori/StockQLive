@@ -13,15 +13,24 @@ const store = createStore(reducer, applyMiddleware(thunkMiddleWare, loggerMiddle
 // this comes from socket.io package
 const socket = io("/chat");
 
-let paths = location.pathname.split('/');
-let chatroomId = paths[paths.length - 1];
+const container = document.getElementById("main");
+const channelId = container.dataset.channelId;
+const chatroomId = container.dataset.chatroomId;
+const channelName = container.dataset.channelName;
+const ownerUsername = container.dataset.ownerUsername;
+const channel = {
+    _id: channelId,
+    name: channelName,
+    ownerUsername: ownerUsername,
+    chatroomId: chatroomId,
+};
 
 ReactDOM.render(
     <Provider store={store}>
         <Messager
-            userId={Math.floor(Math.random() * 10000000).toString()}
             chatroomId={chatroomId}
+            channel={channel}
             socket={socket}/>
     </Provider>,
-    document.getElementById("main")
+    container
 );

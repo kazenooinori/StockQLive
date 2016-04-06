@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+const {ObjectId} = mongoose.Types;
 const ChannelModel = require("../models/channel");
 
 function createChannel (attributes) {
@@ -23,8 +25,21 @@ function findChannels (attributes) {
         });
     });
 }
+function findChannelById (channelId) {
+    return new Promise((resolve, reject) => {
+        ChannelModel.findOne({_id: new ObjectId(channelId)}, "name ownerUsername chatroomId")
+        .exec((error, doc) => {
+            if (error) {
+                reject(error);
+                return;
+            }
+            resolve(doc);
+        });
+    });
+}
 
 module.exports = {
     createChannel,
     findChannels,
+    findChannelById,
 };

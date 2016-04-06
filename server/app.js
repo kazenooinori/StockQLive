@@ -40,6 +40,7 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
 
 
 app.use("/", require("./routes/index"));
+app.use("/channel", require("./routes/channel"));
 app.use("/chatroom", require("./routes/chatroom"));
 
 // api

@@ -62,15 +62,15 @@
 
 	var _reactRedux = __webpack_require__(263);
 
-	var _chatroom = __webpack_require__(299);
+	var _chatroom = __webpack_require__(300);
 
 	var _chatroom2 = _interopRequireDefault(_chatroom);
 
-	var _reduxThunk = __webpack_require__(302);
+	var _reduxThunk = __webpack_require__(305);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-	var _reduxLogger = __webpack_require__(303);
+	var _reduxLogger = __webpack_require__(306);
 
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 
@@ -82,17 +82,26 @@
 	// this comes from socket.io package
 	var socket = io("/chat");
 
-	var paths = location.pathname.split('/');
-	var chatroomId = paths[paths.length - 1];
+	var container = document.getElementById("main");
+	var channelId = container.dataset.channelId;
+	var chatroomId = container.dataset.chatroomId;
+	var channelName = container.dataset.channelName;
+	var ownerUsername = container.dataset.ownerUsername;
+	var channel = {
+	    _id: channelId,
+	    name: channelName,
+	    ownerUsername: ownerUsername,
+	    chatroomId: chatroomId
+	};
 
 	_reactDom2.default.render(_react2.default.createElement(
 	    _reactRedux.Provider,
 	    { store: store },
 	    _react2.default.createElement(_messager2.default, {
-	        userId: Math.floor(Math.random() * 10000000).toString(),
 	        chatroomId: chatroomId,
+	        channel: channel,
 	        socket: socket })
-	), document.getElementById("main"));
+	), container);
 
 /***/ },
 /* 1 */
@@ -19723,15 +19732,15 @@
 
 	var _menuRail2 = _interopRequireDefault(_menuRail);
 
-	var _loginModal = __webpack_require__(294);
+	var _loginModal = __webpack_require__(295);
 
 	var _loginModal2 = _interopRequireDefault(_loginModal);
 
-	var _signupModal = __webpack_require__(296);
+	var _signupModal = __webpack_require__(297);
 
 	var _signupModal2 = _interopRequireDefault(_signupModal);
 
-	var _createChannelModal = __webpack_require__(298);
+	var _createChannelModal = __webpack_require__(299);
 
 	var _createChannelModal2 = _interopRequireDefault(_createChannelModal);
 
@@ -19869,11 +19878,11 @@
 	        value: function render() {
 	            var _props2 = this.props;
 	            var messages = _props2.messages;
-	            var onFetchMessages = _props2.onFetchMessages;
 	            var onLogInUser = _props2.onLogInUser;
 	            var onSignUpUser = _props2.onSignUpUser;
 	            var onCreateChannel = _props2.onCreateChannel;
 	            var user = _props2.user;
+	            var channel = _props2.channel;
 
 	            return _react2.default.createElement(
 	                "div",
@@ -19888,7 +19897,7 @@
 	                        _react2.default.createElement(
 	                            "h3",
 	                            { className: "ui dividing header messager-header sticky", style: { paddingTop: "10px" } },
-	                            "台積電"
+	                            channel.name
 	                        ),
 	                        _react2.default.createElement(
 	                            "div",
@@ -19921,10 +19930,15 @@
 	}(Component));
 
 	Messager.propTypes = {
-	    userId: PropTypes.string.isRequired,
 	    user: PropTypes.shape({
 	        _id: PropTypes.string.isRequired,
 	        username: PropTypes.string.isRequired
+	    }),
+	    channel: PropTypes.shape({
+	        _id: PropTypes.string.isRequired,
+	        name: PropTypes.string.isRequired,
+	        ownerUsername: PropTypes.string.isRequired,
+	        chatroomId: PropTypes.string.isRequired
 	    }),
 	    chatroomId: PropTypes.string.isRequired,
 	    messages: PropTypes.array.isRequired,
@@ -34938,6 +34952,7 @@
 
 	var APPEND_CHANNEL = exports.APPEND_CHANNEL = "APPEND_CHANNEL";
 	var APPEND_CHANNELS = exports.APPEND_CHANNELS = "APPEND_CHANNELS";
+	var UPDATE_CHANNEL = exports.UPDATE_CHANNEL = "UPDATE_CHANNEL";
 
 	var FETCH_ALL_REQUESTS = exports.FETCH_ALL_REQUESTS = "FETCH_ALL_REQUESTS";
 	var APPEND_REQUESTS = exports.APPEND_REQUESTS = "APPEND_REQUESTS";
@@ -35667,7 +35682,7 @@
 
 	var _loggingInController2 = _interopRequireDefault(_loggingInController);
 
-	var _channelItem = __webpack_require__(306);
+	var _channelItem = __webpack_require__(294);
 
 	var _channelItem2 = _interopRequireDefault(_channelItem);
 
@@ -35925,11 +35940,83 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var ChannelItem = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "ChannelItem",
+
+	    propTypes: {
+	        _id: PropTypes.string.isRequired,
+	        name: PropTypes.string.isRequired,
+	        chatroomId: PropTypes.string.isRequired
+	    },
+	    render: function render() {
+	        var _props = this.props;
+	        var _id = _props._id;
+	        var name = _props.name;
+	        var chatroomId = _props.chatroomId;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "channel-item item" },
+	            _react2.default.createElement(
+	                "a",
+	                { className: "content", href: "/channel/" + _id },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "description clearfix" },
+	                    _react2.default.createElement(
+	                        "span",
+	                        { className: "name" },
+	                        "#",
+	                        name
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "ui horizontal label" },
+	                        _react2.default.createElement("i", { className: "users icon" }),
+	                        "25"
+	                    )
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = ChannelItem;
+
+/***/ },
+/* 295 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
 	var _reactDom = __webpack_require__(158);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _loginForm = __webpack_require__(295);
+	var _loginForm = __webpack_require__(296);
 
 	var _loginForm2 = _interopRequireDefault(_loginForm);
 
@@ -35999,7 +36086,7 @@
 	exports.default = LoginModal;
 
 /***/ },
-/* 295 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36062,7 +36149,7 @@
 	exports.default = LoginForm;
 
 /***/ },
-/* 296 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36079,7 +36166,7 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _signupForm = __webpack_require__(297);
+	var _signupForm = __webpack_require__(298);
 
 	var _signupForm2 = _interopRequireDefault(_signupForm);
 
@@ -36149,7 +36236,7 @@
 	exports.default = SignUpModal;
 
 /***/ },
-/* 297 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36212,7 +36299,7 @@
 	exports.default = SignUpForm;
 
 /***/ },
-/* 298 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36323,7 +36410,7 @@
 	exports.default = CreateChannelModal;
 
 /***/ },
-/* 299 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36334,21 +36421,26 @@
 
 	var _redux = __webpack_require__(269);
 
-	var _channels = __webpack_require__(305);
+	var _channel = __webpack_require__(301);
+
+	var _channel2 = _interopRequireDefault(_channel);
+
+	var _channels = __webpack_require__(302);
 
 	var _channels2 = _interopRequireDefault(_channels);
 
-	var _messages = __webpack_require__(300);
+	var _messages = __webpack_require__(303);
 
 	var _messages2 = _interopRequireDefault(_messages);
 
-	var _user = __webpack_require__(301);
+	var _user = __webpack_require__(304);
 
 	var _user2 = _interopRequireDefault(_user);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var rootReducer = (0, _redux.combineReducers)({
+	    channel: _channel2.default,
 	    channels: _channels2.default,
 	    messages: _messages2.default,
 	    user: _user2.default
@@ -36357,7 +36449,69 @@
 	exports.default = rootReducer;
 
 /***/ },
-/* 300 */
+/* 301 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = Channel;
+
+	var _actionTypes = __webpack_require__(285);
+
+	var types = _interopRequireWildcard(_actionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function Channel() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? { _id: "", ownerUsername: "", name: "", chatroomId: "" } : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.UPDATE_CHANNEL:
+	            return Object.assign({}, action.channel);
+	        default:
+	            return state;
+	    }
+	}
+
+/***/ },
+/* 302 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = Channels;
+
+	var _actionTypes = __webpack_require__(285);
+
+	var types = _interopRequireWildcard(_actionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	function Channels() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.APPEND_CHANNELS:
+	            return [].concat(_toConsumableArray(state), _toConsumableArray(action.channels));
+	        case types.APPEND_CHANNEL:
+	            return [].concat(_toConsumableArray(state), [action.channel]);
+	        default:
+	            return state;
+	    }
+	}
+
+/***/ },
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36402,7 +36556,7 @@
 	}
 
 /***/ },
-/* 301 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36436,7 +36590,7 @@
 	}
 
 /***/ },
-/* 302 */
+/* 305 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36455,7 +36609,7 @@
 	module.exports = thunkMiddleware;
 
 /***/ },
-/* 303 */
+/* 306 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -36651,110 +36805,6 @@
 	}
 
 	module.exports = createLogger;
-
-/***/ },
-/* 304 */,
-/* 305 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = Channels;
-
-	var _actionTypes = __webpack_require__(285);
-
-	var types = _interopRequireWildcard(_actionTypes);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-	function Channels() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
-	    var action = arguments[1];
-
-	    switch (action.type) {
-	        case types.APPEND_CHANNELS:
-	            return [].concat(_toConsumableArray(state), _toConsumableArray(action.channels));
-	        case types.APPEND_CHANNEL:
-	            return [].concat(_toConsumableArray(state), [action.channel]);
-	        default:
-	            return state;
-	    }
-	}
-
-/***/ },
-/* 306 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var PropTypes = _react2.default.PropTypes;
-
-
-	var ChannelItem = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "ChannelItem",
-
-	    propTypes: {
-	        name: PropTypes.string.isRequired,
-	        chatroomId: PropTypes.string.isRequired
-	    },
-	    render: function render() {
-	        var _props = this.props;
-	        var name = _props.name;
-	        var chatroomId = _props.chatroomId;
-
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "channel-item item" },
-	            _react2.default.createElement(
-	                "a",
-	                { className: "content", href: "/chatroom/" + chatroomId },
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "description clearfix" },
-	                    _react2.default.createElement(
-	                        "span",
-	                        { className: "name" },
-	                        "#",
-	                        name
-	                    ),
-	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "ui horizontal label" },
-	                        _react2.default.createElement("i", { className: "users icon" }),
-	                        "25"
-	                    )
-	                )
-	            )
-	        );
-	    }
-	}));
-
-	exports.default = ChannelItem;
 
 /***/ }
 /******/ ]);

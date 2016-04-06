@@ -4,14 +4,15 @@ const {PropTypes} = React;
 
 const ChannelItem = React.createClass({
     propTypes: {
+        _id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         chatroomId: PropTypes.string.isRequired,
     },
     render () {
-        const {name, chatroomId} = this.props;
+        const {_id, name, chatroomId} = this.props;
         return (
             <div className="channel-item item">
-                <a className="content" href={"/chatroom/" + chatroomId}>
+                <a className="content" href={"/channel/" + _id}>
                     <div className="description clearfix">
                         <span className="name">#{name}</span>
                         <div className="ui horizontal label">

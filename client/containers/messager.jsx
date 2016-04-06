@@ -77,13 +77,13 @@ class Messager extends Component {
         }
     }
     render () {
-        const {messages, onFetchMessages, onLogInUser, onSignUpUser, onCreateChannel, user} = this.props;
+        const {messages, onLogInUser, onSignUpUser, onCreateChannel, user, channel} = this.props;
         return (
             <div className="messager">
                 <MenuRail/>
                 <div className="main-messager">
                     <div id="message-box" className="message-box" ref="messageBox">
-                        <h3 className="ui dividing header messager-header sticky" style={{paddingTop: "10px"}}>台積電</h3>
+                        <h3 className="ui dividing header messager-header sticky" style={{paddingTop: "10px"}}>{channel.name}</h3>
                         <div className="ui comments">
                             <div className="message-list" ref="messageList">
                                 {this.renderTextMessage(messages)}
@@ -106,10 +106,15 @@ class Messager extends Component {
     }
 }
 Messager.propTypes = {
-    userId: PropTypes.string.isRequired,
     user: PropTypes.shape({
         _id: PropTypes.string.isRequired,
         username: PropTypes.string.isRequired,
+    }),
+    channel: PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        ownerUsername: PropTypes.string.isRequired,
+        chatroomId: PropTypes.string.isRequired,
     }),
     chatroomId: PropTypes.string.isRequired,
     messages: PropTypes.array.isRequired,
