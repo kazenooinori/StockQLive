@@ -44,6 +44,7 @@ app.use("/chatroom", require("./routes/chatroom"));
 
 // api
 app.use("/user", require("./routes/user"));
+app.use("/channel", require("./routes/channel"));
 app.use("/signup", require("./routes/signup"));
 app.use("/login", require("./routes/login"));
 app.use("/logout", require("./routes/logout"));

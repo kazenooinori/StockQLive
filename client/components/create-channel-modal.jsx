@@ -2,17 +2,20 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 const CreateChannelModal = React.createClass({
+    propTypes: {
+        onCreateChannel: PropTypes.func,
+    },
     componentDidMount () {
         $(ReactDOM.findDOMNode(this.refs.createChannelModal)).modal({
             blurring: true,
         });
 
-        // const {onSignUpUser} = this.props;
+        const {onCreateChannel} = this.props;
         $('.create-channel-form').form({
             onSuccess: function (event, submitObject) {
                 event.preventDefault();
-                console.log(submitObject);
-                // onSignUpUser(submitObject);
+
+                onCreateChannel(submitObject);
             },
             fields: {
                 channel : 'empty',

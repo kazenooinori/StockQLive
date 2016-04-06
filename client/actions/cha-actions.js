@@ -191,3 +191,25 @@ export function initUser () {
         });
     };
 }
+
+
+export function createChannel (channel) {
+    return function (dispatch, getState) {
+        return fetch("/channel", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            credentials: true,
+        })
+        .then(fetchUtils.checkStatus)
+        .then(fetchUtils.parseJSON)
+        .then((channel) => {
+            console.log(channel);
+        })
+        .catch((error) => {
+            console.error("create channel error", error);
+        });
+    };
+}

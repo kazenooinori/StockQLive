@@ -50,7 +50,22 @@ function signup (attributes) {
         });
     });
 }
+function checkUserExist (attributes) {
+    return new Promise((resolve, reject) => {
+        UserModel.where(attributes).count((error, count) => {
+            if (error) {
+                reject(error);
+                return;
+            }
+            if (count === 0) {
+                reject(new Error("no such user"));
+            }
+            resolve();
+        });
+    });
+}
 
 module.exports = {
     signup,
+    checkUserExist,
 };

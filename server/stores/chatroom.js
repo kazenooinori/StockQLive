@@ -1,8 +1,8 @@
-const Chatroom = require("../models/chatroom");
+const ChatroomModel = require("../models/chatroom");
 
 function createChatroom () {
     return new Promise((resolve, reject) => {
-        Chatroom.create({name: "Test"}, (error, chatroom) => {
+        ChatroomModel.create({name: "Test"}, (error, chatroom) => {
             if (error) {
                 reject(error);
                 return;

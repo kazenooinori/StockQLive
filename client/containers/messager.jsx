@@ -76,7 +76,7 @@ class Messager extends Component {
         }
     }
     render () {
-        const {messages, onFetchMessage, onLogInUser, onSignUpUser, user} = this.props;
+        const {messages, onFetchMessage, onLogInUser, onSignUpUser, onCreateChannel, user} = this.props;
         return (
             <div className="messager">
                 <MenuRail/>
@@ -98,7 +98,8 @@ class Messager extends Component {
                     onLogInUser={onLogInUser}/>
                 <SignUpModal
                     onSignUpUser={onSignUpUser}/>
-                <CreateChannelModal/>
+                <CreateChannelModal
+                    onCreateChannel={onCreateChannel}/>
             </div>
         );
     }
@@ -144,7 +145,10 @@ const mapDispatchToProps = function (dispatch) {
         },
         onAppendMessage: function (message) {
             dispatch(ChaActions.appendMessage(message));
-        }
+        },
+        onCreateChannel: function (channel) {
+            dispatch(ChaActions.createChannel(channel));
+        },
     };
 }
 

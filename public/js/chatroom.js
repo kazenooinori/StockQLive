@@ -62,15 +62,15 @@
 
 	var _reactRedux = __webpack_require__(263);
 
-	var _chatroom = __webpack_require__(296);
+	var _chatroom = __webpack_require__(299);
 
 	var _chatroom2 = _interopRequireDefault(_chatroom);
 
-	var _reduxThunk = __webpack_require__(299);
+	var _reduxThunk = __webpack_require__(302);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-	var _reduxLogger = __webpack_require__(300);
+	var _reduxLogger = __webpack_require__(303);
 
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 
@@ -19719,19 +19719,19 @@
 
 	var _informationRail2 = _interopRequireDefault(_informationRail);
 
-	var _menuRail = __webpack_require__(289);
+	var _menuRail = __webpack_require__(291);
 
 	var _menuRail2 = _interopRequireDefault(_menuRail);
 
-	var _loginModal = __webpack_require__(292);
+	var _loginModal = __webpack_require__(294);
 
 	var _loginModal2 = _interopRequireDefault(_loginModal);
 
-	var _signupModal = __webpack_require__(294);
+	var _signupModal = __webpack_require__(296);
 
 	var _signupModal2 = _interopRequireDefault(_signupModal);
 
-	var _createChannelModal = __webpack_require__(303);
+	var _createChannelModal = __webpack_require__(298);
 
 	var _createChannelModal2 = _interopRequireDefault(_createChannelModal);
 
@@ -19870,6 +19870,7 @@
 	            var onFetchMessage = _props2.onFetchMessage;
 	            var onLogInUser = _props2.onLogInUser;
 	            var onSignUpUser = _props2.onSignUpUser;
+	            var onCreateChannel = _props2.onCreateChannel;
 	            var user = _props2.user;
 
 	            return _react2.default.createElement(
@@ -19908,7 +19909,8 @@
 	                    onLogInUser: onLogInUser }),
 	                _react2.default.createElement(_signupModal2.default, {
 	                    onSignUpUser: onSignUpUser }),
-	                _react2.default.createElement(_createChannelModal2.default, null)
+	                _react2.default.createElement(_createChannelModal2.default, {
+	                    onCreateChannel: onCreateChannel })
 	            );
 	        }
 	    }]);
@@ -19957,6 +19959,9 @@
 	        },
 	        onAppendMessage: function onAppendMessage(message) {
 	            dispatch(ChaActions.appendMessage(message));
+	        },
+	        onCreateChannel: function onCreateChannel(channel) {
+	            dispatch(ChaActions.createChannel(channel));
 	        }
 	    };
 	};
@@ -33190,7 +33195,7 @@
 
 	var ChaActions = _interopRequireWildcard(_chaActions);
 
-	var _stockItem = __webpack_require__(301);
+	var _stockItem = __webpack_require__(289);
 
 	var _stockItem2 = _interopRequireDefault(_stockItem);
 
@@ -34734,6 +34739,7 @@
 	exports.logInUser = logInUser;
 	exports.logOutUser = logOutUser;
 	exports.initUser = initUser;
+	exports.createChannel = createChannel;
 
 	var _actionTypes = __webpack_require__(285);
 
@@ -34911,6 +34917,23 @@
 	            });
 	        }).catch(function (error) {
 	            console.error("fetch user error", error);
+	        });
+	    };
+	}
+
+	function createChannel(channel) {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/channel", {
+	            method: "POST",
+	            headers: {
+	                "Content-Type": "application/json",
+	                "Accept": "application/json"
+	            },
+	            credentials: true
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (channel) {
+	            console.log(channel);
+	        }).catch(function (error) {
+	            console.error("create channel error", error);
 	        });
 	    };
 	}
@@ -35386,17 +35409,273 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
+	var _stockItemPopup = __webpack_require__(290);
+
+	var _stockItemPopup2 = _interopRequireDefault(_stockItemPopup);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var StockItem = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "StockItem",
+
+	    propTypes: {
+	        name: PropTypes.string.isRequired
+	    },
+	    componentDidMount: function componentDidMount() {
+	        $(_reactDom2.default.findDOMNode(this)).find(".content").popup({
+	            inline: true,
+	            hoverable: true,
+	            position: 'bottom left',
+	            delay: {
+	                show: 300,
+	                hide: 200
+	            }
+	        });
+	    },
+	    render: function render() {
+	        var name = this.props.name;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "stock-item item" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "content" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "description clearfix" },
+	                    _react2.default.createElement(
+	                        "span",
+	                        { className: "name" },
+	                        name
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "ui red horizontal label" },
+	                        "+0.5%"
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "ui horizontal label" },
+	                        "22.34"
+	                    )
+	                )
+	            ),
+	            _react2.default.createElement(_stockItemPopup2.default, this.props)
+	        );
+	    }
+	}));
+
+	exports.default = StockItem;
+
+/***/ },
+/* 290 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var StockItemPopup = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "StockItemPopup",
+
+	    propTypes: {
+	        name: PropTypes.string.isRequired
+	    },
+	    render: function render() {
+	        var name = this.props.name;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "stock-popup ui popup" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "header" },
+	                name
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "ui middle aligned divided list" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "content" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "header" },
+	                            _react2.default.createElement(
+	                                "span",
+	                                { className: "name" },
+	                                "目前股價"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "ui horizontal label" },
+	                                "455.33"
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "content" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "header" },
+	                            _react2.default.createElement(
+	                                "span",
+	                                { className: "name" },
+	                                "漲幅"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "ui red horizontal label" },
+	                                "0.5%"
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "content" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "header" },
+	                            _react2.default.createElement(
+	                                "span",
+	                                { className: "name" },
+	                                "成交量"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "ui horizontal label" },
+	                                "5566"
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "content" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "header" },
+	                            _react2.default.createElement(
+	                                "span",
+	                                { className: "name" },
+	                                "最高"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "ui horizontal label" },
+	                                "43"
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "content" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "header" },
+	                            _react2.default.createElement(
+	                                "span",
+	                                { className: "name" },
+	                                "最低"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "ui horizontal label" },
+	                                "39"
+	                            )
+	                        )
+	                    )
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = StockItemPopup;
+
+/***/ },
+/* 291 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(158);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
 	var _reactRedux = __webpack_require__(263);
 
 	var _chaActions = __webpack_require__(284);
 
 	var ChaActions = _interopRequireWildcard(_chaActions);
 
-	var _loggedInController = __webpack_require__(290);
+	var _loggedInController = __webpack_require__(292);
 
 	var _loggedInController2 = _interopRequireDefault(_loggedInController);
 
-	var _loggingInController = __webpack_require__(291);
+	var _loggingInController = __webpack_require__(293);
 
 	var _loggingInController2 = _interopRequireDefault(_loggingInController);
 
@@ -35552,7 +35831,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(MenuRail);
 
 /***/ },
-/* 290 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -35615,7 +35894,7 @@
 	exports.default = LoggedInController;
 
 /***/ },
-/* 291 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -35679,7 +35958,7 @@
 	exports.default = LoggingInController;
 
 /***/ },
-/* 292 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -35696,7 +35975,7 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _loginForm = __webpack_require__(293);
+	var _loginForm = __webpack_require__(295);
 
 	var _loginForm2 = _interopRequireDefault(_loginForm);
 
@@ -35766,7 +36045,7 @@
 	exports.default = LoginModal;
 
 /***/ },
-/* 293 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -35829,7 +36108,7 @@
 	exports.default = LoginForm;
 
 /***/ },
-/* 294 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -35846,7 +36125,7 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _signupForm = __webpack_require__(295);
+	var _signupForm = __webpack_require__(297);
 
 	var _signupForm2 = _interopRequireDefault(_signupForm);
 
@@ -35916,7 +36195,7 @@
 	exports.default = SignUpModal;
 
 /***/ },
-/* 295 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -35979,7 +36258,115 @@
 	exports.default = SignUpForm;
 
 /***/ },
-/* 296 */
+/* 298 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(158);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var CreateChannelModal = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "CreateChannelModal",
+
+	    propTypes: {
+	        onCreateChannel: PropTypes.func
+	    },
+	    componentDidMount: function componentDidMount() {
+	        $(_reactDom2.default.findDOMNode(this.refs.createChannelModal)).modal({
+	            blurring: true
+	        });
+
+	        var onCreateChannel = this.props.onCreateChannel;
+
+	        $('.create-channel-form').form({
+	            onSuccess: function onSuccess(event, submitObject) {
+	                event.preventDefault();
+
+	                onCreateChannel(submitObject);
+	            },
+	            fields: {
+	                channel: 'empty',
+	                channelOwner: ['empty']
+	            }
+	        });
+	    },
+	    render: function render() {
+	        return _react2.default.createElement(
+	            "div",
+	            { id: "create-channel-modal", className: "ui modal small", ref: "createChannelModal" },
+	            _react2.default.createElement("i", { className: "close icon" }),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "header" },
+	                "新增頻道"
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "content" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "description" },
+	                    _react2.default.createElement(
+	                        "form",
+	                        { className: "ui form create-channel-form" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "field" },
+	                            _react2.default.createElement(
+	                                "label",
+	                                null,
+	                                "頻道名稱"
+	                            ),
+	                            _react2.default.createElement("input", { type: "text", name: "channel", placeholder: "頻道名稱" })
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "field" },
+	                            _react2.default.createElement(
+	                                "label",
+	                                null,
+	                                "頻道主"
+	                            ),
+	                            _react2.default.createElement("input", { type: "text", name: "channelOwner", placeholder: "頻道主" })
+	                        ),
+	                        _react2.default.createElement(
+	                            "button",
+	                            { className: "ui button" },
+	                            "新增"
+	                        )
+	                    )
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = CreateChannelModal;
+
+/***/ },
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -35990,11 +36377,11 @@
 
 	var _redux = __webpack_require__(269);
 
-	var _messages = __webpack_require__(297);
+	var _messages = __webpack_require__(300);
 
 	var _messages2 = _interopRequireDefault(_messages);
 
-	var _user = __webpack_require__(298);
+	var _user = __webpack_require__(301);
 
 	var _user2 = _interopRequireDefault(_user);
 
@@ -36008,7 +36395,7 @@
 	exports.default = rootReducer;
 
 /***/ },
-/* 297 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36053,7 +36440,7 @@
 	}
 
 /***/ },
-/* 298 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36087,7 +36474,7 @@
 	}
 
 /***/ },
-/* 299 */
+/* 302 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36106,7 +36493,7 @@
 	module.exports = thunkMiddleware;
 
 /***/ },
-/* 300 */
+/* 303 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -36302,365 +36689,6 @@
 	}
 
 	module.exports = createLogger;
-
-/***/ },
-/* 301 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(158);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	var _stockItemPopup = __webpack_require__(302);
-
-	var _stockItemPopup2 = _interopRequireDefault(_stockItemPopup);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var PropTypes = _react2.default.PropTypes;
-
-
-	var StockItem = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "StockItem",
-
-	    propTypes: {
-	        name: PropTypes.string.isRequired
-	    },
-	    componentDidMount: function componentDidMount() {
-	        $(_reactDom2.default.findDOMNode(this)).find(".content").popup({
-	            inline: true,
-	            hoverable: true,
-	            position: 'bottom left',
-	            delay: {
-	                show: 300,
-	                hide: 200
-	            }
-	        });
-	    },
-	    render: function render() {
-	        var name = this.props.name;
-
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "stock-item item" },
-	            _react2.default.createElement(
-	                "div",
-	                { className: "content" },
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "description clearfix" },
-	                    _react2.default.createElement(
-	                        "span",
-	                        { className: "name" },
-	                        name
-	                    ),
-	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "ui red horizontal label" },
-	                        "+0.5%"
-	                    ),
-	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "ui horizontal label" },
-	                        "22.34"
-	                    )
-	                )
-	            ),
-	            _react2.default.createElement(_stockItemPopup2.default, this.props)
-	        );
-	    }
-	}));
-
-	exports.default = StockItem;
-
-/***/ },
-/* 302 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var PropTypes = _react2.default.PropTypes;
-
-
-	var StockItemPopup = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "StockItemPopup",
-
-	    propTypes: {
-	        name: PropTypes.string.isRequired
-	    },
-	    render: function render() {
-	        var name = this.props.name;
-
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "stock-popup ui popup" },
-	            _react2.default.createElement(
-	                "div",
-	                { className: "header" },
-	                name
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "ui middle aligned divided list" },
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "item" },
-	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "content" },
-	                        _react2.default.createElement(
-	                            "div",
-	                            { className: "header" },
-	                            _react2.default.createElement(
-	                                "span",
-	                                { className: "name" },
-	                                "目前股價"
-	                            ),
-	                            _react2.default.createElement(
-	                                "div",
-	                                { className: "ui horizontal label" },
-	                                "455.33"
-	                            )
-	                        )
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "item" },
-	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "content" },
-	                        _react2.default.createElement(
-	                            "div",
-	                            { className: "header" },
-	                            _react2.default.createElement(
-	                                "span",
-	                                { className: "name" },
-	                                "漲幅"
-	                            ),
-	                            _react2.default.createElement(
-	                                "div",
-	                                { className: "ui red horizontal label" },
-	                                "0.5%"
-	                            )
-	                        )
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "item" },
-	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "content" },
-	                        _react2.default.createElement(
-	                            "div",
-	                            { className: "header" },
-	                            _react2.default.createElement(
-	                                "span",
-	                                { className: "name" },
-	                                "成交量"
-	                            ),
-	                            _react2.default.createElement(
-	                                "div",
-	                                { className: "ui horizontal label" },
-	                                "5566"
-	                            )
-	                        )
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "item" },
-	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "content" },
-	                        _react2.default.createElement(
-	                            "div",
-	                            { className: "header" },
-	                            _react2.default.createElement(
-	                                "span",
-	                                { className: "name" },
-	                                "最高"
-	                            ),
-	                            _react2.default.createElement(
-	                                "div",
-	                                { className: "ui horizontal label" },
-	                                "43"
-	                            )
-	                        )
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "item" },
-	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "content" },
-	                        _react2.default.createElement(
-	                            "div",
-	                            { className: "header" },
-	                            _react2.default.createElement(
-	                                "span",
-	                                { className: "name" },
-	                                "最低"
-	                            ),
-	                            _react2.default.createElement(
-	                                "div",
-	                                { className: "ui horizontal label" },
-	                                "39"
-	                            )
-	                        )
-	                    )
-	                )
-	            )
-	        );
-	    }
-	}));
-
-	exports.default = StockItemPopup;
-
-/***/ },
-/* 303 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(158);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var CreateChannelModal = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "CreateChannelModal",
-	    componentDidMount: function componentDidMount() {
-	        $(_reactDom2.default.findDOMNode(this.refs.createChannelModal)).modal({
-	            blurring: true
-	        });
-
-	        // const {onSignUpUser} = this.props;
-	        $('.create-channel-form').form({
-	            onSuccess: function onSuccess(event, submitObject) {
-	                event.preventDefault();
-	                console.log(submitObject);
-	                // onSignUpUser(submitObject);
-	            },
-	            fields: {
-	                channel: 'empty',
-	                channelOwner: ['empty']
-	            }
-	        });
-	    },
-	    render: function render() {
-	        return _react2.default.createElement(
-	            "div",
-	            { id: "create-channel-modal", className: "ui modal small", ref: "createChannelModal" },
-	            _react2.default.createElement("i", { className: "close icon" }),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "header" },
-	                "新增頻道"
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "content" },
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "description" },
-	                    _react2.default.createElement(
-	                        "form",
-	                        { className: "ui form create-channel-form" },
-	                        _react2.default.createElement(
-	                            "div",
-	                            { className: "field" },
-	                            _react2.default.createElement(
-	                                "label",
-	                                null,
-	                                "頻道名稱"
-	                            ),
-	                            _react2.default.createElement("input", { type: "text", name: "channel", placeholder: "頻道名稱" })
-	                        ),
-	                        _react2.default.createElement(
-	                            "div",
-	                            { className: "field" },
-	                            _react2.default.createElement(
-	                                "label",
-	                                null,
-	                                "頻道主"
-	                            ),
-	                            _react2.default.createElement("input", { type: "text", name: "channelOwner", placeholder: "頻道主" })
-	                        ),
-	                        _react2.default.createElement(
-	                            "button",
-	                            { className: "ui button" },
-	                            "新增"
-	                        )
-	                    )
-	                )
-	            )
-	        );
-	    }
-	}));
-
-	exports.default = CreateChannelModal;
 
 /***/ }
 /******/ ]);
