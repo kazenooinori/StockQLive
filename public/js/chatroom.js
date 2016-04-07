@@ -35777,7 +35777,9 @@
 	        });
 	    },
 	    render: function render() {
-	        var channels = this.props.channels;
+	        var _props2 = this.props;
+	        var personalChannels = _props2.personalChannels;
+	        var publicChannels = _props2.publicChannels;
 
 	        return _react2.default.createElement(
 	            "div",
@@ -35796,54 +35798,16 @@
 	                _react2.default.createElement(
 	                    "div",
 	                    { className: "channel-list ui middle aligned selection list" },
-	                    this.renderChannels(channels)
+	                    this.renderChannels(personalChannels)
 	                )
 	            ),
 	            _react2.default.createElement(
 	                "div",
 	                { className: "ui tab segment board", "data-tab": "market" },
 	                _react2.default.createElement(
-	                    "button",
-	                    { className: "ui blue basic button" },
-	                    "新增公開趨勢"
-	                ),
-	                _react2.default.createElement(
 	                    "div",
 	                    { className: "channel-list ui middle aligned selection list" },
-	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "channel-item item" },
-	                        _react2.default.createElement(
-	                            "a",
-	                            { className: "content", href: "/trend" },
-	                            _react2.default.createElement(
-	                                "div",
-	                                { className: "description clearfix" },
-	                                _react2.default.createElement(
-	                                    "span",
-	                                    { className: "name" },
-	                                    "#上市股票"
-	                                )
-	                            )
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "channel-item item" },
-	                        _react2.default.createElement(
-	                            "a",
-	                            { className: "content", href: "/trend/" },
-	                            _react2.default.createElement(
-	                                "div",
-	                                { className: "description clearfix" },
-	                                _react2.default.createElement(
-	                                    "span",
-	                                    { className: "name" },
-	                                    "#上櫃股票"
-	                                )
-	                            )
-	                        )
-	                    )
+	                    this.renderChannels(publicChannels)
 	                )
 	            )
 	        );
@@ -35852,7 +35816,12 @@
 
 	var mapStateToProps = function mapStateToProps(state) {
 	    return {
-	        channels: state.channels,
+	        personalChannels: state.channels.filter(function (channel) {
+	            return channel.type === "personal";
+	        }),
+	        publicChannels: state.channels.filter(function (channel) {
+	            return channel.type === "public";
+	        }),
 	        user: state.user
 	    };
 	};
@@ -36442,6 +36411,34 @@
 	                    _react2.default.createElement(
 	                        "form",
 	                        { className: "ui form create-channel-form" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "field" },
+	                            _react2.default.createElement(
+	                                "label",
+	                                null,
+	                                "頻道種類"
+	                            ),
+	                            _react2.default.createElement(
+	                                "select",
+	                                { name: "type" },
+	                                _react2.default.createElement(
+	                                    "option",
+	                                    { value: "" },
+	                                    "無選擇"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "option",
+	                                    { value: "personal" },
+	                                    "個人"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "option",
+	                                    { value: "public" },
+	                                    "公開"
+	                                )
+	                            )
+	                        ),
 	                        _react2.default.createElement(
 	                            "div",
 	                            { className: "field" },

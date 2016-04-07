@@ -16,8 +16,8 @@ router.get("/", (req, res) => {
     });
 });
 router.post("/", (req, res) => {
-    const {name, ownerUsername} = req.body;
-    if (!name || !ownerUsername) {
+    const {name, ownerUsername, type} = req.body;
+    if (!name || !ownerUsername || !type) {
         res.writeHead(400, {
             "Content-Type": "application/json",
         });
@@ -38,6 +38,7 @@ router.post("/", (req, res) => {
         const attributes = {
             name: name,
             ownerUsername: ownerUsername,
+            type: type,
             chatroomId: chatroom._id,
         };
         return ChannelStore.createChannel(attributes);

@@ -72,7 +72,7 @@ const MenuRail = React.createClass({
         });
     },
     render () {
-        const {channels} = this.props;
+        const {personalChannels, publicChannels} = this.props;
         return (
             <div className="menu-rail">
                 <a className="logo">
@@ -83,26 +83,12 @@ const MenuRail = React.createClass({
                 <div className="ui tab segment board active" data-tab="channel">
                     {this.renderCreateChannel()}
                     <div className="channel-list ui middle aligned selection list">
-                        {this.renderChannels(channels)}
+                        {this.renderChannels(personalChannels)}
                     </div>
                 </div>
                 <div className="ui tab segment board" data-tab="market">
-                    <button className="ui blue basic button">新增公開趨勢</button>
                     <div className="channel-list ui middle aligned selection list">
-                        <div className="channel-item item">
-                            <a className="content" href="/trend">
-                                <div className="description clearfix">
-                                    <span className="name">#上市股票</span>
-                                </div>
-                            </a>
-                        </div>
-                        <div className="channel-item item">
-                            <a className="content" href="/trend/">
-                                <div className="description clearfix">
-                                    <span className="name">#上櫃股票</span>
-                                </div>
-                            </a>
-                        </div>
+                        {this.renderChannels(publicChannels)}
                     </div>
                 </div>
             </div>
@@ -112,7 +98,8 @@ const MenuRail = React.createClass({
 
 const mapStateToProps = function (state) {
     return {
-        channels: state.channels,
+        personalChannels: state.channels.filter((channel) => channel.type === "personal"),
+        publicChannels: state.channels.filter((channel) => channel.type === "public"),
         user: state.user,
     };
 };

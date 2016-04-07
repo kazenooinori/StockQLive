@@ -15,7 +15,7 @@ function createChannel (attributes) {
 }
 function findChannels (attributes) {
     return new Promise((resolve, reject) => {
-        ChannelModel.find({}, "name ownerUsername chatroomId")
+        ChannelModel.find({}, "name ownerUsername type chatroomId")
         .exec((error, docs) => {
             if (error) {
                 reject(error);
@@ -27,7 +27,7 @@ function findChannels (attributes) {
 }
 function findChannelById (channelId) {
     return new Promise((resolve, reject) => {
-        ChannelModel.findOne({_id: new ObjectId(channelId)}, "name ownerUsername chatroomId")
+        ChannelModel.findOne({_id: new ObjectId(channelId)}, "name type ownerUsername chatroomId")
         .exec((error, doc) => {
             if (error) {
                 reject(error);

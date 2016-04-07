@@ -36,6 +36,14 @@ const CreateChannelModal = React.createClass({
                     <div className="description">
                         <form className="ui form create-channel-form">
                             <div className="field">
+                                <label>頻道種類</label>
+                                <select name="type">
+                                    <option value="">無選擇</option>
+                                    <option value="personal">個人</option>
+                                    <option value="public">公開</option>
+                                </select>
+                            </div>
+                            <div className="field">
                                 <label>頻道名稱</label>
                                 <input type="text" name="name" placeholder="頻道名稱"/>
                             </div>
