@@ -35730,6 +35730,9 @@
 	            $("#signup-modal").modal("hide");
 	        }
 	    },
+	    componentDidMount: function componentDidMount() {
+	        $(_reactDom2.default.findDOMNode(this.refs.menu)).find('.item').tab();
+	    },
 	    renderLoginStatus: function renderLoginStatus() {
 	        var _props = this.props;
 	        var user = _props.user;
@@ -35744,6 +35747,22 @@
 	                onClickLogin: this.onClickLogin,
 	                onClickSignUp: this.onClickSignUp });
 	        }
+	    },
+	    renderTab: function renderTab() {
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "ui secondary menu", ref: "menu" },
+	            _react2.default.createElement(
+	                "a",
+	                { className: "item active", "data-tab": "channel" },
+	                "個人頻道"
+	            ),
+	            _react2.default.createElement(
+	                "a",
+	                { className: "item", "data-tab": "market" },
+	                "公開"
+	            )
+	        );
 	    },
 	    renderCreateChannel: function renderCreateChannel() {
 	        return _react2.default.createElement(
@@ -35769,14 +35788,62 @@
 	                _react2.default.createElement("img", { src: "/images/logo.png" })
 	            ),
 	            this.renderLoginStatus(),
+	            this.renderTab(),
 	            _react2.default.createElement(
 	                "div",
-	                { className: "ui tab segment board active" },
+	                { className: "ui tab segment board active", "data-tab": "channel" },
 	                this.renderCreateChannel(),
 	                _react2.default.createElement(
 	                    "div",
 	                    { className: "channel-list ui middle aligned selection list" },
 	                    this.renderChannels(channels)
+	                )
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "ui tab segment board", "data-tab": "market" },
+	                _react2.default.createElement(
+	                    "button",
+	                    { className: "ui blue basic button" },
+	                    "新增公開趨勢"
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "channel-list ui middle aligned selection list" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "channel-item item" },
+	                        _react2.default.createElement(
+	                            "a",
+	                            { className: "content", href: "/trend" },
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "description clearfix" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "name" },
+	                                    "#上市股票"
+	                                )
+	                            )
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "channel-item item" },
+	                        _react2.default.createElement(
+	                            "a",
+	                            { className: "content", href: "/trend/" },
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "description clearfix" },
+	                                _react2.default.createElement(
+	                                    "span",
+	                                    { className: "name" },
+	                                    "#上櫃股票"
+	                                )
+	                            )
+	                        )
+	                    )
 	                )
 	            )
 	        );

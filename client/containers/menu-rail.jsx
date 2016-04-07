@@ -32,6 +32,9 @@ const MenuRail = React.createClass({
             $("#signup-modal").modal("hide");
         }
     },
+    componentDidMount () {
+        $(ReactDOM.findDOMNode(this.refs.menu)).find('.item').tab();
+    },
     renderLoginStatus () {
         const {user, onLogOutUser} = this.props;
         if (user.username) {
@@ -47,6 +50,14 @@ const MenuRail = React.createClass({
                     onClickSignUp={this.onClickSignUp}/>
             );
         }
+    },
+    renderTab () {
+        return (
+            <div className="ui secondary menu" ref="menu">
+                <a className="item active" data-tab="channel">個人頻道</a>
+                <a className="item" data-tab="market">公開</a>
+            </div>
+        );
     },
     renderCreateChannel () {
         return (
@@ -68,10 +79,30 @@ const MenuRail = React.createClass({
                     <img src="/images/logo.png"/>
                 </a>
                 {this.renderLoginStatus()}
-                <div className="ui tab segment board active">
+                {this.renderTab()}
+                <div className="ui tab segment board active" data-tab="channel">
                     {this.renderCreateChannel()}
                     <div className="channel-list ui middle aligned selection list">
                         {this.renderChannels(channels)}
+                    </div>
+                </div>
+                <div className="ui tab segment board" data-tab="market">
+                    <button className="ui blue basic button">新增公開趨勢</button>
+                    <div className="channel-list ui middle aligned selection list">
+                        <div className="channel-item item">
+                            <a className="content" href="/trend">
+                                <div className="description clearfix">
+                                    <span className="name">#上市股票</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div className="channel-item item">
+                            <a className="content" href="/trend/">
+                                <div className="description clearfix">
+                                    <span className="name">#上櫃股票</span>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
