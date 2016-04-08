@@ -14,7 +14,8 @@ const MenuRail = React.createClass({
             _id: PropTypes.string.isRequired,
             username: PropTypes.string.isRequired,
         }),
-        channels: PropTypes.array.isRequired,
+        personalChannels: PropTypes.array.isRequired,
+        publicChannels: PropTypes.array.isRequired,
         onLogOutUser: PropTypes.func.isRequired,
     },
     onClickLogin () {
