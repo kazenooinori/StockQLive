@@ -187,3 +187,28 @@ export function fetchChannels () {
         });
     };
 }
+
+
+export function updateStocks () {
+    return function (dispatch, getState) {
+        return fetch("/api/stock", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            credentials: true,
+        })
+        .then(fetchUtils.checkStatus)
+        .then(fetchUtils.parseJSON)
+        .then((stocks) => {
+            dispatch({
+                type: types.UPDATE_STOCKS,
+                stocks,
+            });
+        })
+        .catch((error) => {
+            console.error("create channel error", error);
+        });
+    };
+}

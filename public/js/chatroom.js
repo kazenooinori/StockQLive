@@ -33237,12 +33237,32 @@
 	var PropTypes = _react2.default.PropTypes;
 
 
+	var checkLatestPrice = function checkLatestPrice(stock) {
+	    return stock.latest_price !== -1;
+	};
 	var InformationRail = _wrapComponent("_component")(_react2.default.createClass({
 	    displayName: "InformationRail",
+
+	    propTypes: {
+	        stocks: PropTypes.array
+	    },
 	    componentDidMount: function componentDidMount() {
 	        $(_reactDom2.default.findDOMNode(this.refs.menu)).find('.item').tab();
+
+	        this.props.updateStocks();
+	    },
+	    renderStockItems: function renderStockItems(stocks) {
+	        return stocks.filter(checkLatestPrice).map(function (stock) {
+	            return _react2.default.createElement(_stockItem2.default, {
+	                key: stock.number,
+	                name: stock.name,
+	                latestPrice: stock.latest_price,
+	                yesterdayPrice: stock.yesterday_price });
+	        });
 	    },
 	    render: function render() {
+	        var stocks = this.props.stocks;
+
 	        return _react2.default.createElement(
 	            "div",
 	            { className: "information-rail" },
@@ -33266,10 +33286,7 @@
 	                _react2.default.createElement(
 	                    "div",
 	                    { className: "stock-list ui middle aligned selection list" },
-	                    _react2.default.createElement(_stockItem2.default, {
-	                        name: "台積電5278" }),
-	                    _react2.default.createElement(_stockItem2.default, {
-	                        name: "宏達電5566" })
+	                    this.renderStockItems(stocks)
 	                )
 	            ),
 	            _react2.default.createElement(
@@ -33281,7 +33298,20 @@
 	    }
 	}));
 
-	exports.default = InformationRail;
+	var mapStateToProps = function mapStateToProps(state) {
+	    return {
+	        stocks: state.stocks
+	    };
+	};
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	    return {
+	        updateStocks: function updateStocks() {
+	            dispatch(ChaActions.updateStocks());
+	        }
+	    };
+	};
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(InformationRail);
 
 /***/ },
 /* 263 */
@@ -34759,6 +34789,7 @@
 	exports.initUser = initUser;
 	exports.createChannel = createChannel;
 	exports.fetchChannels = fetchChannels;
+	exports.updateStocks = updateStocks;
 
 	var _actionTypes = __webpack_require__(285);
 
@@ -34935,6 +34966,26 @@
 	    };
 	}
 
+	function updateStocks() {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/api/stock", {
+	            method: "GET",
+	            headers: {
+	                "Content-Type": "application/json",
+	                "Accept": "application/json"
+	            },
+	            credentials: true
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stocks) {
+	            dispatch({
+	                type: types.UPDATE_STOCKS,
+	                stocks: stocks
+	            });
+	        }).catch(function (error) {
+	            console.error("create channel error", error);
+	        });
+	    };
+	}
+
 /***/ },
 /* 285 */
 /***/ function(module, exports) {
@@ -34953,6 +35004,8 @@
 	var APPEND_CHANNEL = exports.APPEND_CHANNEL = "APPEND_CHANNEL";
 	var APPEND_CHANNELS = exports.APPEND_CHANNELS = "APPEND_CHANNELS";
 	var UPDATE_CHANNEL = exports.UPDATE_CHANNEL = "UPDATE_CHANNEL";
+
+	var UPDATE_STOCKS = exports.UPDATE_STOCKS = "UPDATE_STOCKS";
 
 	var FETCH_ALL_REQUESTS = exports.FETCH_ALL_REQUESTS = "FETCH_ALL_REQUESTS";
 	var APPEND_REQUESTS = exports.APPEND_REQUESTS = "APPEND_REQUESTS";
@@ -35433,7 +35486,9 @@
 	    displayName: "StockItem",
 
 	    propTypes: {
-	        name: PropTypes.string.isRequired
+	        name: PropTypes.string.isRequired,
+	        latestPrice: PropTypes.number.isRequired,
+	        yesterdayPrice: PropTypes.number.isRequired
 	    },
 	    componentDidMount: function componentDidMount() {
 	        $(_reactDom2.default.findDOMNode(this)).find(".content").popup({
@@ -35447,8 +35502,13 @@
 	        });
 	    },
 	    render: function render() {
-	        var name = this.props.name;
+	        var _props = this.props;
+	        var name = _props.name;
+	        var latestPrice = _props.latestPrice;
+	        var yesterdayPrice = _props.yesterdayPrice;
 
+	        var difference = (100 * (yesterdayPrice - latestPrice) / yesterdayPrice).toFixed(2);
+	        var labelClass = difference >= 0 ? "red" : "green";
 	        return _react2.default.createElement(
 	            "div",
 	            { className: "stock-item item" },
@@ -35465,13 +35525,14 @@
 	                    ),
 	                    _react2.default.createElement(
 	                        "div",
-	                        { className: "ui red horizontal label" },
-	                        "+0.5%"
+	                        { className: "ui horizontal label " + labelClass },
+	                        difference,
+	                        "%"
 	                    ),
 	                    _react2.default.createElement(
 	                        "div",
 	                        { className: "ui horizontal label" },
-	                        "22.34"
+	                        latestPrice
 	                    )
 	                )
 	            ),
@@ -36494,6 +36555,10 @@
 
 	var _channels2 = _interopRequireDefault(_channels);
 
+	var _stocks = __webpack_require__(307);
+
+	var _stocks2 = _interopRequireDefault(_stocks);
+
 	var _messages = __webpack_require__(303);
 
 	var _messages2 = _interopRequireDefault(_messages);
@@ -36507,6 +36572,7 @@
 	var rootReducer = (0, _redux.combineReducers)({
 	    channel: _channel2.default,
 	    channels: _channels2.default,
+	    stocks: _stocks2.default,
 	    messages: _messages2.default,
 	    user: _user2.default
 	});
@@ -36870,6 +36936,37 @@
 	}
 
 	module.exports = createLogger;
+
+/***/ },
+/* 307 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = Stocks;
+
+	var _actionTypes = __webpack_require__(285);
+
+	var types = _interopRequireWildcard(_actionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	function Stocks() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.UPDATE_STOCKS:
+	            return [].concat(_toConsumableArray(action.stocks));
+	        default:
+	            return state;
+	    }
+	}
 
 /***/ }
 /******/ ]);

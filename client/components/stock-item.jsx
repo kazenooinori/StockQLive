@@ -7,6 +7,8 @@ const {PropTypes} = React;
 const StockItem = React.createClass({
     propTypes: {
         name: PropTypes.string.isRequired,
+        latestPrice: PropTypes.number.isRequired,
+        yesterdayPrice: PropTypes.number.isRequired,
     },
     componentDidMount () {
         $(ReactDOM.findDOMNode(this)).find(".content").popup({
@@ -20,14 +22,16 @@ const StockItem = React.createClass({
         });
     },
     render () {
-        const {name} = this.props;
+        const {name, latestPrice, yesterdayPrice} = this.props;
+        const difference = (100*(yesterdayPrice - latestPrice)/yesterdayPrice).toFixed(2);
+        const labelClass = difference >= 0 ? "red" : "green";
         return (
             <div className="stock-item item">
                 <div className="content">
                     <div className="description clearfix">
                         <span className="name">{name}</span>
-                        <div className="ui red horizontal label">+0.5%</div>
-                        <div className="ui horizontal label">22.34</div>
+                        <div className={"ui horizontal label " + labelClass}>{difference}%</div>
+                        <div className="ui horizontal label">{latestPrice}</div>
                     </div>
                 </div>
                 <StockItemPopup {...this.props}/>
