@@ -9,7 +9,6 @@ const CreateChannelModal = React.createClass({
     },
     componentDidMount () {
         $(ReactDOM.findDOMNode(this.refs.createChannelModal)).modal({
-            blurring: true,
         });
 
         const {onCreateChannel} = this.props;

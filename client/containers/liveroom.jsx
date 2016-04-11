@@ -66,6 +66,9 @@ const Liveroom = React.createClass({
                     <MenuRail/>
                 </div>
                 <div className="main_col">
+                    <h1 className="ui dividing header">
+                        {channel.name}
+                    </h1>
                     <Messager
                         channel={channel}
                         socket={socket}/>

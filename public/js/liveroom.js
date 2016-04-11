@@ -35803,6 +35803,11 @@
 	            _react2.default.createElement(
 	                "div",
 	                { className: "main_col" },
+	                _react2.default.createElement(
+	                    "h1",
+	                    { className: "ui dividing header" },
+	                    channel.name
+	                ),
 	                _react2.default.createElement(_messager2.default, {
 	                    channel: channel,
 	                    socket: socket }),
@@ -36689,9 +36694,7 @@
 	        onLogInUser: PropTypes.func
 	    },
 	    componentDidMount: function componentDidMount() {
-	        $(_reactDom2.default.findDOMNode(this.refs.loginModal)).modal({
-	            blurring: true
-	        });
+	        $(_reactDom2.default.findDOMNode(this.refs.loginModal)).modal({});
 
 	        var onLogInUser = this.props.onLogInUser;
 
@@ -36839,9 +36842,7 @@
 	        onSignUpUser: PropTypes.func
 	    },
 	    componentDidMount: function componentDidMount() {
-	        $(_reactDom2.default.findDOMNode(this.refs.signupModal)).modal({
-	            blurring: true
-	        });
+	        $(_reactDom2.default.findDOMNode(this.refs.signupModal)).modal({});
 
 	        var onSignUpUser = this.props.onSignUpUser;
 
@@ -36985,9 +36986,7 @@
 	        onCreateChannel: PropTypes.func
 	    },
 	    componentDidMount: function componentDidMount() {
-	        $(_reactDom2.default.findDOMNode(this.refs.createChannelModal)).modal({
-	            blurring: true
-	        });
+	        $(_reactDom2.default.findDOMNode(this.refs.createChannelModal)).modal({});
 
 	        var onCreateChannel = this.props.onCreateChannel;
 

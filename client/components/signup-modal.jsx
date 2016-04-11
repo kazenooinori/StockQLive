@@ -10,7 +10,6 @@ const SignUpModal = React.createClass({
     },
     componentDidMount () {
         $(ReactDOM.findDOMNode(this.refs.signupModal)).modal({
-            blurring: true,
         });
 
         const {onSignUpUser} = this.props;

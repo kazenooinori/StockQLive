@@ -10,7 +10,6 @@ const LoginModal = React.createClass({
     },
     componentDidMount () {
         $(ReactDOM.findDOMNode(this.refs.loginModal)).modal({
-            blurring: true,
         });
 
         const {onLogInUser} = this.props;
