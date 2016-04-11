@@ -18,7 +18,7 @@ export default function chatSocket (server) {
                 content: data.content,
             })
             .then((message) => {
-                socket.emit("server push", message);
+                _chatSocket.emit("server push", message);
                 console.log("message saved ", message);
             })
             .catch((error) => {
