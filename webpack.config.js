@@ -3,6 +3,7 @@ module.exports = {
     context: __dirname + "/client",
     entry: {
         chatroom: "./chatroom.jsx",
+        liveroom: "./liveroom.jsx",
         // home: "./home.jsx",
     },
     output: {
