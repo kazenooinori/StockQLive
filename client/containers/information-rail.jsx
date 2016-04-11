@@ -33,15 +33,11 @@ const InformationRail = React.createClass({
             <div className="information-rail">
                 <div className="ui secondary menu" ref="menu">
                     <a className="item active" data-tab="stockprice">股價</a>
-                    <a className="item" data-tab="news">新聞</a>
                 </div>
                 <div className="ui tab segment board active" data-tab="stockprice">
                     <div className="stock-list ui middle aligned selection list">
                         {this.renderStockItems(stocks)}
                     </div>
-                </div>
-                <div className="ui tab segment board" data-tab="news">
-                    新聞放在這裡
                 </div>
             </div>
         );

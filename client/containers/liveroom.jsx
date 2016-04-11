@@ -11,6 +11,9 @@ import * as ChaActions from '../actions/cha-actions';
 
 const {Component, PropTypes} = React;
 
+const checkLatestPrice = (stock) => stock.latest_price !== -1;
+import StockItem from "../components/stock-item";
+
 const Liveroom = React.createClass({
     propTypes: {
         user: PropTypes.shape({
@@ -34,16 +37,52 @@ const Liveroom = React.createClass({
         const {onFetchChannels, onInitUser} = this.props;
         onInitUser();
         onFetchChannels();
+
+        this.props.updateStocks();
+    },
+    renderStockItems (stocks) {
+        return stocks.filter(checkLatestPrice).map((stock) => {
+            return (
+                <StockItem
+                    key={stock.number}
+                    name={stock.name}
+                    latestPrice={stock.latest_price}
+                    yesterdayPrice={stock.yesterday_price}/>
+            );
+        });
     },
     render () {
-        const {onLogInUser, onSignUpUser, onCreateChannel, channel, socket} = this.props;
+        const {
+            onLogInUser,
+            onSignUpUser,
+            onCreateChannel,
+            channel,
+            socket,
+            stocks,
+        } = this.props;
         return (
-            <div className="messager">
-                <MenuRail/>
-                <Messager
-                    channel={channel}
-                    socket={socket}/>
-                <InformationRail/>
+            <div className="liveroom">
+                <div className="left_col">
+                    <MenuRail/>
+                </div>
+                <div className="main_col">
+                    <Messager
+                        channel={channel}
+                        socket={socket}/>
+                    <div className="tail">
+                        <div className="ui tab segment board active">
+                            <div className="stock-list ui middle aligned selection list">
+                                {this.renderStockItems(stocks)}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="right_col">
+                    <Messager
+                        channel={channel}
+                        socket={socket}/>
+                </div>
+
                 <LoginModal
                     onLogInUser={onLogInUser}/>
                 <SignUpModal
@@ -54,10 +93,15 @@ const Liveroom = React.createClass({
         );
     },
 });
+/*
+
+
+ */
 
 const mapStateToProps = function (state) {
     return {
         user: state.user,
+        stocks: state.stocks,
     };
 }
 const mapDispatchToProps = function (dispatch) {
@@ -76,6 +120,9 @@ const mapDispatchToProps = function (dispatch) {
         },
         onCreateChannel: function (channel) {
             dispatch(ChaActions.createChannel(channel));
+        },
+        updateStocks: () => {
+            dispatch(ChaActions.updateStocks());
         },
     };
 }

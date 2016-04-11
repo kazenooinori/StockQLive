@@ -4,8 +4,10 @@
     <meta charset="utf-8">
     <title>Hello React</title>
     <link rel="stylesheet" type="text/css" href="/semantic/semantic.min.css">
+    <link rel="stylesheet" href="/css/general.css">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/messager.css">
+    <link rel="stylesheet" href="/css/liveroom.css">
   </head>
   <body>
     <div id="main" data-channel-id={channelId} data-chatroom-id={chatroomId} data-channel-name={channelName} data-owner-username={ownerUsername}>Loading...</div>

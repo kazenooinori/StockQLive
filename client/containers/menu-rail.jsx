@@ -57,6 +57,7 @@ const MenuRail = React.createClass({
             <div className="ui secondary menu" ref="menu">
                 <a className="item active" data-tab="channel">個人頻道</a>
                 <a className="item" data-tab="market">公開</a>
+                <a className="item" data-tab="news">新聞</a>
             </div>
         );
     },
@@ -91,6 +92,9 @@ const MenuRail = React.createClass({
                     <div className="channel-list ui middle aligned selection list">
                         {this.renderChannels(publicChannels)}
                     </div>
+                </div>
+                <div className="ui tab segment board" data-tab="news">
+                    新聞放在這
                 </div>
             </div>
         );

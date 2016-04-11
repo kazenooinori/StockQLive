@@ -58,23 +58,23 @@
 
 	var _messager2 = _interopRequireDefault(_messager);
 
-	var _redux = __webpack_require__(269);
+	var _redux = __webpack_require__(268);
 
-	var _reactRedux = __webpack_require__(263);
+	var _reactRedux = __webpack_require__(262);
 
-	var _chatroom = __webpack_require__(300);
+	var _chatroom = __webpack_require__(288);
 
 	var _chatroom2 = _interopRequireDefault(_chatroom);
 
-	var _reduxThunk = __webpack_require__(306);
+	var _reduxThunk = __webpack_require__(294);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-	var _reduxLogger = __webpack_require__(307);
+	var _reduxLogger = __webpack_require__(295);
 
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 
-	var _liveroom = __webpack_require__(308);
+	var _liveroom = __webpack_require__(296);
 
 	var _liveroom2 = _interopRequireDefault(_liveroom);
 
@@ -19725,9 +19725,9 @@
 
 	var _textMessage2 = _interopRequireDefault(_textMessage);
 
-	var _reactRedux = __webpack_require__(263);
+	var _reactRedux = __webpack_require__(262);
 
-	var _chaActions = __webpack_require__(284);
+	var _chaActions = __webpack_require__(283);
 
 	var ChaActions = _interopRequireWildcard(_chaActions);
 
@@ -19853,15 +19853,10 @@
 
 	        return _react2.default.createElement(
 	            "div",
-	            { className: "main-messager" },
+	            { className: "messager" },
 	            _react2.default.createElement(
 	                "div",
 	                { id: "message-box", className: "message-box", ref: "messageBox" },
-	                _react2.default.createElement(
-	                    "h3",
-	                    { className: "ui dividing header messager-header sticky", style: { paddingTop: "10px" } },
-	                    channel.name
-	                ),
 	                _react2.default.createElement(
 	                    "div",
 	                    { className: "ui comments" },
@@ -19880,7 +19875,9 @@
 	        );
 	    }
 	}));
-
+	/*
+	<h3 className="ui dividing header messager-header sticky" style={{paddingTop: "10px"}}>{channel.name}</h3>
+	 */
 	var mapStateToProps = function mapStateToProps(state) {
 	    return {
 	        user: state.user,
@@ -33110,138 +33107,16 @@
 /* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(158);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	var _reactRedux = __webpack_require__(263);
-
-	var _chaActions = __webpack_require__(284);
-
-	var ChaActions = _interopRequireWildcard(_chaActions);
-
-	var _stockItem = __webpack_require__(289);
-
-	var _stockItem2 = _interopRequireDefault(_stockItem);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var Component = _react2.default.Component;
-	var PropTypes = _react2.default.PropTypes;
-
-
-	var checkLatestPrice = function checkLatestPrice(stock) {
-	    return stock.latest_price !== -1;
-	};
-	var InformationRail = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "InformationRail",
-
-	    propTypes: {
-	        stocks: PropTypes.array
-	    },
-	    componentDidMount: function componentDidMount() {
-	        $(_reactDom2.default.findDOMNode(this.refs.menu)).find('.item').tab();
-
-	        this.props.updateStocks();
-	    },
-	    renderStockItems: function renderStockItems(stocks) {
-	        return stocks.filter(checkLatestPrice).map(function (stock) {
-	            return _react2.default.createElement(_stockItem2.default, {
-	                key: stock.number,
-	                name: stock.name,
-	                latestPrice: stock.latest_price,
-	                yesterdayPrice: stock.yesterday_price });
-	        });
-	    },
-	    render: function render() {
-	        var stocks = this.props.stocks;
-
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "information-rail" },
-	            _react2.default.createElement(
-	                "div",
-	                { className: "ui secondary menu", ref: "menu" },
-	                _react2.default.createElement(
-	                    "a",
-	                    { className: "item active", "data-tab": "stockprice" },
-	                    "股價"
-	                ),
-	                _react2.default.createElement(
-	                    "a",
-	                    { className: "item", "data-tab": "news" },
-	                    "新聞"
-	                )
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "ui tab segment board active", "data-tab": "stockprice" },
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "stock-list ui middle aligned selection list" },
-	                    this.renderStockItems(stocks)
-	                )
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "ui tab segment board", "data-tab": "news" },
-	                "新聞放在這裡"
-	            )
-	        );
-	    }
-	}));
-
-	var mapStateToProps = function mapStateToProps(state) {
-	    return {
-	        stocks: state.stocks
-	    };
-	};
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	    return {
-	        updateStocks: function updateStocks() {
-	            dispatch(ChaActions.updateStocks());
-	        }
-	    };
-	};
-
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(InformationRail);
-
-/***/ },
-/* 263 */
-/***/ function(module, exports, __webpack_require__) {
-
 	'use strict';
 
 	exports.__esModule = true;
 	exports.connect = exports.Provider = undefined;
 
-	var _Provider = __webpack_require__(264);
+	var _Provider = __webpack_require__(263);
 
 	var _Provider2 = _interopRequireDefault(_Provider);
 
-	var _connect = __webpack_require__(266);
+	var _connect = __webpack_require__(265);
 
 	var _connect2 = _interopRequireDefault(_connect);
 
@@ -33251,7 +33126,7 @@
 	exports.connect = _connect2["default"];
 
 /***/ },
-/* 264 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -33261,7 +33136,7 @@
 
 	var _react = __webpack_require__(1);
 
-	var _storeShape = __webpack_require__(265);
+	var _storeShape = __webpack_require__(264);
 
 	var _storeShape2 = _interopRequireDefault(_storeShape);
 
@@ -33335,7 +33210,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 265 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33351,7 +33226,7 @@
 	});
 
 /***/ },
-/* 266 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -33363,27 +33238,27 @@
 
 	var _react = __webpack_require__(1);
 
-	var _storeShape = __webpack_require__(265);
+	var _storeShape = __webpack_require__(264);
 
 	var _storeShape2 = _interopRequireDefault(_storeShape);
 
-	var _shallowEqual = __webpack_require__(267);
+	var _shallowEqual = __webpack_require__(266);
 
 	var _shallowEqual2 = _interopRequireDefault(_shallowEqual);
 
-	var _wrapActionCreators = __webpack_require__(268);
+	var _wrapActionCreators = __webpack_require__(267);
 
 	var _wrapActionCreators2 = _interopRequireDefault(_wrapActionCreators);
 
-	var _isPlainObject = __webpack_require__(279);
+	var _isPlainObject = __webpack_require__(278);
 
 	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-	var _hoistNonReactStatics = __webpack_require__(282);
+	var _hoistNonReactStatics = __webpack_require__(281);
 
 	var _hoistNonReactStatics2 = _interopRequireDefault(_hoistNonReactStatics);
 
-	var _invariant = __webpack_require__(283);
+	var _invariant = __webpack_require__(282);
 
 	var _invariant2 = _interopRequireDefault(_invariant);
 
@@ -33679,7 +33554,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 267 */
+/* 266 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -33710,7 +33585,7 @@
 	}
 
 /***/ },
-/* 268 */
+/* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33718,7 +33593,7 @@
 	exports.__esModule = true;
 	exports["default"] = wrapActionCreators;
 
-	var _redux = __webpack_require__(269);
+	var _redux = __webpack_require__(268);
 
 	function wrapActionCreators(actionCreators) {
 	  return function (dispatch) {
@@ -33727,7 +33602,7 @@
 	}
 
 /***/ },
-/* 269 */
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -33735,27 +33610,27 @@
 	exports.__esModule = true;
 	exports.compose = exports.applyMiddleware = exports.bindActionCreators = exports.combineReducers = exports.createStore = undefined;
 
-	var _createStore = __webpack_require__(270);
+	var _createStore = __webpack_require__(269);
 
 	var _createStore2 = _interopRequireDefault(_createStore);
 
-	var _combineReducers = __webpack_require__(274);
+	var _combineReducers = __webpack_require__(273);
 
 	var _combineReducers2 = _interopRequireDefault(_combineReducers);
 
-	var _bindActionCreators = __webpack_require__(276);
+	var _bindActionCreators = __webpack_require__(275);
 
 	var _bindActionCreators2 = _interopRequireDefault(_bindActionCreators);
 
-	var _applyMiddleware = __webpack_require__(277);
+	var _applyMiddleware = __webpack_require__(276);
 
 	var _applyMiddleware2 = _interopRequireDefault(_applyMiddleware);
 
-	var _compose = __webpack_require__(278);
+	var _compose = __webpack_require__(277);
 
 	var _compose2 = _interopRequireDefault(_compose);
 
-	var _warning = __webpack_require__(275);
+	var _warning = __webpack_require__(274);
 
 	var _warning2 = _interopRequireDefault(_warning);
 
@@ -33779,7 +33654,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 270 */
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33788,7 +33663,7 @@
 	exports.ActionTypes = undefined;
 	exports["default"] = createStore;
 
-	var _isPlainObject = __webpack_require__(271);
+	var _isPlainObject = __webpack_require__(270);
 
 	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
@@ -34000,11 +33875,11 @@
 	}
 
 /***/ },
-/* 271 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isHostObject = __webpack_require__(272),
-	    isObjectLike = __webpack_require__(273);
+	var isHostObject = __webpack_require__(271),
+	    isObjectLike = __webpack_require__(272);
 
 	/** `Object#toString` result references. */
 	var objectTag = '[object Object]';
@@ -34074,7 +33949,7 @@
 
 
 /***/ },
-/* 272 */
+/* 271 */
 /***/ function(module, exports) {
 
 	/**
@@ -34100,7 +33975,7 @@
 
 
 /***/ },
-/* 273 */
+/* 272 */
 /***/ function(module, exports) {
 
 	/**
@@ -34134,7 +34009,7 @@
 
 
 /***/ },
-/* 274 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -34142,13 +34017,13 @@
 	exports.__esModule = true;
 	exports["default"] = combineReducers;
 
-	var _createStore = __webpack_require__(270);
+	var _createStore = __webpack_require__(269);
 
-	var _isPlainObject = __webpack_require__(271);
+	var _isPlainObject = __webpack_require__(270);
 
 	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-	var _warning = __webpack_require__(275);
+	var _warning = __webpack_require__(274);
 
 	var _warning2 = _interopRequireDefault(_warning);
 
@@ -34267,7 +34142,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 275 */
+/* 274 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -34296,7 +34171,7 @@
 	}
 
 /***/ },
-/* 276 */
+/* 275 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -34352,7 +34227,7 @@
 	}
 
 /***/ },
-/* 277 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -34362,7 +34237,7 @@
 	exports.__esModule = true;
 	exports["default"] = applyMiddleware;
 
-	var _compose = __webpack_require__(278);
+	var _compose = __webpack_require__(277);
 
 	var _compose2 = _interopRequireDefault(_compose);
 
@@ -34414,7 +34289,7 @@
 	}
 
 /***/ },
-/* 278 */
+/* 277 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -34448,11 +34323,11 @@
 	}
 
 /***/ },
-/* 279 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isHostObject = __webpack_require__(280),
-	    isObjectLike = __webpack_require__(281);
+	var isHostObject = __webpack_require__(279),
+	    isObjectLike = __webpack_require__(280);
 
 	/** `Object#toString` result references. */
 	var objectTag = '[object Object]';
@@ -34522,7 +34397,7 @@
 
 
 /***/ },
-/* 280 */
+/* 279 */
 /***/ function(module, exports) {
 
 	/**
@@ -34548,7 +34423,7 @@
 
 
 /***/ },
-/* 281 */
+/* 280 */
 /***/ function(module, exports) {
 
 	/**
@@ -34582,7 +34457,7 @@
 
 
 /***/ },
-/* 282 */
+/* 281 */
 /***/ function(module, exports) {
 
 	/**
@@ -34628,7 +34503,7 @@
 
 
 /***/ },
-/* 283 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -34686,7 +34561,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 284 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -34706,15 +34581,15 @@
 	exports.fetchChannels = fetchChannels;
 	exports.updateStocks = updateStocks;
 
-	var _actionTypes = __webpack_require__(285);
+	var _actionTypes = __webpack_require__(284);
 
 	var types = _interopRequireWildcard(_actionTypes);
 
-	var _isomorphicFetch = __webpack_require__(286);
+	var _isomorphicFetch = __webpack_require__(285);
 
 	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
-	var _fetchUtils = __webpack_require__(288);
+	var _fetchUtils = __webpack_require__(287);
 
 	var fetchUtils = _interopRequireWildcard(_fetchUtils);
 
@@ -34902,7 +34777,7 @@
 	}
 
 /***/ },
-/* 285 */
+/* 284 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -34929,19 +34804,19 @@
 	var LOGOUT = exports.LOGOUT = "LOGOUT";
 
 /***/ },
-/* 286 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// the whatwg-fetch polyfill installs the fetch() function
 	// on the global object (window or self)
 	//
 	// Return that as the export for use in Webpack, Browserify etc.
-	__webpack_require__(287);
+	__webpack_require__(286);
 	module.exports = self.fetch.bind(self);
 
 
 /***/ },
-/* 287 */
+/* 286 */
 /***/ function(module, exports) {
 
 	(function(self) {
@@ -35336,7 +35211,7 @@
 
 
 /***/ },
-/* 288 */
+/* 287 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -35361,7 +35236,7 @@
 	}
 
 /***/ },
-/* 289 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -35370,1115 +35245,25 @@
 	    value: true
 	});
 
-	var _react = __webpack_require__(1);
+	var _redux = __webpack_require__(268);
 
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(158);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	var _stockItemPopup = __webpack_require__(290);
-
-	var _stockItemPopup2 = _interopRequireDefault(_stockItemPopup);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var PropTypes = _react2.default.PropTypes;
-
-
-	var StockItem = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "StockItem",
-
-	    propTypes: {
-	        name: PropTypes.string.isRequired,
-	        latestPrice: PropTypes.number.isRequired,
-	        yesterdayPrice: PropTypes.number.isRequired
-	    },
-	    componentDidMount: function componentDidMount() {
-	        $(_reactDom2.default.findDOMNode(this)).find(".content").popup({
-	            inline: true,
-	            hoverable: true,
-	            position: 'bottom left',
-	            delay: {
-	                show: 300,
-	                hide: 200
-	            }
-	        });
-	    },
-	    render: function render() {
-	        var _props = this.props;
-	        var name = _props.name;
-	        var latestPrice = _props.latestPrice;
-	        var yesterdayPrice = _props.yesterdayPrice;
-
-	        var difference = (100 * (yesterdayPrice - latestPrice) / yesterdayPrice).toFixed(2);
-	        var labelClass = difference >= 0 ? "red" : "green";
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "stock-item item" },
-	            _react2.default.createElement(
-	                "div",
-	                { className: "content" },
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "description clearfix" },
-	                    _react2.default.createElement(
-	                        "span",
-	                        { className: "name" },
-	                        name
-	                    ),
-	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "ui horizontal label " + labelClass },
-	                        difference,
-	                        "%"
-	                    ),
-	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "ui horizontal label" },
-	                        latestPrice
-	                    )
-	                )
-	            ),
-	            _react2.default.createElement(_stockItemPopup2.default, this.props)
-	        );
-	    }
-	}));
-
-	exports.default = StockItem;
-
-/***/ },
-/* 290 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var PropTypes = _react2.default.PropTypes;
-
-
-	var StockItemPopup = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "StockItemPopup",
-
-	    propTypes: {
-	        name: PropTypes.string.isRequired
-	    },
-	    render: function render() {
-	        var name = this.props.name;
-
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "stock-popup ui popup" },
-	            _react2.default.createElement(
-	                "div",
-	                { className: "header" },
-	                name
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "ui middle aligned divided list" },
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "item" },
-	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "content" },
-	                        _react2.default.createElement(
-	                            "div",
-	                            { className: "header" },
-	                            _react2.default.createElement(
-	                                "span",
-	                                { className: "name" },
-	                                "目前股價"
-	                            ),
-	                            _react2.default.createElement(
-	                                "div",
-	                                { className: "ui horizontal label" },
-	                                "455.33"
-	                            )
-	                        )
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "item" },
-	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "content" },
-	                        _react2.default.createElement(
-	                            "div",
-	                            { className: "header" },
-	                            _react2.default.createElement(
-	                                "span",
-	                                { className: "name" },
-	                                "漲幅"
-	                            ),
-	                            _react2.default.createElement(
-	                                "div",
-	                                { className: "ui red horizontal label" },
-	                                "0.5%"
-	                            )
-	                        )
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "item" },
-	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "content" },
-	                        _react2.default.createElement(
-	                            "div",
-	                            { className: "header" },
-	                            _react2.default.createElement(
-	                                "span",
-	                                { className: "name" },
-	                                "成交量"
-	                            ),
-	                            _react2.default.createElement(
-	                                "div",
-	                                { className: "ui horizontal label" },
-	                                "5566"
-	                            )
-	                        )
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "item" },
-	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "content" },
-	                        _react2.default.createElement(
-	                            "div",
-	                            { className: "header" },
-	                            _react2.default.createElement(
-	                                "span",
-	                                { className: "name" },
-	                                "最高"
-	                            ),
-	                            _react2.default.createElement(
-	                                "div",
-	                                { className: "ui horizontal label" },
-	                                "43"
-	                            )
-	                        )
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "item" },
-	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "content" },
-	                        _react2.default.createElement(
-	                            "div",
-	                            { className: "header" },
-	                            _react2.default.createElement(
-	                                "span",
-	                                { className: "name" },
-	                                "最低"
-	                            ),
-	                            _react2.default.createElement(
-	                                "div",
-	                                { className: "ui horizontal label" },
-	                                "39"
-	                            )
-	                        )
-	                    )
-	                )
-	            )
-	        );
-	    }
-	}));
-
-	exports.default = StockItemPopup;
-
-/***/ },
-/* 291 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(158);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	var _reactRedux = __webpack_require__(263);
-
-	var _chaActions = __webpack_require__(284);
-
-	var ChaActions = _interopRequireWildcard(_chaActions);
-
-	var _loggedInController = __webpack_require__(292);
-
-	var _loggedInController2 = _interopRequireDefault(_loggedInController);
-
-	var _loggingInController = __webpack_require__(293);
-
-	var _loggingInController2 = _interopRequireDefault(_loggingInController);
-
-	var _channelItem = __webpack_require__(294);
-
-	var _channelItem2 = _interopRequireDefault(_channelItem);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var Component = _react2.default.Component;
-	var PropTypes = _react2.default.PropTypes;
-
-
-	var MenuRail = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "MenuRail",
-
-	    propTypes: {
-	        user: PropTypes.shape({
-	            _id: PropTypes.string.isRequired,
-	            username: PropTypes.string.isRequired
-	        }),
-	        personalChannels: PropTypes.array.isRequired,
-	        publicChannels: PropTypes.array.isRequired,
-	        onLogOutUser: PropTypes.func.isRequired
-	    },
-	    onClickLogin: function onClickLogin() {
-	        $("#login-modal").modal("show");
-	    },
-	    onClickSignUp: function onClickSignUp() {
-	        $("#signup-modal").modal("show");
-	    },
-	    onClickCreateChannel: function onClickCreateChannel() {
-	        $("#create-channel-modal").modal("show");
-	    },
-	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-	        if (this.props.user._id !== nextProps.user._id) {
-	            $("#login-modal").modal("hide");
-	            $("#signup-modal").modal("hide");
-	        }
-	    },
-	    componentDidMount: function componentDidMount() {
-	        $(_reactDom2.default.findDOMNode(this.refs.menu)).find('.item').tab();
-	    },
-	    renderLoginStatus: function renderLoginStatus() {
-	        var _props = this.props;
-	        var user = _props.user;
-	        var onLogOutUser = _props.onLogOutUser;
-
-	        if (user.username) {
-	            return _react2.default.createElement(_loggedInController2.default, {
-	                user: user,
-	                onLogOutUser: onLogOutUser });
-	        } else {
-	            return _react2.default.createElement(_loggingInController2.default, {
-	                onClickLogin: this.onClickLogin,
-	                onClickSignUp: this.onClickSignUp });
-	        }
-	    },
-	    renderTab: function renderTab() {
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "ui secondary menu", ref: "menu" },
-	            _react2.default.createElement(
-	                "a",
-	                { className: "item active", "data-tab": "channel" },
-	                "個人頻道"
-	            ),
-	            _react2.default.createElement(
-	                "a",
-	                { className: "item", "data-tab": "market" },
-	                "公開"
-	            )
-	        );
-	    },
-	    renderCreateChannel: function renderCreateChannel() {
-	        return _react2.default.createElement(
-	            "button",
-	            { className: "ui blue basic button", onClick: this.onClickCreateChannel },
-	            "新增頻道"
-	        );
-	    },
-	    renderChannels: function renderChannels(channels) {
-	        return channels.map(function (channel) {
-	            return _react2.default.createElement(_channelItem2.default, _extends({ key: channel._id }, channel));
-	        });
-	    },
-	    render: function render() {
-	        var _props2 = this.props;
-	        var personalChannels = _props2.personalChannels;
-	        var publicChannels = _props2.publicChannels;
-
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "menu-rail" },
-	            _react2.default.createElement(
-	                "a",
-	                { className: "logo" },
-	                _react2.default.createElement("img", { src: "/images/logo.png" })
-	            ),
-	            this.renderLoginStatus(),
-	            this.renderTab(),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "ui tab segment board active", "data-tab": "channel" },
-	                this.renderCreateChannel(),
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "channel-list ui middle aligned selection list" },
-	                    this.renderChannels(personalChannels)
-	                )
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "ui tab segment board", "data-tab": "market" },
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "channel-list ui middle aligned selection list" },
-	                    this.renderChannels(publicChannels)
-	                )
-	            )
-	        );
-	    }
-	}));
-
-	var mapStateToProps = function mapStateToProps(state) {
-	    return {
-	        personalChannels: state.channels.filter(function (channel) {
-	            return channel.type === "personal";
-	        }),
-	        publicChannels: state.channels.filter(function (channel) {
-	            return channel.type === "public";
-	        }),
-	        user: state.user
-	    };
-	};
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	    return {
-	        onLogOutUser: function onLogOutUser() {
-	            dispatch(ChaActions.logOutUser());
-	        }
-	    };
-	};
-
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(MenuRail);
-
-/***/ },
-/* 292 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var PropTypes = _react2.default.PropTypes;
-
-
-	var LoggedInController = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "LoggedInController",
-
-	    propTypes: {
-	        user: PropTypes.shape({
-	            _id: PropTypes.string,
-	            username: PropTypes.string
-	        }),
-	        onLogOutUser: PropTypes.func
-	    },
-	    render: function render() {
-	        var _props = this.props;
-	        var user = _props.user;
-	        var onLogOutUser = _props.onLogOutUser;
-
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "login" },
-	            user.username,
-	            _react2.default.createElement(
-	                "div",
-	                { className: "button-groups" },
-	                _react2.default.createElement(
-	                    "button",
-	                    { className: "ui yellow button", onClick: onLogOutUser },
-	                    "logout"
-	                )
-	            )
-	        );
-	    }
-	}));
-
-	exports.default = LoggedInController;
-
-/***/ },
-/* 293 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var PropTypes = _react2.default.PropTypes;
-
-
-	var LoggingInController = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "LoggingInController",
-
-	    propTypes: {
-	        onClickLogin: PropTypes.func,
-	        onClickSignUp: PropTypes.func
-	    },
-	    render: function render() {
-	        var _props = this.props;
-	        var onClickLogin = _props.onClickLogin;
-	        var onClickSignUp = _props.onClickSignUp;
-
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "login" },
-	            _react2.default.createElement(
-	                "div",
-	                { className: "button-groups" },
-	                _react2.default.createElement(
-	                    "button",
-	                    { className: "ui primary button", onClick: onClickLogin },
-	                    "login"
-	                ),
-	                _react2.default.createElement(
-	                    "button",
-	                    { className: "ui green button", onClick: onClickSignUp },
-	                    "signup"
-	                )
-	            )
-	        );
-	    }
-	}));
-
-	exports.default = LoggingInController;
-
-/***/ },
-/* 294 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var PropTypes = _react2.default.PropTypes;
-
-
-	var ChannelItem = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "ChannelItem",
-
-	    propTypes: {
-	        _id: PropTypes.string.isRequired,
-	        name: PropTypes.string.isRequired,
-	        chatroomId: PropTypes.string.isRequired
-	    },
-	    render: function render() {
-	        var _props = this.props;
-	        var _id = _props._id;
-	        var name = _props.name;
-	        var chatroomId = _props.chatroomId;
-
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "channel-item item" },
-	            _react2.default.createElement(
-	                "a",
-	                { className: "content", href: "/channel/" + _id },
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "description clearfix" },
-	                    _react2.default.createElement(
-	                        "span",
-	                        { className: "name" },
-	                        "#",
-	                        name
-	                    ),
-	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "ui horizontal label" },
-	                        _react2.default.createElement("i", { className: "users icon" }),
-	                        "25"
-	                    )
-	                )
-	            )
-	        );
-	    }
-	}));
-
-	exports.default = ChannelItem;
-
-/***/ },
-/* 295 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(158);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	var _loginForm = __webpack_require__(296);
-
-	var _loginForm2 = _interopRequireDefault(_loginForm);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var PropTypes = _react2.default.PropTypes;
-
-
-	var LoginModal = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "LoginModal",
-
-	    propTypes: {
-	        onLogInUser: PropTypes.func
-	    },
-	    componentDidMount: function componentDidMount() {
-	        $(_reactDom2.default.findDOMNode(this.refs.loginModal)).modal({
-	            blurring: true
-	        });
-
-	        var onLogInUser = this.props.onLogInUser;
-
-	        $('.login-form').form({
-	            onSuccess: function onSuccess(event, submitObject) {
-	                event.preventDefault();
-
-	                onLogInUser(submitObject);
-	            },
-	            fields: {
-	                username: 'empty',
-	                password: ['empty']
-	            }
-	        });
-	    },
-	    render: function render() {
-	        return _react2.default.createElement(
-	            "div",
-	            { id: "login-modal", className: "ui modal small", ref: "loginModal" },
-	            _react2.default.createElement("i", { className: "close icon" }),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "header" },
-	                "Modal Title"
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "content" },
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "description" },
-	                    _react2.default.createElement(_loginForm2.default, null)
-	                )
-	            )
-	        );
-	    }
-	}));
-
-	exports.default = LoginModal;
-
-/***/ },
-/* 296 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var LoginForm = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "LoginForm",
-	    render: function render() {
-	        return _react2.default.createElement(
-	            "form",
-	            { className: "ui form login-form" },
-	            _react2.default.createElement(
-	                "div",
-	                { className: "field" },
-	                _react2.default.createElement(
-	                    "label",
-	                    null,
-	                    "Username"
-	                ),
-	                _react2.default.createElement("input", { type: "text", name: "username", placeholder: "Username" })
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "field" },
-	                _react2.default.createElement(
-	                    "label",
-	                    null,
-	                    "Password"
-	                ),
-	                _react2.default.createElement("input", { type: "password", name: "password", placeholder: "Password" })
-	            ),
-	            _react2.default.createElement(
-	                "button",
-	                { className: "ui button" },
-	                "Login"
-	            )
-	        );
-	    }
-	}));
-
-	exports.default = LoginForm;
-
-/***/ },
-/* 297 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(158);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	var _signupForm = __webpack_require__(298);
-
-	var _signupForm2 = _interopRequireDefault(_signupForm);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var PropTypes = _react2.default.PropTypes;
-
-
-	var SignUpModal = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "SignUpModal",
-
-	    propTypes: {
-	        onSignUpUser: PropTypes.func
-	    },
-	    componentDidMount: function componentDidMount() {
-	        $(_reactDom2.default.findDOMNode(this.refs.signupModal)).modal({
-	            blurring: true
-	        });
-
-	        var onSignUpUser = this.props.onSignUpUser;
-
-	        $('.signup-form').form({
-	            onSuccess: function onSuccess(event, submitObject) {
-	                event.preventDefault();
-
-	                onSignUpUser(submitObject);
-	            },
-	            fields: {
-	                username: 'empty',
-	                password: ['empty']
-	            }
-	        });
-	    },
-	    render: function render() {
-	        return _react2.default.createElement(
-	            "div",
-	            { id: "signup-modal", className: "ui modal small", ref: "signupModal" },
-	            _react2.default.createElement("i", { className: "close icon" }),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "header" },
-	                "Modal Title"
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "content" },
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "description" },
-	                    _react2.default.createElement(_signupForm2.default, null)
-	                )
-	            )
-	        );
-	    }
-	}));
-
-	exports.default = SignUpModal;
-
-/***/ },
-/* 298 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var SignUpForm = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "SignUpForm",
-	    render: function render() {
-	        return _react2.default.createElement(
-	            "form",
-	            { className: "ui form signup-form" },
-	            _react2.default.createElement(
-	                "div",
-	                { className: "field" },
-	                _react2.default.createElement(
-	                    "label",
-	                    null,
-	                    "Username"
-	                ),
-	                _react2.default.createElement("input", { type: "text", name: "username", placeholder: "Username" })
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "field" },
-	                _react2.default.createElement(
-	                    "label",
-	                    null,
-	                    "Password"
-	                ),
-	                _react2.default.createElement("input", { type: "text", name: "password", placeholder: "Password" })
-	            ),
-	            _react2.default.createElement(
-	                "button",
-	                { className: "ui button" },
-	                "Signup"
-	            )
-	        );
-	    }
-	}));
-
-	exports.default = SignUpForm;
-
-/***/ },
-/* 299 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(158);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var PropTypes = _react2.default.PropTypes;
-
-
-	var CreateChannelModal = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "CreateChannelModal",
-
-	    propTypes: {
-	        onCreateChannel: PropTypes.func
-	    },
-	    componentDidMount: function componentDidMount() {
-	        $(_reactDom2.default.findDOMNode(this.refs.createChannelModal)).modal({
-	            blurring: true
-	        });
-
-	        var onCreateChannel = this.props.onCreateChannel;
-
-	        $('.create-channel-form').form({
-	            onSuccess: function onSuccess(event, submitObject) {
-	                event.preventDefault();
-
-	                onCreateChannel(submitObject);
-	            },
-	            fields: {
-	                channel: 'empty',
-	                channelOwner: ['empty']
-	            }
-	        });
-	    },
-	    render: function render() {
-	        return _react2.default.createElement(
-	            "div",
-	            { id: "create-channel-modal", className: "ui modal small", ref: "createChannelModal" },
-	            _react2.default.createElement("i", { className: "close icon" }),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "header" },
-	                "新增頻道"
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "content" },
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "description" },
-	                    _react2.default.createElement(
-	                        "form",
-	                        { className: "ui form create-channel-form" },
-	                        _react2.default.createElement(
-	                            "div",
-	                            { className: "field" },
-	                            _react2.default.createElement(
-	                                "label",
-	                                null,
-	                                "頻道種類"
-	                            ),
-	                            _react2.default.createElement(
-	                                "select",
-	                                { name: "type" },
-	                                _react2.default.createElement(
-	                                    "option",
-	                                    { value: "" },
-	                                    "無選擇"
-	                                ),
-	                                _react2.default.createElement(
-	                                    "option",
-	                                    { value: "personal" },
-	                                    "個人"
-	                                ),
-	                                _react2.default.createElement(
-	                                    "option",
-	                                    { value: "public" },
-	                                    "公開"
-	                                )
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            "div",
-	                            { className: "field" },
-	                            _react2.default.createElement(
-	                                "label",
-	                                null,
-	                                "頻道名稱"
-	                            ),
-	                            _react2.default.createElement("input", { type: "text", name: "name", placeholder: "頻道名稱" })
-	                        ),
-	                        _react2.default.createElement(
-	                            "div",
-	                            { className: "field" },
-	                            _react2.default.createElement(
-	                                "label",
-	                                null,
-	                                "頻道主"
-	                            ),
-	                            _react2.default.createElement("input", { type: "text", name: "ownerUsername", placeholder: "頻道主" })
-	                        ),
-	                        _react2.default.createElement(
-	                            "button",
-	                            { className: "ui button" },
-	                            "新增"
-	                        )
-	                    )
-	                )
-	            )
-	        );
-	    }
-	}));
-
-	exports.default = CreateChannelModal;
-
-/***/ },
-/* 300 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _redux = __webpack_require__(269);
-
-	var _channel = __webpack_require__(301);
+	var _channel = __webpack_require__(289);
 
 	var _channel2 = _interopRequireDefault(_channel);
 
-	var _channels = __webpack_require__(302);
+	var _channels = __webpack_require__(290);
 
 	var _channels2 = _interopRequireDefault(_channels);
 
-	var _stocks = __webpack_require__(303);
+	var _stocks = __webpack_require__(291);
 
 	var _stocks2 = _interopRequireDefault(_stocks);
 
-	var _messages = __webpack_require__(304);
+	var _messages = __webpack_require__(292);
 
 	var _messages2 = _interopRequireDefault(_messages);
 
-	var _user = __webpack_require__(305);
+	var _user = __webpack_require__(293);
 
 	var _user2 = _interopRequireDefault(_user);
 
@@ -36495,7 +35280,7 @@
 	exports.default = rootReducer;
 
 /***/ },
-/* 301 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36505,7 +35290,7 @@
 	});
 	exports.default = Channel;
 
-	var _actionTypes = __webpack_require__(285);
+	var _actionTypes = __webpack_require__(284);
 
 	var types = _interopRequireWildcard(_actionTypes);
 
@@ -36524,7 +35309,7 @@
 	}
 
 /***/ },
-/* 302 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36534,7 +35319,7 @@
 	});
 	exports.default = Channels;
 
-	var _actionTypes = __webpack_require__(285);
+	var _actionTypes = __webpack_require__(284);
 
 	var types = _interopRequireWildcard(_actionTypes);
 
@@ -36557,7 +35342,7 @@
 	}
 
 /***/ },
-/* 303 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36567,7 +35352,7 @@
 	});
 	exports.default = Stocks;
 
-	var _actionTypes = __webpack_require__(285);
+	var _actionTypes = __webpack_require__(284);
 
 	var types = _interopRequireWildcard(_actionTypes);
 
@@ -36588,7 +35373,7 @@
 	}
 
 /***/ },
-/* 304 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36598,7 +35383,7 @@
 	});
 	exports.default = messages;
 
-	var _actionTypes = __webpack_require__(285);
+	var _actionTypes = __webpack_require__(284);
 
 	var types = _interopRequireWildcard(_actionTypes);
 
@@ -36633,7 +35418,7 @@
 	}
 
 /***/ },
-/* 305 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36643,7 +35428,7 @@
 	});
 	exports.default = user;
 
-	var _actionTypes = __webpack_require__(285);
+	var _actionTypes = __webpack_require__(284);
 
 	var types = _interopRequireWildcard(_actionTypes);
 
@@ -36667,7 +35452,7 @@
 	}
 
 /***/ },
-/* 306 */
+/* 294 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36686,7 +35471,7 @@
 	module.exports = thunkMiddleware;
 
 /***/ },
-/* 307 */
+/* 295 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -36884,7 +35669,7 @@
 	module.exports = createLogger;
 
 /***/ },
-/* 308 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36901,19 +35686,19 @@
 
 	var _textMessage2 = _interopRequireDefault(_textMessage);
 
-	var _informationRail = __webpack_require__(262);
+	var _informationRail = __webpack_require__(297);
 
 	var _informationRail2 = _interopRequireDefault(_informationRail);
 
-	var _menuRail = __webpack_require__(291);
+	var _menuRail = __webpack_require__(300);
 
 	var _menuRail2 = _interopRequireDefault(_menuRail);
 
-	var _loginModal = __webpack_require__(295);
+	var _loginModal = __webpack_require__(304);
 
 	var _loginModal2 = _interopRequireDefault(_loginModal);
 
-	var _signupModal = __webpack_require__(297);
+	var _signupModal = __webpack_require__(306);
 
 	var _signupModal2 = _interopRequireDefault(_signupModal);
 
@@ -36921,15 +35706,19 @@
 
 	var _messager2 = _interopRequireDefault(_messager);
 
-	var _createChannelModal = __webpack_require__(299);
+	var _createChannelModal = __webpack_require__(308);
 
 	var _createChannelModal2 = _interopRequireDefault(_createChannelModal);
 
-	var _reactRedux = __webpack_require__(263);
+	var _reactRedux = __webpack_require__(262);
 
-	var _chaActions = __webpack_require__(284);
+	var _chaActions = __webpack_require__(283);
 
 	var ChaActions = _interopRequireWildcard(_chaActions);
+
+	var _stockItem = __webpack_require__(298);
+
+	var _stockItem2 = _interopRequireDefault(_stockItem);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -36947,6 +35736,11 @@
 
 	var Component = _react2.default.Component;
 	var PropTypes = _react2.default.PropTypes;
+
+
+	var checkLatestPrice = function checkLatestPrice(stock) {
+	    return stock.latest_price !== -1;
+	};
 
 
 	var Liveroom = _wrapComponent("_component")(_react2.default.createClass({
@@ -36977,6 +35771,17 @@
 
 	        onInitUser();
 	        onFetchChannels();
+
+	        this.props.updateStocks();
+	    },
+	    renderStockItems: function renderStockItems(stocks) {
+	        return stocks.filter(checkLatestPrice).map(function (stock) {
+	            return _react2.default.createElement(_stockItem2.default, {
+	                key: stock.number,
+	                name: stock.name,
+	                latestPrice: stock.latest_price,
+	                yesterdayPrice: stock.yesterday_price });
+	        });
 	    },
 	    render: function render() {
 	        var _props2 = this.props;
@@ -36985,15 +35790,43 @@
 	        var onCreateChannel = _props2.onCreateChannel;
 	        var channel = _props2.channel;
 	        var socket = _props2.socket;
+	        var stocks = _props2.stocks;
 
 	        return _react2.default.createElement(
 	            "div",
-	            { className: "messager" },
-	            _react2.default.createElement(_menuRail2.default, null),
-	            _react2.default.createElement(_messager2.default, {
-	                channel: channel,
-	                socket: socket }),
-	            _react2.default.createElement(_informationRail2.default, null),
+	            { className: "liveroom" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "left_col" },
+	                _react2.default.createElement(_menuRail2.default, null)
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "main_col" },
+	                _react2.default.createElement(_messager2.default, {
+	                    channel: channel,
+	                    socket: socket }),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "tail" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "ui tab segment board active" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "stock-list ui middle aligned selection list" },
+	                            this.renderStockItems(stocks)
+	                        )
+	                    )
+	                )
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "right_col" },
+	                _react2.default.createElement(_messager2.default, {
+	                    channel: channel,
+	                    socket: socket })
+	            ),
 	            _react2.default.createElement(_loginModal2.default, {
 	                onLogInUser: onLogInUser }),
 	            _react2.default.createElement(_signupModal2.default, {
@@ -37003,10 +35836,15 @@
 	        );
 	    }
 	}));
+	/*
+
+
+	 */
 
 	var mapStateToProps = function mapStateToProps(state) {
 	    return {
-	        user: state.user
+	        user: state.user,
+	        stocks: state.stocks
 	    };
 	};
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
@@ -37025,11 +35863,1226 @@
 	        },
 	        onCreateChannel: function onCreateChannel(channel) {
 	            dispatch(ChaActions.createChannel(channel));
+	        },
+	        updateStocks: function updateStocks() {
+	            dispatch(ChaActions.updateStocks());
 	        }
 	    };
 	};
 
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Liveroom);
+
+/***/ },
+/* 297 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(158);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _reactRedux = __webpack_require__(262);
+
+	var _chaActions = __webpack_require__(283);
+
+	var ChaActions = _interopRequireWildcard(_chaActions);
+
+	var _stockItem = __webpack_require__(298);
+
+	var _stockItem2 = _interopRequireDefault(_stockItem);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var Component = _react2.default.Component;
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var checkLatestPrice = function checkLatestPrice(stock) {
+	    return stock.latest_price !== -1;
+	};
+	var InformationRail = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "InformationRail",
+
+	    propTypes: {
+	        stocks: PropTypes.array
+	    },
+	    componentDidMount: function componentDidMount() {
+	        $(_reactDom2.default.findDOMNode(this.refs.menu)).find('.item').tab();
+
+	        this.props.updateStocks();
+	    },
+	    renderStockItems: function renderStockItems(stocks) {
+	        return stocks.filter(checkLatestPrice).map(function (stock) {
+	            return _react2.default.createElement(_stockItem2.default, {
+	                key: stock.number,
+	                name: stock.name,
+	                latestPrice: stock.latest_price,
+	                yesterdayPrice: stock.yesterday_price });
+	        });
+	    },
+	    render: function render() {
+	        var stocks = this.props.stocks;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "information-rail" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "ui secondary menu", ref: "menu" },
+	                _react2.default.createElement(
+	                    "a",
+	                    { className: "item active", "data-tab": "stockprice" },
+	                    "股價"
+	                )
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "ui tab segment board active", "data-tab": "stockprice" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "stock-list ui middle aligned selection list" },
+	                    this.renderStockItems(stocks)
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	var mapStateToProps = function mapStateToProps(state) {
+	    return {
+	        stocks: state.stocks
+	    };
+	};
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	    return {
+	        updateStocks: function updateStocks() {
+	            dispatch(ChaActions.updateStocks());
+	        }
+	    };
+	};
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(InformationRail);
+
+/***/ },
+/* 298 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(158);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _stockItemPopup = __webpack_require__(299);
+
+	var _stockItemPopup2 = _interopRequireDefault(_stockItemPopup);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var StockItem = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "StockItem",
+
+	    propTypes: {
+	        name: PropTypes.string.isRequired,
+	        latestPrice: PropTypes.number.isRequired,
+	        yesterdayPrice: PropTypes.number.isRequired
+	    },
+	    componentDidMount: function componentDidMount() {
+	        $(_reactDom2.default.findDOMNode(this)).find(".content").popup({
+	            inline: true,
+	            hoverable: true,
+	            position: 'bottom left',
+	            delay: {
+	                show: 300,
+	                hide: 200
+	            }
+	        });
+	    },
+	    render: function render() {
+	        var _props = this.props;
+	        var name = _props.name;
+	        var latestPrice = _props.latestPrice;
+	        var yesterdayPrice = _props.yesterdayPrice;
+
+	        var difference = (100 * (yesterdayPrice - latestPrice) / yesterdayPrice).toFixed(2);
+	        var labelClass = difference >= 0 ? "red" : "green";
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "stock-item item" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "content" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "description clearfix" },
+	                    _react2.default.createElement(
+	                        "span",
+	                        { className: "name" },
+	                        name
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "ui horizontal label " + labelClass },
+	                        difference,
+	                        "%"
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "ui horizontal label" },
+	                        latestPrice
+	                    )
+	                )
+	            ),
+	            _react2.default.createElement(_stockItemPopup2.default, this.props)
+	        );
+	    }
+	}));
+
+	exports.default = StockItem;
+
+/***/ },
+/* 299 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var StockItemPopup = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "StockItemPopup",
+
+	    propTypes: {
+	        name: PropTypes.string.isRequired
+	    },
+	    render: function render() {
+	        var name = this.props.name;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "stock-popup ui popup" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "header" },
+	                name
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "ui middle aligned divided list" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "content" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "header" },
+	                            _react2.default.createElement(
+	                                "span",
+	                                { className: "name" },
+	                                "目前股價"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "ui horizontal label" },
+	                                "455.33"
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "content" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "header" },
+	                            _react2.default.createElement(
+	                                "span",
+	                                { className: "name" },
+	                                "漲幅"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "ui red horizontal label" },
+	                                "0.5%"
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "content" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "header" },
+	                            _react2.default.createElement(
+	                                "span",
+	                                { className: "name" },
+	                                "成交量"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "ui horizontal label" },
+	                                "5566"
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "content" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "header" },
+	                            _react2.default.createElement(
+	                                "span",
+	                                { className: "name" },
+	                                "最高"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "ui horizontal label" },
+	                                "43"
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "content" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "header" },
+	                            _react2.default.createElement(
+	                                "span",
+	                                { className: "name" },
+	                                "最低"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "ui horizontal label" },
+	                                "39"
+	                            )
+	                        )
+	                    )
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = StockItemPopup;
+
+/***/ },
+/* 300 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(158);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _reactRedux = __webpack_require__(262);
+
+	var _chaActions = __webpack_require__(283);
+
+	var ChaActions = _interopRequireWildcard(_chaActions);
+
+	var _loggedInController = __webpack_require__(301);
+
+	var _loggedInController2 = _interopRequireDefault(_loggedInController);
+
+	var _loggingInController = __webpack_require__(302);
+
+	var _loggingInController2 = _interopRequireDefault(_loggingInController);
+
+	var _channelItem = __webpack_require__(303);
+
+	var _channelItem2 = _interopRequireDefault(_channelItem);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var Component = _react2.default.Component;
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var MenuRail = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "MenuRail",
+
+	    propTypes: {
+	        user: PropTypes.shape({
+	            _id: PropTypes.string.isRequired,
+	            username: PropTypes.string.isRequired
+	        }),
+	        personalChannels: PropTypes.array.isRequired,
+	        publicChannels: PropTypes.array.isRequired,
+	        onLogOutUser: PropTypes.func.isRequired
+	    },
+	    onClickLogin: function onClickLogin() {
+	        $("#login-modal").modal("show");
+	    },
+	    onClickSignUp: function onClickSignUp() {
+	        $("#signup-modal").modal("show");
+	    },
+	    onClickCreateChannel: function onClickCreateChannel() {
+	        $("#create-channel-modal").modal("show");
+	    },
+	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	        if (this.props.user._id !== nextProps.user._id) {
+	            $("#login-modal").modal("hide");
+	            $("#signup-modal").modal("hide");
+	        }
+	    },
+	    componentDidMount: function componentDidMount() {
+	        $(_reactDom2.default.findDOMNode(this.refs.menu)).find('.item').tab();
+	    },
+	    renderLoginStatus: function renderLoginStatus() {
+	        var _props = this.props;
+	        var user = _props.user;
+	        var onLogOutUser = _props.onLogOutUser;
+
+	        if (user.username) {
+	            return _react2.default.createElement(_loggedInController2.default, {
+	                user: user,
+	                onLogOutUser: onLogOutUser });
+	        } else {
+	            return _react2.default.createElement(_loggingInController2.default, {
+	                onClickLogin: this.onClickLogin,
+	                onClickSignUp: this.onClickSignUp });
+	        }
+	    },
+	    renderTab: function renderTab() {
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "ui secondary menu", ref: "menu" },
+	            _react2.default.createElement(
+	                "a",
+	                { className: "item active", "data-tab": "channel" },
+	                "個人頻道"
+	            ),
+	            _react2.default.createElement(
+	                "a",
+	                { className: "item", "data-tab": "market" },
+	                "公開"
+	            ),
+	            _react2.default.createElement(
+	                "a",
+	                { className: "item", "data-tab": "news" },
+	                "新聞"
+	            )
+	        );
+	    },
+	    renderCreateChannel: function renderCreateChannel() {
+	        return _react2.default.createElement(
+	            "button",
+	            { className: "ui blue basic button", onClick: this.onClickCreateChannel },
+	            "新增頻道"
+	        );
+	    },
+	    renderChannels: function renderChannels(channels) {
+	        return channels.map(function (channel) {
+	            return _react2.default.createElement(_channelItem2.default, _extends({ key: channel._id }, channel));
+	        });
+	    },
+	    render: function render() {
+	        var _props2 = this.props;
+	        var personalChannels = _props2.personalChannels;
+	        var publicChannels = _props2.publicChannels;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "menu-rail" },
+	            _react2.default.createElement(
+	                "a",
+	                { className: "logo" },
+	                _react2.default.createElement("img", { src: "/images/logo.png" })
+	            ),
+	            this.renderLoginStatus(),
+	            this.renderTab(),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "ui tab segment board active", "data-tab": "channel" },
+	                this.renderCreateChannel(),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "channel-list ui middle aligned selection list" },
+	                    this.renderChannels(personalChannels)
+	                )
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "ui tab segment board", "data-tab": "market" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "channel-list ui middle aligned selection list" },
+	                    this.renderChannels(publicChannels)
+	                )
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "ui tab segment board", "data-tab": "news" },
+	                "新聞放在這"
+	            )
+	        );
+	    }
+	}));
+
+	var mapStateToProps = function mapStateToProps(state) {
+	    return {
+	        personalChannels: state.channels.filter(function (channel) {
+	            return channel.type === "personal";
+	        }),
+	        publicChannels: state.channels.filter(function (channel) {
+	            return channel.type === "public";
+	        }),
+	        user: state.user
+	    };
+	};
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	    return {
+	        onLogOutUser: function onLogOutUser() {
+	            dispatch(ChaActions.logOutUser());
+	        }
+	    };
+	};
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(MenuRail);
+
+/***/ },
+/* 301 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var LoggedInController = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "LoggedInController",
+
+	    propTypes: {
+	        user: PropTypes.shape({
+	            _id: PropTypes.string,
+	            username: PropTypes.string
+	        }),
+	        onLogOutUser: PropTypes.func
+	    },
+	    render: function render() {
+	        var _props = this.props;
+	        var user = _props.user;
+	        var onLogOutUser = _props.onLogOutUser;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "login" },
+	            user.username,
+	            _react2.default.createElement(
+	                "div",
+	                { className: "button-groups" },
+	                _react2.default.createElement(
+	                    "button",
+	                    { className: "ui yellow button", onClick: onLogOutUser },
+	                    "logout"
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = LoggedInController;
+
+/***/ },
+/* 302 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var LoggingInController = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "LoggingInController",
+
+	    propTypes: {
+	        onClickLogin: PropTypes.func,
+	        onClickSignUp: PropTypes.func
+	    },
+	    render: function render() {
+	        var _props = this.props;
+	        var onClickLogin = _props.onClickLogin;
+	        var onClickSignUp = _props.onClickSignUp;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "login" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "button-groups" },
+	                _react2.default.createElement(
+	                    "button",
+	                    { className: "ui primary button", onClick: onClickLogin },
+	                    "login"
+	                ),
+	                _react2.default.createElement(
+	                    "button",
+	                    { className: "ui green button", onClick: onClickSignUp },
+	                    "signup"
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = LoggingInController;
+
+/***/ },
+/* 303 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var ChannelItem = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "ChannelItem",
+
+	    propTypes: {
+	        _id: PropTypes.string.isRequired,
+	        name: PropTypes.string.isRequired,
+	        chatroomId: PropTypes.string.isRequired
+	    },
+	    render: function render() {
+	        var _props = this.props;
+	        var _id = _props._id;
+	        var name = _props.name;
+	        var chatroomId = _props.chatroomId;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "channel-item item" },
+	            _react2.default.createElement(
+	                "a",
+	                { className: "content", href: "/channel/" + _id },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "description clearfix" },
+	                    _react2.default.createElement(
+	                        "span",
+	                        { className: "name" },
+	                        "#",
+	                        name
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "ui horizontal label" },
+	                        _react2.default.createElement("i", { className: "users icon" }),
+	                        "25"
+	                    )
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = ChannelItem;
+
+/***/ },
+/* 304 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(158);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _loginForm = __webpack_require__(305);
+
+	var _loginForm2 = _interopRequireDefault(_loginForm);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var LoginModal = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "LoginModal",
+
+	    propTypes: {
+	        onLogInUser: PropTypes.func
+	    },
+	    componentDidMount: function componentDidMount() {
+	        $(_reactDom2.default.findDOMNode(this.refs.loginModal)).modal({
+	            blurring: true
+	        });
+
+	        var onLogInUser = this.props.onLogInUser;
+
+	        $('.login-form').form({
+	            onSuccess: function onSuccess(event, submitObject) {
+	                event.preventDefault();
+
+	                onLogInUser(submitObject);
+	            },
+	            fields: {
+	                username: 'empty',
+	                password: ['empty']
+	            }
+	        });
+	    },
+	    render: function render() {
+	        return _react2.default.createElement(
+	            "div",
+	            { id: "login-modal", className: "ui modal small", ref: "loginModal" },
+	            _react2.default.createElement("i", { className: "close icon" }),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "header" },
+	                "Modal Title"
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "content" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "description" },
+	                    _react2.default.createElement(_loginForm2.default, null)
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = LoginModal;
+
+/***/ },
+/* 305 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var LoginForm = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "LoginForm",
+	    render: function render() {
+	        return _react2.default.createElement(
+	            "form",
+	            { className: "ui form login-form" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "field" },
+	                _react2.default.createElement(
+	                    "label",
+	                    null,
+	                    "Username"
+	                ),
+	                _react2.default.createElement("input", { type: "text", name: "username", placeholder: "Username" })
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "field" },
+	                _react2.default.createElement(
+	                    "label",
+	                    null,
+	                    "Password"
+	                ),
+	                _react2.default.createElement("input", { type: "password", name: "password", placeholder: "Password" })
+	            ),
+	            _react2.default.createElement(
+	                "button",
+	                { className: "ui button" },
+	                "Login"
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = LoginForm;
+
+/***/ },
+/* 306 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(158);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _signupForm = __webpack_require__(307);
+
+	var _signupForm2 = _interopRequireDefault(_signupForm);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var SignUpModal = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "SignUpModal",
+
+	    propTypes: {
+	        onSignUpUser: PropTypes.func
+	    },
+	    componentDidMount: function componentDidMount() {
+	        $(_reactDom2.default.findDOMNode(this.refs.signupModal)).modal({
+	            blurring: true
+	        });
+
+	        var onSignUpUser = this.props.onSignUpUser;
+
+	        $('.signup-form').form({
+	            onSuccess: function onSuccess(event, submitObject) {
+	                event.preventDefault();
+
+	                onSignUpUser(submitObject);
+	            },
+	            fields: {
+	                username: 'empty',
+	                password: ['empty']
+	            }
+	        });
+	    },
+	    render: function render() {
+	        return _react2.default.createElement(
+	            "div",
+	            { id: "signup-modal", className: "ui modal small", ref: "signupModal" },
+	            _react2.default.createElement("i", { className: "close icon" }),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "header" },
+	                "Modal Title"
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "content" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "description" },
+	                    _react2.default.createElement(_signupForm2.default, null)
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = SignUpModal;
+
+/***/ },
+/* 307 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var SignUpForm = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "SignUpForm",
+	    render: function render() {
+	        return _react2.default.createElement(
+	            "form",
+	            { className: "ui form signup-form" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "field" },
+	                _react2.default.createElement(
+	                    "label",
+	                    null,
+	                    "Username"
+	                ),
+	                _react2.default.createElement("input", { type: "text", name: "username", placeholder: "Username" })
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "field" },
+	                _react2.default.createElement(
+	                    "label",
+	                    null,
+	                    "Password"
+	                ),
+	                _react2.default.createElement("input", { type: "text", name: "password", placeholder: "Password" })
+	            ),
+	            _react2.default.createElement(
+	                "button",
+	                { className: "ui button" },
+	                "Signup"
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = SignUpForm;
+
+/***/ },
+/* 308 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(158);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var CreateChannelModal = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "CreateChannelModal",
+
+	    propTypes: {
+	        onCreateChannel: PropTypes.func
+	    },
+	    componentDidMount: function componentDidMount() {
+	        $(_reactDom2.default.findDOMNode(this.refs.createChannelModal)).modal({
+	            blurring: true
+	        });
+
+	        var onCreateChannel = this.props.onCreateChannel;
+
+	        $('.create-channel-form').form({
+	            onSuccess: function onSuccess(event, submitObject) {
+	                event.preventDefault();
+
+	                onCreateChannel(submitObject);
+	            },
+	            fields: {
+	                channel: 'empty',
+	                channelOwner: ['empty']
+	            }
+	        });
+	    },
+	    render: function render() {
+	        return _react2.default.createElement(
+	            "div",
+	            { id: "create-channel-modal", className: "ui modal small", ref: "createChannelModal" },
+	            _react2.default.createElement("i", { className: "close icon" }),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "header" },
+	                "新增頻道"
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "content" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "description" },
+	                    _react2.default.createElement(
+	                        "form",
+	                        { className: "ui form create-channel-form" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "field" },
+	                            _react2.default.createElement(
+	                                "label",
+	                                null,
+	                                "頻道種類"
+	                            ),
+	                            _react2.default.createElement(
+	                                "select",
+	                                { name: "type" },
+	                                _react2.default.createElement(
+	                                    "option",
+	                                    { value: "" },
+	                                    "無選擇"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "option",
+	                                    { value: "personal" },
+	                                    "個人"
+	                                ),
+	                                _react2.default.createElement(
+	                                    "option",
+	                                    { value: "public" },
+	                                    "公開"
+	                                )
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "field" },
+	                            _react2.default.createElement(
+	                                "label",
+	                                null,
+	                                "頻道名稱"
+	                            ),
+	                            _react2.default.createElement("input", { type: "text", name: "name", placeholder: "頻道名稱" })
+	                        ),
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "field" },
+	                            _react2.default.createElement(
+	                                "label",
+	                                null,
+	                                "頻道主"
+	                            ),
+	                            _react2.default.createElement("input", { type: "text", name: "ownerUsername", placeholder: "頻道主" })
+	                        ),
+	                        _react2.default.createElement(
+	                            "button",
+	                            { className: "ui button" },
+	                            "新增"
+	                        )
+	                    )
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = CreateChannelModal;
 
 /***/ }
 /******/ ]);

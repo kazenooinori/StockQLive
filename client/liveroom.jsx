@@ -6,7 +6,7 @@ import {Provider} from "react-redux";
 import reducer from "./reducers/chatroom";
 import thunkMiddleWare from "redux-thunk";
 import createLogger from 'redux-logger'
-import Liveroom from "./containers/liveroom";
+import Liveroom from "./containers/liveroom.jsx";
 
 const loggerMiddleware = createLogger();
 const store = createStore(reducer, applyMiddleware(thunkMiddleWare, loggerMiddleware));
