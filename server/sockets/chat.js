@@ -20,7 +20,6 @@ export default function chatSocket (server) {
             })
             .then((message) => {
                 _chatSocket.emit("server push", message);
-                logger.info("message saved ", message);
             })
             .catch((error) => {
                 logger.error("error when saving message ", error);
