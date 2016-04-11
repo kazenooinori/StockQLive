@@ -50,6 +50,7 @@
     "require": "^2.4.20",
     "rx": "^4.0.8",
     "semantic-ui": "^2.1.8",
-    "socket.io": "^1.4.5"
+    "socket.io": "^1.4.5",
+    "winston": "^2.2.0"
   }
 }

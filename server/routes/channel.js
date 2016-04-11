@@ -1,3 +1,4 @@
+const logger = require("../lib/logger");
 const express = require("express");
 const ChatroomStore = require("../stores/chatroom");
 const ChannelStore = require("../stores/channel");
@@ -17,6 +18,7 @@ router.get("/:channelId", function (req, res, next) {
         });
     })
     .catch((error) => {
+        logger.error("error getting channel ", error);
         res.render("chatroom");
     });
 });

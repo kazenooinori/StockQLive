@@ -1,3 +1,4 @@
+const logger = require("../../lib/logger");
 const express = require("express");
 const router = express.Router();
 const UserStore = require("../../stores/user");
@@ -17,7 +18,7 @@ router.post("/", (req, res) => {
         });
     })
     .catch((error) => {
-        console.error("signup", error);
+        logger.error("error signup ", error);
         res.json(error);
         res.end();
     });

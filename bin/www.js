@@ -1,13 +1,14 @@
 var app = require("../server/app");
 var debug = require('debug')('cha:server');
 var http = require("http");
+const logger = require("../server/lib/logger");
 
 var port = 3000;
 app.set("port", port);
 
 var server = http.createServer(app);
 server.listen(port, function () {
-    console.log("start server on port " + port);
+    logger.info("start server on port " + port);
 });
 server.on('error', onError);
 server.on('listening', onListening);
@@ -31,11 +32,11 @@ function onError(error) {
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
+      logger.error(bind + ' requires elevated privileges');
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
+      logger.error(bind + ' is already in use');
       process.exit(1);
       break;
     default:

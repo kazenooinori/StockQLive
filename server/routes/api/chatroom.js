@@ -1,3 +1,4 @@
+const logger = require("../../lib/logger");
 const express = require("express");
 const MessageStore = require("../../stores/message");
 const router = express.Router();
@@ -12,7 +13,7 @@ router.get("/:chatroomId/messages", function (req, res) {
         res.end();
     })
     .catch((error) => {
-        console.error("sending message error", error);
+        logger.error("error sending message ", error);
         // 204 no content
         res.status(204).write({
             message: "no message found",

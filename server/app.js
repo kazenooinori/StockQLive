@@ -1,19 +1,20 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-const logger = require("morgan");
+const connectionLogger = require("morgan");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const cons = require('consolidate');
 const session = require('express-session');
 const flash = require("connect-flash");
+const serverLogger = require("./lib/logger");
 
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'dust');
 app.engine('dust', cons.dust);
 app.use(express.static(path.join(__dirname, '../public')));
-app.use(logger("dev"));
+app.use(connectionLogger("dev"));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -32,11 +33,11 @@ const mongoose = require('mongoose');
 const serverConfig = require("./config");
 mongoose.connect(serverConfig.mongoURL, (error) => {
     if (error) {
-        console.error("please make sure mongodb is running", serverConfig.mongoURL);
+        serverLogger.error("please make sure mongodb is running", serverConfig.mongoURL);
         return;
     }
 
-    console.log("connected to mongoDB", serverConfig.mongoURL);
+    serverLogger.info("connected to mongoDB", serverConfig.mongoURL);
 });
 
 

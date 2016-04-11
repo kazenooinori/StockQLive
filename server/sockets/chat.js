@@ -1,3 +1,4 @@
+const logger = require("../lib/logger");
 const Socket = require('socket.io');
 const MessageStore = require('../stores/message');
 
@@ -5,9 +6,9 @@ export default function chatSocket (server) {
     const io = Socket(server);
     const _chatSocket = io.of("/chat");
     _chatSocket.on("connection", function (socket) {
-        console.log("an user is connected");
+        logger.info("an user is connected");
         socket.on("disconnect", function () {
-            console.log("an user is disconnected");
+            logger.info("an user is disconnected");
         });
 
         socket.on("client send", function (data) {
@@ -19,10 +20,10 @@ export default function chatSocket (server) {
             })
             .then((message) => {
                 _chatSocket.emit("server push", message);
-                console.log("message saved ", message);
+                logger.info("message saved ", message);
             })
             .catch((error) => {
-                console.error(error);
+                logger.error("error when saving message ", error);
             });
         });
     });

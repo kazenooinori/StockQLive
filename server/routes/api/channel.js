@@ -1,3 +1,4 @@
+const logger = require("../../lib/logger");
 const express = require("express");
 const router = express.Router();
 const UserStore = require("../../stores/user");
@@ -10,7 +11,7 @@ router.get("/", (req, res) => {
         res.json(channels);
     })
     .catch((error) => {
-        console.error("error find channel", error);
+        logger.error("error find channel ", error);
         res.status(400);
         res.end();
     });
@@ -47,7 +48,7 @@ router.post("/", (req, res) => {
         res.json(channel);
     })
     .catch((error) => {
-        console.error("error create channel", error);
+        logger.error("error create channel ", error);
         res.status(405);// 405 method not allowed
         res.end();
     });

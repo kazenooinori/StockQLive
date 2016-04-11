@@ -1,3 +1,4 @@
+const logger = require("../lib/logger");
 const express = require("express");
 const ChatroomStore = require("../stores/chatroom");
 const MessageStore = require("../stores/message");
@@ -9,7 +10,7 @@ router.get("/", function (req, res) {
         res.redirect("/chatroom/" + chatroom._id);
     })
     .catch((error) => {
-        console.error("error render page", error);
+        logger.error("error render page ", error);
         res.status(404);// 404 not found
         res.end();
     });
