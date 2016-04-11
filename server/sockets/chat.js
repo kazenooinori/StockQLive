@@ -1,5 +1,5 @@
-import Socket from 'socket.io';
-import * as MessageStore from '../stores/message';
+const Socket = require('socket.io');
+const MessageStore = require('../stores/message');
 
 export default function chatSocket (server) {
     const io = Socket(server);
@@ -18,7 +18,7 @@ export default function chatSocket (server) {
                 content: data.content,
             })
             .then((message) => {
-                _chatSocket.emit("server push", message);
+                socket.emit("server push", message);
                 console.log("message saved ", message);
             })
             .catch((error) => {

@@ -13,9 +13,11 @@ const {Component, PropTypes} = React;
 class Messager extends Component {
     constructor(props) {
         super(props);
-        var self = this;
-        this.props.socket.on("server push", function (data) {
-            self.props.onAppendMessage(data);
+        var {props} = this;
+        props.socket.on("server push", function (data) {
+            if (data.chatroomId && data.chatroomId === props.channel.chatroomId) {
+                props.onAppendMessage(data);
+            }
         });
 
         this.state = {

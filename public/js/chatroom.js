@@ -66,11 +66,11 @@
 
 	var _chatroom2 = _interopRequireDefault(_chatroom);
 
-	var _reduxThunk = __webpack_require__(305);
+	var _reduxThunk = __webpack_require__(306);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-	var _reduxLogger = __webpack_require__(306);
+	var _reduxLogger = __webpack_require__(307);
 
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 
@@ -19783,9 +19783,12 @@
 
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Messager).call(this, props));
 
-	        var self = _this;
-	        _this.props.socket.on("server push", function (data) {
-	            self.props.onAppendMessage(data);
+	        var props = _this.props;
+
+	        props.socket.on("server push", function (data) {
+	            if (data.chatroomId && data.chatroomId === props.channel.chatroomId) {
+	                props.onAppendMessage(data);
+	            }
 	        });
 
 	        _this.state = {
@@ -36555,15 +36558,15 @@
 
 	var _channels2 = _interopRequireDefault(_channels);
 
-	var _stocks = __webpack_require__(307);
+	var _stocks = __webpack_require__(303);
 
 	var _stocks2 = _interopRequireDefault(_stocks);
 
-	var _messages = __webpack_require__(303);
+	var _messages = __webpack_require__(304);
 
 	var _messages2 = _interopRequireDefault(_messages);
 
-	var _user = __webpack_require__(304);
+	var _user = __webpack_require__(305);
 
 	var _user2 = _interopRequireDefault(_user);
 
@@ -36650,6 +36653,37 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.default = Stocks;
+
+	var _actionTypes = __webpack_require__(285);
+
+	var types = _interopRequireWildcard(_actionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	function Stocks() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.UPDATE_STOCKS:
+	            return [].concat(_toConsumableArray(action.stocks));
+	        default:
+	            return state;
+	    }
+	}
+
+/***/ },
+/* 304 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	exports.default = messages;
 
 	var _actionTypes = __webpack_require__(285);
@@ -36687,7 +36721,7 @@
 	}
 
 /***/ },
-/* 304 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36721,7 +36755,7 @@
 	}
 
 /***/ },
-/* 305 */
+/* 306 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -36740,7 +36774,7 @@
 	module.exports = thunkMiddleware;
 
 /***/ },
-/* 306 */
+/* 307 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -36936,37 +36970,6 @@
 	}
 
 	module.exports = createLogger;
-
-/***/ },
-/* 307 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = Stocks;
-
-	var _actionTypes = __webpack_require__(285);
-
-	var types = _interopRequireWildcard(_actionTypes);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-	function Stocks() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
-	    var action = arguments[1];
-
-	    switch (action.type) {
-	        case types.UPDATE_STOCKS:
-	            return [].concat(_toConsumableArray(action.stocks));
-	        default:
-	            return state;
-	    }
-	}
 
 /***/ }
 /******/ ]);
