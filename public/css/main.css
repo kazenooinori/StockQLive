@@ -3,13 +3,13 @@
     top: 0px;
     left: 0px;
     bottom: 0px;
-    width: 300px;
+    width: 250px;
     overflow: scroll;
 }
 .main_col {
     position: absolute;
     top: 0px;
-    left: 300px;
+    left: 250px;
     bottom: 0px;
     right: 300px;
     overflow: scroll;

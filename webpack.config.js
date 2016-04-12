@@ -4,6 +4,7 @@ module.exports = {
     entry: {
         chatroom: "./chatroom.jsx",
         liveroom: "./liveroom.jsx",
+        timeline: "./timeline.jsx",
         // home: "./home.jsx",
     },
     output: {

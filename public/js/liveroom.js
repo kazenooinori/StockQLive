@@ -35716,7 +35716,7 @@
 
 	var ChaActions = _interopRequireWildcard(_chaActions);
 
-	var _highstock = __webpack_require__(310);
+	var _highstock = __webpack_require__(309);
 
 	var _highstock2 = _interopRequireDefault(_highstock);
 
@@ -37140,8 +37140,7 @@
 	exports.default = CreateChannelModal;
 
 /***/ },
-/* 309 */,
-/* 310 */
+/* 309 */
 /***/ function(module, exports) {
 
 	/*

@@ -1,0 +1,39 @@
+.trend-card-list {
+    padding: 10px !important;
+}
+.trend-card-list .trend-card {
+    width: 100%;
+    overflow: hidden;
+}
+
+.trend-card img.avatar {
+    width: 2.5em !important;
+    height: 2.5em !important;
+}
+.trend-card .stock-label {
+    width: 40px;
+    height: 40px;
+}
+.trend-card .trend-label {
+    font-size: 20px;
+}
+.trend-card .description {
+    margin-top: 20px !important;
+}
+.trend-card .subject {
+    margin-top: 10px;
+}
+.trend-card .subject .ui.accordion .title {
+    padding: 8px 10px;
+}
+.trend-card .subject .ui.accordion .title span {
+    display: inline-block;
+    margin-right: 16px;
+}
+.trend-card .subject .ui.accordion .title .icon {
+    margin-right: 0px;
+}
+.trend-card .subject .ui.accordion .active.title .icon {
+    -webkit-transform: translateY(2px)rotate(180deg);
+    transform: translateY(2px)rotate(180deg);
+}
