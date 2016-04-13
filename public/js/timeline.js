@@ -21350,17 +21350,897 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ },
-/* 287 */,
-/* 288 */,
-/* 289 */,
-/* 290 */,
-/* 291 */,
-/* 292 */,
-/* 293 */,
-/* 294 */,
-/* 295 */,
-/* 296 */,
-/* 297 */,
+/* 287 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.sendMessage = sendMessage;
+	exports.appendMessages = appendMessages;
+	exports.appendMessage = appendMessage;
+	exports.fetchMessages = fetchMessages;
+	exports.signUpUser = signUpUser;
+	exports.logInUser = logInUser;
+	exports.logOutUser = logOutUser;
+	exports.initUser = initUser;
+	exports.createChannel = createChannel;
+	exports.fetchChannels = fetchChannels;
+	exports.updateStocks = updateStocks;
+
+	var _actionTypes = __webpack_require__(288);
+
+	var types = _interopRequireWildcard(_actionTypes);
+
+	var _isomorphicFetch = __webpack_require__(289);
+
+	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+	var _fetchUtils = __webpack_require__(291);
+
+	var fetchUtils = _interopRequireWildcard(_fetchUtils);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function sendMessage(message) {
+	    return {
+	        type: types.SEND_MESSAGE,
+	        message: message
+	    };
+	}
+
+	function appendMessages(messages) {
+	    return {
+	        type: types.APPEND_MESSAGES,
+	        messages: messages
+	    };
+	}
+
+	function appendMessage(message) {
+	    return {
+	        type: types.APPEND_MESSAGE,
+	        message: message
+	    };
+	}
+
+	function fetchMessages(chatroomId) {
+	    return function (dispatch, getState) {
+	        // should inform that the app is going to fetch messages
+	        //dispatch(requestMessages());
+	        return (0, _isomorphicFetch2.default)("/api/chatroom/" + chatroomId + "/messages", {
+	            method: "GET",
+	            headers: {
+	                "Accept": "application/json"
+	            },
+	            credentials: 'include'
+	        }).then(function (response) {
+	            return response.json();
+	        }).then(function (json) {
+	            dispatch(appendMessages(json));
+	        }).catch(function (error) {
+	            console.error("error when fetching messages", error);
+	        });
+	    };
+	}
+
+	function signUpUser(toSignUpUser) {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/api/signup", {
+	            method: 'POST',
+	            headers: {
+	                "Accept": "application/json",
+	                "Content-Type": "application/json"
+	            },
+	            body: JSON.stringify(toSignUpUser),
+	            credentials: 'include'
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (user) {
+	            dispatch({
+	                type: types.LOGIN,
+	                user: user
+	            });
+	        }).catch(function (error) {
+	            console.error("signup fail", error);
+	        });
+	    };
+	}
+	function logInUser(toLogInUser) {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/api/login", {
+	            method: 'POST',
+	            headers: {
+	                "Accept": "application/json",
+	                "Content-Type": "application/json"
+	            },
+	            body: JSON.stringify(toLogInUser),
+	            credentials: 'include'
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (user) {
+	            dispatch({
+	                type: types.LOGIN,
+	                user: user
+	            });
+	        }).catch(function (error) {
+	            console.error("login fail", error);
+	        });
+	    };
+	}
+	function logOutUser(user) {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/api/logout", {
+	            method: "GET",
+	            headers: {
+	                "Accept": "application/json"
+	            },
+	            credentials: 'include'
+	        }).then(fetchUtils.checkStatus).then(function () {
+	            dispatch({
+	                type: types.LOGOUT
+	            });
+	        }).catch(function (error) {
+	            console.error("logout user error", error);
+	        });
+	    };
+	}
+	function initUser() {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/api/user/me", {
+	            method: "GET",
+	            headers: {
+	                "Accept": "application/json"
+	            },
+	            credentials: 'include'
+	        }).then(fetchUtils.checkStatus).then(function (response) {
+	            return response.json();
+	        }).then(function (user) {
+	            dispatch({
+	                type: types.LOGIN,
+	                user: user
+	            });
+	        }).catch(function (error) {
+	            console.error("fetch user error", error);
+	        });
+	    };
+	}
+
+	function createChannel(channel) {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/api/channel", {
+	            method: "POST",
+	            headers: {
+	                "Content-Type": "application/json",
+	                "Accept": "application/json"
+	            },
+	            body: JSON.stringify(channel),
+	            credentials: true
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (channel) {
+	            dispatch({
+	                type: types.APPEND_CHANNEL,
+	                channel: channel
+	            });
+	        }).catch(function (error) {
+	            console.error("create channel error", error);
+	        });
+	    };
+	}
+	function fetchChannels() {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/api/channel", {
+	            method: "GET",
+	            headers: {
+	                "Content-Type": "application/json",
+	                "Accept": "application/json"
+	            },
+	            credentials: true
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (channels) {
+	            dispatch({
+	                type: types.APPEND_CHANNELS,
+	                channels: channels
+	            });
+	        }).catch(function (error) {
+	            console.error("create channel error", error);
+	        });
+	    };
+	}
+
+	function updateStocks() {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/api/stock", {
+	            method: "GET",
+	            headers: {
+	                "Content-Type": "application/json",
+	                "Accept": "application/json"
+	            },
+	            credentials: true
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stocks) {
+	            dispatch({
+	                type: types.UPDATE_STOCKS,
+	                stocks: stocks
+	            });
+	        }).catch(function (error) {
+	            console.error("create channel error", error);
+	        });
+	    };
+	}
+
+/***/ },
+/* 288 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var SEND_MESSAGE = exports.SEND_MESSAGE = "SEND_MESSAGE";
+	var APPEND_MESSAGE = exports.APPEND_MESSAGE = "APPEND_MESSAGE";
+	var APPEND_MESSAGES = exports.APPEND_MESSAGES = "APPEND_MESSAGES";
+	var CREATE_REQUEST = exports.CREATE_REQUEST = "CREATE_REQUEST";
+	var APPEND_REQUEST = exports.APPEND_REQUEST = "APPEND_REQUEST";
+
+	var APPEND_CHANNEL = exports.APPEND_CHANNEL = "APPEND_CHANNEL";
+	var APPEND_CHANNELS = exports.APPEND_CHANNELS = "APPEND_CHANNELS";
+	var UPDATE_CHANNEL = exports.UPDATE_CHANNEL = "UPDATE_CHANNEL";
+
+	var UPDATE_STOCKS = exports.UPDATE_STOCKS = "UPDATE_STOCKS";
+
+	var FETCH_ALL_REQUESTS = exports.FETCH_ALL_REQUESTS = "FETCH_ALL_REQUESTS";
+	var APPEND_REQUESTS = exports.APPEND_REQUESTS = "APPEND_REQUESTS";
+
+	var LOGIN = exports.LOGIN = "LOGIN";
+	var LOGOUT = exports.LOGOUT = "LOGOUT";
+
+/***/ },
+/* 289 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// the whatwg-fetch polyfill installs the fetch() function
+	// on the global object (window or self)
+	//
+	// Return that as the export for use in Webpack, Browserify etc.
+	__webpack_require__(290);
+	module.exports = self.fetch.bind(self);
+
+
+/***/ },
+/* 290 */
+/***/ function(module, exports) {
+
+	(function(self) {
+	  'use strict';
+
+	  if (self.fetch) {
+	    return
+	  }
+
+	  function normalizeName(name) {
+	    if (typeof name !== 'string') {
+	      name = String(name)
+	    }
+	    if (/[^a-z0-9\-#$%&'*+.\^_`|~]/i.test(name)) {
+	      throw new TypeError('Invalid character in header field name')
+	    }
+	    return name.toLowerCase()
+	  }
+
+	  function normalizeValue(value) {
+	    if (typeof value !== 'string') {
+	      value = String(value)
+	    }
+	    return value
+	  }
+
+	  function Headers(headers) {
+	    this.map = {}
+
+	    if (headers instanceof Headers) {
+	      headers.forEach(function(value, name) {
+	        this.append(name, value)
+	      }, this)
+
+	    } else if (headers) {
+	      Object.getOwnPropertyNames(headers).forEach(function(name) {
+	        this.append(name, headers[name])
+	      }, this)
+	    }
+	  }
+
+	  Headers.prototype.append = function(name, value) {
+	    name = normalizeName(name)
+	    value = normalizeValue(value)
+	    var list = this.map[name]
+	    if (!list) {
+	      list = []
+	      this.map[name] = list
+	    }
+	    list.push(value)
+	  }
+
+	  Headers.prototype['delete'] = function(name) {
+	    delete this.map[normalizeName(name)]
+	  }
+
+	  Headers.prototype.get = function(name) {
+	    var values = this.map[normalizeName(name)]
+	    return values ? values[0] : null
+	  }
+
+	  Headers.prototype.getAll = function(name) {
+	    return this.map[normalizeName(name)] || []
+	  }
+
+	  Headers.prototype.has = function(name) {
+	    return this.map.hasOwnProperty(normalizeName(name))
+	  }
+
+	  Headers.prototype.set = function(name, value) {
+	    this.map[normalizeName(name)] = [normalizeValue(value)]
+	  }
+
+	  Headers.prototype.forEach = function(callback, thisArg) {
+	    Object.getOwnPropertyNames(this.map).forEach(function(name) {
+	      this.map[name].forEach(function(value) {
+	        callback.call(thisArg, value, name, this)
+	      }, this)
+	    }, this)
+	  }
+
+	  function consumed(body) {
+	    if (body.bodyUsed) {
+	      return Promise.reject(new TypeError('Already read'))
+	    }
+	    body.bodyUsed = true
+	  }
+
+	  function fileReaderReady(reader) {
+	    return new Promise(function(resolve, reject) {
+	      reader.onload = function() {
+	        resolve(reader.result)
+	      }
+	      reader.onerror = function() {
+	        reject(reader.error)
+	      }
+	    })
+	  }
+
+	  function readBlobAsArrayBuffer(blob) {
+	    var reader = new FileReader()
+	    reader.readAsArrayBuffer(blob)
+	    return fileReaderReady(reader)
+	  }
+
+	  function readBlobAsText(blob) {
+	    var reader = new FileReader()
+	    reader.readAsText(blob)
+	    return fileReaderReady(reader)
+	  }
+
+	  var support = {
+	    blob: 'FileReader' in self && 'Blob' in self && (function() {
+	      try {
+	        new Blob();
+	        return true
+	      } catch(e) {
+	        return false
+	      }
+	    })(),
+	    formData: 'FormData' in self,
+	    arrayBuffer: 'ArrayBuffer' in self
+	  }
+
+	  function Body() {
+	    this.bodyUsed = false
+
+
+	    this._initBody = function(body) {
+	      this._bodyInit = body
+	      if (typeof body === 'string') {
+	        this._bodyText = body
+	      } else if (support.blob && Blob.prototype.isPrototypeOf(body)) {
+	        this._bodyBlob = body
+	      } else if (support.formData && FormData.prototype.isPrototypeOf(body)) {
+	        this._bodyFormData = body
+	      } else if (!body) {
+	        this._bodyText = ''
+	      } else if (support.arrayBuffer && ArrayBuffer.prototype.isPrototypeOf(body)) {
+	        // Only support ArrayBuffers for POST method.
+	        // Receiving ArrayBuffers happens via Blobs, instead.
+	      } else {
+	        throw new Error('unsupported BodyInit type')
+	      }
+
+	      if (!this.headers.get('content-type')) {
+	        if (typeof body === 'string') {
+	          this.headers.set('content-type', 'text/plain;charset=UTF-8')
+	        } else if (this._bodyBlob && this._bodyBlob.type) {
+	          this.headers.set('content-type', this._bodyBlob.type)
+	        }
+	      }
+	    }
+
+	    if (support.blob) {
+	      this.blob = function() {
+	        var rejected = consumed(this)
+	        if (rejected) {
+	          return rejected
+	        }
+
+	        if (this._bodyBlob) {
+	          return Promise.resolve(this._bodyBlob)
+	        } else if (this._bodyFormData) {
+	          throw new Error('could not read FormData body as blob')
+	        } else {
+	          return Promise.resolve(new Blob([this._bodyText]))
+	        }
+	      }
+
+	      this.arrayBuffer = function() {
+	        return this.blob().then(readBlobAsArrayBuffer)
+	      }
+
+	      this.text = function() {
+	        var rejected = consumed(this)
+	        if (rejected) {
+	          return rejected
+	        }
+
+	        if (this._bodyBlob) {
+	          return readBlobAsText(this._bodyBlob)
+	        } else if (this._bodyFormData) {
+	          throw new Error('could not read FormData body as text')
+	        } else {
+	          return Promise.resolve(this._bodyText)
+	        }
+	      }
+	    } else {
+	      this.text = function() {
+	        var rejected = consumed(this)
+	        return rejected ? rejected : Promise.resolve(this._bodyText)
+	      }
+	    }
+
+	    if (support.formData) {
+	      this.formData = function() {
+	        return this.text().then(decode)
+	      }
+	    }
+
+	    this.json = function() {
+	      return this.text().then(JSON.parse)
+	    }
+
+	    return this
+	  }
+
+	  // HTTP methods whose capitalization should be normalized
+	  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
+
+	  function normalizeMethod(method) {
+	    var upcased = method.toUpperCase()
+	    return (methods.indexOf(upcased) > -1) ? upcased : method
+	  }
+
+	  function Request(input, options) {
+	    options = options || {}
+	    var body = options.body
+	    if (Request.prototype.isPrototypeOf(input)) {
+	      if (input.bodyUsed) {
+	        throw new TypeError('Already read')
+	      }
+	      this.url = input.url
+	      this.credentials = input.credentials
+	      if (!options.headers) {
+	        this.headers = new Headers(input.headers)
+	      }
+	      this.method = input.method
+	      this.mode = input.mode
+	      if (!body) {
+	        body = input._bodyInit
+	        input.bodyUsed = true
+	      }
+	    } else {
+	      this.url = input
+	    }
+
+	    this.credentials = options.credentials || this.credentials || 'omit'
+	    if (options.headers || !this.headers) {
+	      this.headers = new Headers(options.headers)
+	    }
+	    this.method = normalizeMethod(options.method || this.method || 'GET')
+	    this.mode = options.mode || this.mode || null
+	    this.referrer = null
+
+	    if ((this.method === 'GET' || this.method === 'HEAD') && body) {
+	      throw new TypeError('Body not allowed for GET or HEAD requests')
+	    }
+	    this._initBody(body)
+	  }
+
+	  Request.prototype.clone = function() {
+	    return new Request(this)
+	  }
+
+	  function decode(body) {
+	    var form = new FormData()
+	    body.trim().split('&').forEach(function(bytes) {
+	      if (bytes) {
+	        var split = bytes.split('=')
+	        var name = split.shift().replace(/\+/g, ' ')
+	        var value = split.join('=').replace(/\+/g, ' ')
+	        form.append(decodeURIComponent(name), decodeURIComponent(value))
+	      }
+	    })
+	    return form
+	  }
+
+	  function headers(xhr) {
+	    var head = new Headers()
+	    var pairs = xhr.getAllResponseHeaders().trim().split('\n')
+	    pairs.forEach(function(header) {
+	      var split = header.trim().split(':')
+	      var key = split.shift().trim()
+	      var value = split.join(':').trim()
+	      head.append(key, value)
+	    })
+	    return head
+	  }
+
+	  Body.call(Request.prototype)
+
+	  function Response(bodyInit, options) {
+	    if (!options) {
+	      options = {}
+	    }
+
+	    this.type = 'default'
+	    this.status = options.status
+	    this.ok = this.status >= 200 && this.status < 300
+	    this.statusText = options.statusText
+	    this.headers = options.headers instanceof Headers ? options.headers : new Headers(options.headers)
+	    this.url = options.url || ''
+	    this._initBody(bodyInit)
+	  }
+
+	  Body.call(Response.prototype)
+
+	  Response.prototype.clone = function() {
+	    return new Response(this._bodyInit, {
+	      status: this.status,
+	      statusText: this.statusText,
+	      headers: new Headers(this.headers),
+	      url: this.url
+	    })
+	  }
+
+	  Response.error = function() {
+	    var response = new Response(null, {status: 0, statusText: ''})
+	    response.type = 'error'
+	    return response
+	  }
+
+	  var redirectStatuses = [301, 302, 303, 307, 308]
+
+	  Response.redirect = function(url, status) {
+	    if (redirectStatuses.indexOf(status) === -1) {
+	      throw new RangeError('Invalid status code')
+	    }
+
+	    return new Response(null, {status: status, headers: {location: url}})
+	  }
+
+	  self.Headers = Headers;
+	  self.Request = Request;
+	  self.Response = Response;
+
+	  self.fetch = function(input, init) {
+	    return new Promise(function(resolve, reject) {
+	      var request
+	      if (Request.prototype.isPrototypeOf(input) && !init) {
+	        request = input
+	      } else {
+	        request = new Request(input, init)
+	      }
+
+	      var xhr = new XMLHttpRequest()
+
+	      function responseURL() {
+	        if ('responseURL' in xhr) {
+	          return xhr.responseURL
+	        }
+
+	        // Avoid security warnings on getResponseHeader when not allowed by CORS
+	        if (/^X-Request-URL:/m.test(xhr.getAllResponseHeaders())) {
+	          return xhr.getResponseHeader('X-Request-URL')
+	        }
+
+	        return;
+	      }
+
+	      xhr.onload = function() {
+	        var status = (xhr.status === 1223) ? 204 : xhr.status
+	        if (status < 100 || status > 599) {
+	          reject(new TypeError('Network request failed'))
+	          return
+	        }
+	        var options = {
+	          status: status,
+	          statusText: xhr.statusText,
+	          headers: headers(xhr),
+	          url: responseURL()
+	        }
+	        var body = 'response' in xhr ? xhr.response : xhr.responseText;
+	        resolve(new Response(body, options))
+	      }
+
+	      xhr.onerror = function() {
+	        reject(new TypeError('Network request failed'))
+	      }
+
+	      xhr.open(request.method, request.url, true)
+
+	      if (request.credentials === 'include') {
+	        xhr.withCredentials = true
+	      }
+
+	      if ('responseType' in xhr && support.blob) {
+	        xhr.responseType = 'blob'
+	      }
+
+	      request.headers.forEach(function(value, name) {
+	        xhr.setRequestHeader(name, value)
+	      })
+
+	      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit)
+	    })
+	  }
+	  self.fetch.polyfill = true
+	})(typeof self !== 'undefined' ? self : this);
+
+
+/***/ },
+/* 291 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.checkStatus = checkStatus;
+	exports.parseJSON = parseJSON;
+	function checkStatus(res) {
+	    if (res.status >= 200 && res.status < 300) {
+	        return res;
+	    } else {
+	        var error = new Error(res.statusText);
+	        error.res = res;
+	        throw error;
+	    }
+	}
+
+	function parseJSON(res) {
+	    return res.json();
+	}
+
+/***/ },
+/* 292 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _redux = __webpack_require__(270);
+
+	var _channel = __webpack_require__(293);
+
+	var _channel2 = _interopRequireDefault(_channel);
+
+	var _channels = __webpack_require__(294);
+
+	var _channels2 = _interopRequireDefault(_channels);
+
+	var _stocks = __webpack_require__(295);
+
+	var _stocks2 = _interopRequireDefault(_stocks);
+
+	var _messages = __webpack_require__(296);
+
+	var _messages2 = _interopRequireDefault(_messages);
+
+	var _user = __webpack_require__(297);
+
+	var _user2 = _interopRequireDefault(_user);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var rootReducer = (0, _redux.combineReducers)({
+	    channel: _channel2.default,
+	    channels: _channels2.default,
+	    stocks: _stocks2.default,
+	    messages: _messages2.default,
+	    user: _user2.default
+	});
+
+	exports.default = rootReducer;
+
+/***/ },
+/* 293 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = Channel;
+
+	var _actionTypes = __webpack_require__(288);
+
+	var types = _interopRequireWildcard(_actionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function Channel() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? { _id: "", ownerUsername: "", name: "", chatroomId: "" } : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.UPDATE_CHANNEL:
+	            return Object.assign({}, action.channel);
+	        default:
+	            return state;
+	    }
+	}
+
+/***/ },
+/* 294 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = Channels;
+
+	var _actionTypes = __webpack_require__(288);
+
+	var types = _interopRequireWildcard(_actionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	function Channels() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.APPEND_CHANNELS:
+	            return [].concat(_toConsumableArray(state), _toConsumableArray(action.channels));
+	        case types.APPEND_CHANNEL:
+	            return [].concat(_toConsumableArray(state), [action.channel]);
+	        default:
+	            return state;
+	    }
+	}
+
+/***/ },
+/* 295 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = Stocks;
+
+	var _actionTypes = __webpack_require__(288);
+
+	var types = _interopRequireWildcard(_actionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	function Stocks() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.UPDATE_STOCKS:
+	            return [].concat(_toConsumableArray(action.stocks));
+	        default:
+	            return state;
+	    }
+	}
+
+/***/ },
+/* 296 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = messages;
+
+	var _actionTypes = __webpack_require__(288);
+
+	var types = _interopRequireWildcard(_actionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	function messages() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.SEND_MESSAGE:
+	            return [].concat(_toConsumableArray(state), [action.message]);
+	        case types.APPEND_MESSAGES:
+	            return [].concat(_toConsumableArray(state), _toConsumableArray(action.messages));
+	        case types.APPEND_MESSAGE:
+	            var message = action.message;
+
+	            var shouldAppend = true;
+	            state.every(function (existedMessage) {
+	                shouldAppend = existedMessage._id !== message._id;
+	                return shouldAppend;
+	            });
+	            if (shouldAppend) {
+	                return [].concat(_toConsumableArray(state), [message]);
+	            }
+	            return state;
+	        default:
+	            return state;
+	    }
+	}
+
+/***/ },
+/* 297 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = user;
+
+	var _actionTypes = __webpack_require__(288);
+
+	var types = _interopRequireWildcard(_actionTypes);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function user() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? { _id: "", username: "" } : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.LOGIN:
+	            return Object.assign({}, action.user);
+	        case types.LOGOUT:
+	            return {
+	                _id: "",
+	                username: ""
+	            };
+	        default:
+	            return state;
+	    }
+	}
+
+/***/ },
 /* 298 */
 /***/ function(module, exports) {
 
@@ -21615,13 +22495,779 @@
 /***/ },
 /* 300 */,
 /* 301 */,
-/* 302 */,
-/* 303 */,
-/* 304 */,
-/* 305 */,
-/* 306 */,
-/* 307 */,
-/* 308 */,
+/* 302 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(159);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _reactRedux = __webpack_require__(263);
+
+	var _chaActions = __webpack_require__(287);
+
+	var ChaActions = _interopRequireWildcard(_chaActions);
+
+	var _stockItem = __webpack_require__(303);
+
+	var _stockItem2 = _interopRequireDefault(_stockItem);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var Component = _react2.default.Component;
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var checkLatestPrice = function checkLatestPrice(stock) {
+	    return stock.latest_price !== -1;
+	};
+	var InformationRail = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "InformationRail",
+
+	    propTypes: {
+	        stocks: PropTypes.array
+	    },
+	    componentDidMount: function componentDidMount() {
+	        $(_reactDom2.default.findDOMNode(this.refs.menu)).find('.item').tab();
+
+	        this.props.updateStocks();
+	    },
+	    renderStockItems: function renderStockItems(stocks) {
+	        return stocks.filter(checkLatestPrice).map(function (stock) {
+	            return _react2.default.createElement(_stockItem2.default, {
+	                key: stock.number,
+	                name: stock.name,
+	                latestPrice: stock.latest_price,
+	                yesterdayPrice: stock.yesterday_price });
+	        });
+	    },
+	    render: function render() {
+	        var stocks = this.props.stocks;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "information-rail" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "ui secondary menu", ref: "menu" },
+	                _react2.default.createElement(
+	                    "a",
+	                    { className: "item active", "data-tab": "stockprice" },
+	                    "股價"
+	                )
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "ui tab segment board active", "data-tab": "stockprice" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "stock-list ui middle aligned selection list" },
+	                    this.renderStockItems(stocks)
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	var mapStateToProps = function mapStateToProps(state) {
+	    return {
+	        stocks: state.stocks
+	    };
+	};
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	    return {
+	        updateStocks: function updateStocks() {
+	            dispatch(ChaActions.updateStocks());
+	        }
+	    };
+	};
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(InformationRail);
+
+/***/ },
+/* 303 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(159);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _stockItemPopup = __webpack_require__(304);
+
+	var _stockItemPopup2 = _interopRequireDefault(_stockItemPopup);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var StockItem = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "StockItem",
+
+	    propTypes: {
+	        name: PropTypes.string.isRequired,
+	        latestPrice: PropTypes.number.isRequired,
+	        yesterdayPrice: PropTypes.number.isRequired
+	    },
+	    componentDidMount: function componentDidMount() {
+	        $(_reactDom2.default.findDOMNode(this)).find(".content").popup({
+	            inline: true,
+	            hoverable: true,
+	            position: 'bottom left',
+	            delay: {
+	                show: 300,
+	                hide: 200
+	            }
+	        });
+	    },
+	    render: function render() {
+	        var _props = this.props;
+	        var name = _props.name;
+	        var latestPrice = _props.latestPrice;
+	        var yesterdayPrice = _props.yesterdayPrice;
+
+	        var difference = (100 * (yesterdayPrice - latestPrice) / yesterdayPrice).toFixed(2);
+	        var labelClass = difference >= 0 ? "red" : "green";
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "stock-item item" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "content" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "description clearfix" },
+	                    _react2.default.createElement(
+	                        "span",
+	                        { className: "name" },
+	                        name
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "ui horizontal label " + labelClass },
+	                        difference,
+	                        "%"
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "ui horizontal label" },
+	                        latestPrice
+	                    )
+	                )
+	            ),
+	            _react2.default.createElement(_stockItemPopup2.default, this.props)
+	        );
+	    }
+	}));
+
+	exports.default = StockItem;
+
+/***/ },
+/* 304 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var StockItemPopup = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "StockItemPopup",
+
+	    propTypes: {
+	        name: PropTypes.string.isRequired
+	    },
+	    render: function render() {
+	        var name = this.props.name;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "stock-popup ui popup" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "header" },
+	                name
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "ui middle aligned divided list" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "content" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "header" },
+	                            _react2.default.createElement(
+	                                "span",
+	                                { className: "name" },
+	                                "目前股價"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "ui horizontal label" },
+	                                "455.33"
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "content" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "header" },
+	                            _react2.default.createElement(
+	                                "span",
+	                                { className: "name" },
+	                                "漲幅"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "ui red horizontal label" },
+	                                "0.5%"
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "content" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "header" },
+	                            _react2.default.createElement(
+	                                "span",
+	                                { className: "name" },
+	                                "成交量"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "ui horizontal label" },
+	                                "5566"
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "content" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "header" },
+	                            _react2.default.createElement(
+	                                "span",
+	                                { className: "name" },
+	                                "最高"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "ui horizontal label" },
+	                                "43"
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "content" },
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "header" },
+	                            _react2.default.createElement(
+	                                "span",
+	                                { className: "name" },
+	                                "最低"
+	                            ),
+	                            _react2.default.createElement(
+	                                "div",
+	                                { className: "ui horizontal label" },
+	                                "39"
+	                            )
+	                        )
+	                    )
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = StockItemPopup;
+
+/***/ },
+/* 305 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(159);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _reactRedux = __webpack_require__(263);
+
+	var _chaActions = __webpack_require__(287);
+
+	var ChaActions = _interopRequireWildcard(_chaActions);
+
+	var _loggedInController = __webpack_require__(306);
+
+	var _loggedInController2 = _interopRequireDefault(_loggedInController);
+
+	var _loggingInController = __webpack_require__(307);
+
+	var _loggingInController2 = _interopRequireDefault(_loggingInController);
+
+	var _channelItem = __webpack_require__(308);
+
+	var _channelItem2 = _interopRequireDefault(_channelItem);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var Component = _react2.default.Component;
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var MenuRail = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "MenuRail",
+
+	    propTypes: {
+	        user: PropTypes.shape({
+	            _id: PropTypes.string.isRequired,
+	            username: PropTypes.string.isRequired
+	        }),
+	        personalChannels: PropTypes.array.isRequired,
+	        publicChannels: PropTypes.array.isRequired,
+	        onLogOutUser: PropTypes.func.isRequired
+	    },
+	    onClickLogin: function onClickLogin() {
+	        $("#login-modal").modal("show");
+	    },
+	    onClickSignUp: function onClickSignUp() {
+	        $("#signup-modal").modal("show");
+	    },
+	    onClickCreateChannel: function onClickCreateChannel() {
+	        $("#create-channel-modal").modal("show");
+	    },
+	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	        if (this.props.user._id !== nextProps.user._id) {
+	            $("#login-modal").modal("hide");
+	            $("#signup-modal").modal("hide");
+	        }
+	    },
+	    componentDidMount: function componentDidMount() {
+	        $(_reactDom2.default.findDOMNode(this.refs.menu)).find('.item').tab();
+	    },
+	    renderLoginStatus: function renderLoginStatus() {
+	        var _props = this.props;
+	        var user = _props.user;
+	        var onLogOutUser = _props.onLogOutUser;
+
+	        if (user.username) {
+	            return _react2.default.createElement(_loggedInController2.default, {
+	                user: user,
+	                onLogOutUser: onLogOutUser });
+	        } else {
+	            return _react2.default.createElement(_loggingInController2.default, {
+	                onClickLogin: this.onClickLogin,
+	                onClickSignUp: this.onClickSignUp });
+	        }
+	    },
+	    renderTab: function renderTab() {
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "ui secondary menu", ref: "menu" },
+	            _react2.default.createElement(
+	                "a",
+	                { className: "item active", "data-tab": "channel" },
+	                "個人頻道"
+	            ),
+	            _react2.default.createElement(
+	                "a",
+	                { className: "item", "data-tab": "market" },
+	                "公開"
+	            ),
+	            _react2.default.createElement(
+	                "a",
+	                { className: "item", "data-tab": "news" },
+	                "新聞"
+	            )
+	        );
+	    },
+	    renderCreateChannel: function renderCreateChannel() {
+	        return _react2.default.createElement(
+	            "button",
+	            { className: "ui blue basic button", onClick: this.onClickCreateChannel },
+	            "新增頻道"
+	        );
+	    },
+	    renderChannels: function renderChannels(channels) {
+	        return channels.map(function (channel) {
+	            return _react2.default.createElement(_channelItem2.default, _extends({ key: channel._id }, channel));
+	        });
+	    },
+	    render: function render() {
+	        var _props2 = this.props;
+	        var personalChannels = _props2.personalChannels;
+	        var publicChannels = _props2.publicChannels;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "menu-rail" },
+	            _react2.default.createElement(
+	                "a",
+	                { className: "logo" },
+	                _react2.default.createElement("img", { src: "/images/logo.png" })
+	            ),
+	            this.renderLoginStatus(),
+	            this.renderTab(),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "ui tab segment board active", "data-tab": "channel" },
+	                this.renderCreateChannel(),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "channel-list ui middle aligned selection list" },
+	                    this.renderChannels(personalChannels)
+	                )
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "ui tab segment board", "data-tab": "market" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "channel-list ui middle aligned selection list" },
+	                    this.renderChannels(publicChannels)
+	                )
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "ui tab segment board", "data-tab": "news" },
+	                "新聞放在這"
+	            )
+	        );
+	    }
+	}));
+
+	var mapStateToProps = function mapStateToProps(state) {
+	    return {
+	        personalChannels: state.channels.filter(function (channel) {
+	            return channel.type === "personal";
+	        }),
+	        publicChannels: state.channels.filter(function (channel) {
+	            return channel.type === "public";
+	        }),
+	        user: state.user
+	    };
+	};
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	    return {
+	        onLogOutUser: function onLogOutUser() {
+	            dispatch(ChaActions.logOutUser());
+	        }
+	    };
+	};
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(MenuRail);
+
+/***/ },
+/* 306 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var LoggedInController = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "LoggedInController",
+
+	    propTypes: {
+	        user: PropTypes.shape({
+	            _id: PropTypes.string,
+	            username: PropTypes.string
+	        }),
+	        onLogOutUser: PropTypes.func
+	    },
+	    render: function render() {
+	        var _props = this.props;
+	        var user = _props.user;
+	        var onLogOutUser = _props.onLogOutUser;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "login" },
+	            user.username,
+	            _react2.default.createElement(
+	                "div",
+	                { className: "button-groups" },
+	                _react2.default.createElement(
+	                    "button",
+	                    { className: "ui yellow button", onClick: onLogOutUser },
+	                    "logout"
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = LoggedInController;
+
+/***/ },
+/* 307 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var LoggingInController = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "LoggingInController",
+
+	    propTypes: {
+	        onClickLogin: PropTypes.func,
+	        onClickSignUp: PropTypes.func
+	    },
+	    render: function render() {
+	        var _props = this.props;
+	        var onClickLogin = _props.onClickLogin;
+	        var onClickSignUp = _props.onClickSignUp;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "login" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "button-groups" },
+	                _react2.default.createElement(
+	                    "button",
+	                    { className: "ui primary button", onClick: onClickLogin },
+	                    "login"
+	                ),
+	                _react2.default.createElement(
+	                    "button",
+	                    { className: "ui green button", onClick: onClickSignUp },
+	                    "signup"
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = LoggingInController;
+
+/***/ },
+/* 308 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var ChannelItem = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "ChannelItem",
+
+	    propTypes: {
+	        _id: PropTypes.string.isRequired,
+	        name: PropTypes.string.isRequired,
+	        chatroomId: PropTypes.string.isRequired
+	    },
+	    render: function render() {
+	        var _props = this.props;
+	        var _id = _props._id;
+	        var name = _props.name;
+	        var chatroomId = _props.chatroomId;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "channel-item item" },
+	            _react2.default.createElement(
+	                "a",
+	                { className: "content", href: "/channel/" + _id },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "description clearfix" },
+	                    _react2.default.createElement(
+	                        "span",
+	                        { className: "name" },
+	                        "#",
+	                        name
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "ui horizontal label" },
+	                        _react2.default.createElement("i", { className: "users icon" }),
+	                        "25"
+	                    )
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = ChannelItem;
+
+/***/ },
 /* 309 */,
 /* 310 */,
 /* 311 */,
@@ -21657,14 +23303,22 @@
 
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 
+	var _chatroom = __webpack_require__(292);
+
+	var _chatroom2 = _interopRequireDefault(_chatroom);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// import rootReducer from "./reducers/receptionist";
+	var loggerMiddleware = (0, _reduxLogger2.default)();
+	// TODO should change to timeline reducer
 
-	// const loggerMiddleware = createLogger();
-	// const store = createStore(rootReducer, applyMiddleware(thunkMiddleWare, loggerMiddleware));
+	var store = (0, _redux.createStore)(_chatroom2.default, (0, _redux.applyMiddleware)(_reduxThunk2.default, loggerMiddleware));
 
-	_reactDom2.default.render(_react2.default.createElement(_timeline2.default, null), document.getElementById("main"));
+	_reactDom2.default.render(_react2.default.createElement(
+	    _reactRedux.Provider,
+	    { store: store },
+	    _react2.default.createElement(_timeline2.default, null)
+	), document.getElementById("main"));
 
 /***/ },
 /* 316 */
@@ -21683,6 +23337,16 @@
 	var _reactDom = __webpack_require__(159);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _informationRail = __webpack_require__(302);
+
+	var _informationRail2 = _interopRequireDefault(_informationRail);
+
+	var _menuRail = __webpack_require__(305);
+
+	var _menuRail2 = _interopRequireDefault(_menuRail);
+
+	var _reactRedux = __webpack_require__(263);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21715,7 +23379,7 @@
 	      _react2.default.createElement(
 	        "div",
 	        { className: "left_col" },
-	        "left"
+	        _react2.default.createElement(_menuRail2.default, null)
 	      ),
 	      _react2.default.createElement(
 	        "div",
@@ -22087,19 +23751,384 @@
 	                "17"
 	              )
 	            )
+	          ),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "trend-card ui card" },
+	            _react2.default.createElement(
+	              "div",
+	              { className: "content" },
+	              _react2.default.createElement("i", { className: "ui red circular label right floated stock-label trend-label line chart icon" }),
+	              _react2.default.createElement(
+	                "span",
+	                { className: "ui grey circular label right floated stock-label trend-label" },
+	                "股"
+	              ),
+	              _react2.default.createElement(
+	                "span",
+	                { className: "ui teal circular label right floated stock-label period-label" },
+	                "3-4 個月"
+	              ),
+	              _react2.default.createElement("img", { className: "floated left mini ui image", src: "/images/avatar.jpg" }),
+	              _react2.default.createElement(
+	                "div",
+	                { className: "header" },
+	                "雷光夏"
+	              ),
+	              _react2.default.createElement(
+	                "div",
+	                { className: "meta" },
+	                _react2.default.createElement(
+	                  "span",
+	                  null,
+	                  "@leiguan"
+	                )
+	              ),
+	              _react2.default.createElement(
+	                "div",
+	                { className: "description" },
+	                _react2.default.createElement(
+	                  "p",
+	                  null,
+	                  "醫療技術將成為下一個股市風口！ ",
+	                  _react2.default.createElement(
+	                    "a",
+	                    { href: "http://www.businessweekly.com.tw/KBlogArticle.aspx?ID=16211&path=c" },
+	                    "http://www.businessweekly.com.tw/KBlogArticle.aspx?ID=16211&path=c"
+	                  )
+	                )
+	              ),
+	              _react2.default.createElement(
+	                "div",
+	                { className: "subject" },
+	                _react2.default.createElement(
+	                  "div",
+	                  { className: "ui accordion" },
+	                  _react2.default.createElement(
+	                    "button",
+	                    { className: "ui blue basic button title" },
+	                    _react2.default.createElement(
+	                      "span",
+	                      null,
+	                      "標的分析"
+	                    ),
+	                    _react2.default.createElement("i", { className: "angle down icon" })
+	                  ),
+	                  _react2.default.createElement(
+	                    "div",
+	                    { className: "content" },
+	                    _react2.default.createElement(
+	                      "div",
+	                      { className: "transition hidden" },
+	                      _react2.default.createElement(
+	                        "h3",
+	                        { className: "ui top attached header" },
+	                        "標的"
+	                      ),
+	                      _react2.default.createElement(
+	                        "div",
+	                        { className: "ui attached segment p-0" },
+	                        _react2.default.createElement(
+	                          "table",
+	                          { className: "ui table subjects-table selectable striped" },
+	                          _react2.default.createElement(
+	                            "thead",
+	                            null,
+	                            _react2.default.createElement(
+	                              "tr",
+	                              null,
+	                              _react2.default.createElement("th", null),
+	                              _react2.default.createElement("th", null),
+	                              _react2.default.createElement(
+	                                "th",
+	                                null,
+	                                "市價"
+	                              ),
+	                              _react2.default.createElement(
+	                                "th",
+	                                null,
+	                                "停利價"
+	                              ),
+	                              _react2.default.createElement(
+	                                "th",
+	                                null,
+	                                "停損價"
+	                              ),
+	                              _react2.default.createElement(
+	                                "th",
+	                                null,
+	                                "說明"
+	                              ),
+	                              _react2.default.createElement("th", null)
+	                            )
+	                          ),
+	                          _react2.default.createElement(
+	                            "tbody",
+	                            null,
+	                            _react2.default.createElement(
+	                              "tr",
+	                              null,
+	                              _react2.default.createElement(
+	                                "td",
+	                                { style: { "min-width": "100px" } },
+	                                "2230 台積電"
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                { style: { "min-width": "70px" } },
+	                                _react2.default.createElement(
+	                                  "span",
+	                                  { className: "ui red label" },
+	                                  "買進"
+	                                )
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                _react2.default.createElement(
+	                                  "span",
+	                                  { className: "fg-red" },
+	                                  "150.5"
+	                                )
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                _react2.default.createElement(
+	                                  "p",
+	                                  { className: "ta-center" },
+	                                  "165"
+	                                ),
+	                                _react2.default.createElement(
+	                                  "p",
+	                                  { className: "fg-red ta-center" },
+	                                  "(4.05%)"
+	                                )
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                _react2.default.createElement(
+	                                  "p",
+	                                  { className: "ta-center" },
+	                                  "145"
+	                                ),
+	                                _react2.default.createElement(
+	                                  "p",
+	                                  { className: "fg-green ta-center" },
+	                                  "(6.35%)"
+	                                )
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                "這是說明這是說明這是說明這是說明這是說明這是說明這是說明"
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                _react2.default.createElement(
+	                                  "button",
+	                                  { className: "ui icon button" },
+	                                  _react2.default.createElement("i", { className: "plus icon" })
+	                                )
+	                              )
+	                            ),
+	                            _react2.default.createElement(
+	                              "tr",
+	                              null,
+	                              _react2.default.createElement(
+	                                "td",
+	                                { style: { "min-width": "100px" } },
+	                                "2330 宏達電"
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                { style: { "min-width": "70px" } },
+	                                _react2.default.createElement(
+	                                  "span",
+	                                  { className: "ui red label" },
+	                                  "買進"
+	                                )
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                _react2.default.createElement(
+	                                  "span",
+	                                  { className: "fg-red" },
+	                                  "150.5"
+	                                )
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                _react2.default.createElement(
+	                                  "p",
+	                                  { className: "ta-center" },
+	                                  "165"
+	                                ),
+	                                _react2.default.createElement(
+	                                  "p",
+	                                  { className: "fg-red ta-center" },
+	                                  "(4.05%)"
+	                                )
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                _react2.default.createElement(
+	                                  "p",
+	                                  { className: "ta-center" },
+	                                  "145"
+	                                ),
+	                                _react2.default.createElement(
+	                                  "p",
+	                                  { className: "fg-green ta-center" },
+	                                  "(6.35%)"
+	                                )
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                "這是說明這是說明這是說明這是說明這是說明這是說明這是說明"
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                _react2.default.createElement(
+	                                  "button",
+	                                  { className: "ui icon button" },
+	                                  _react2.default.createElement("i", { className: "plus icon" })
+	                                )
+	                              )
+	                            ),
+	                            _react2.default.createElement(
+	                              "tr",
+	                              null,
+	                              _react2.default.createElement(
+	                                "td",
+	                                { style: { "min-width": "100px" } },
+	                                "1234 鴻海"
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                { style: { "min-width": "70px" } },
+	                                _react2.default.createElement(
+	                                  "span",
+	                                  { className: "ui green label" },
+	                                  "賣出"
+	                                )
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                _react2.default.createElement(
+	                                  "span",
+	                                  { className: "fg-red" },
+	                                  "150.5"
+	                                )
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                _react2.default.createElement(
+	                                  "p",
+	                                  { className: "ta-center" },
+	                                  "165"
+	                                ),
+	                                _react2.default.createElement(
+	                                  "p",
+	                                  { className: "fg-red ta-center" },
+	                                  "(4.05%)"
+	                                )
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                _react2.default.createElement(
+	                                  "p",
+	                                  { className: "ta-center" },
+	                                  "145"
+	                                ),
+	                                _react2.default.createElement(
+	                                  "p",
+	                                  { className: "fg-green ta-center" },
+	                                  "(6.35%)"
+	                                )
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                "這是說明這是說明這是說明這是說明這是說明這是說明這是說明"
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                _react2.default.createElement(
+	                                  "button",
+	                                  { className: "ui icon button" },
+	                                  _react2.default.createElement("i", { className: "plus icon" })
+	                                )
+	                              )
+	                            )
+	                          )
+	                        )
+	                      ),
+	                      _react2.default.createElement(
+	                        "h3",
+	                        { className: "ui attached header" },
+	                        "說明"
+	                      ),
+	                      _react2.default.createElement(
+	                        "div",
+	                        { className: "ui bottom attached segment" },
+	                        _react2.default.createElement(
+	                          "p",
+	                          null,
+	                          "鴻準的ROE浮動的現象相當劇烈，一下高一下低第一季估算 已經大幅度下降至3.38%季營收的成長率 在2013年第一季更是大幅度的衰退59%年營收成長率(以季為單位)也在下滑，這對於法人來說 就是非常強烈的賣出理由！！股價下跌，我們也不意外了另外，由上面的K線圖中 也可以看出大約有半年的時間外資的籌碼是賣多而買少本土投信更是幾乎完全不碰的全面撤出！"
+	                        )
+	                      )
+	                    )
+	                  )
+	                )
+	              )
+	            ),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "extra content action-list" },
+	              _react2.default.createElement("i", { className: "thumbs up icon" }),
+	              _react2.default.createElement(
+	                "span",
+	                { className: "mr-20" },
+	                "17"
+	              ),
+	              _react2.default.createElement("i", { className: "comment icon" }),
+	              _react2.default.createElement(
+	                "span",
+	                { className: "mr-20" },
+	                "17"
+	              ),
+	              _react2.default.createElement("i", { className: "external share icon" }),
+	              _react2.default.createElement(
+	                "span",
+	                { className: "mr-20" },
+	                "17"
+	              )
+	            )
 	          )
 	        )
 	      ),
 	      _react2.default.createElement(
 	        "div",
 	        { className: "right_col" },
-	        "left"
+	        _react2.default.createElement(_informationRail2.default, null)
 	      )
 	    );
 	  }
 	}));
 
-	exports.default = Timeline;
+	exports.default = (0, _reactRedux.connect)()(Timeline);
 
 /***/ }
 /******/ ]);
