@@ -1,3 +1,4 @@
+const logger = require("../../lib/logger");
 const express = require("express");
 const router = express.Router();
 const StockStore = require("../../stores/stock");
@@ -8,6 +9,7 @@ router.get("/", (req, res) => {
         res.json(rows);
     })
     .catch((error) => {
+        logger.error("error when getting stock info", error);
         res.writeHead(400, {
             "Content-Type": "application/json",
         });
