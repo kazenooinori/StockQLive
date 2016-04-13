@@ -13,3 +13,11 @@
 .ta-center {
     text-align: center;
 }
+
+
+.p-0 {
+    padding: 0px !important;
+}
+.mr-20 {
+    margin-right: 20px !important;
+}

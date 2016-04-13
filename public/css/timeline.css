@@ -37,3 +37,10 @@
     -webkit-transform: translateY(2px)rotate(180deg);
     transform: translateY(2px)rotate(180deg);
 }
+.trend-card .subject .subjects-table {
+    border: none;
+}
+
+.trend-card .action-list {
+    font-size: 16px !important;
+}

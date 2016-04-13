@@ -21781,7 +21781,7 @@
 	                    _react2.default.createElement(
 	                      "span",
 	                      null,
-	                      "標的分析??"
+	                      "標的分析"
 	                    ),
 	                    _react2.default.createElement("i", { className: "angle down icon" })
 	                  ),
@@ -21792,249 +21792,272 @@
 	                      "div",
 	                      { className: "transition hidden" },
 	                      _react2.default.createElement(
-	                        "table",
-	                        { className: "ui table selectable striped" },
+	                        "h3",
+	                        { className: "ui top attached header" },
+	                        "標的"
+	                      ),
+	                      _react2.default.createElement(
+	                        "div",
+	                        { className: "ui attached segment p-0" },
 	                        _react2.default.createElement(
-	                          "thead",
-	                          null,
+	                          "table",
+	                          { className: "ui table subjects-table selectable striped" },
 	                          _react2.default.createElement(
-	                            "tr",
-	                            null,
-	                            _react2.default.createElement("th", null),
-	                            _react2.default.createElement("th", null),
-	                            _react2.default.createElement(
-	                              "th",
-	                              null,
-	                              "市價"
-	                            ),
-	                            _react2.default.createElement(
-	                              "th",
-	                              null,
-	                              "停利價"
-	                            ),
-	                            _react2.default.createElement(
-	                              "th",
-	                              null,
-	                              "停損價"
-	                            ),
-	                            _react2.default.createElement(
-	                              "th",
-	                              null,
-	                              "說明"
-	                            ),
-	                            _react2.default.createElement("th", null)
-	                          )
-	                        ),
-	                        _react2.default.createElement(
-	                          "tbody",
-	                          null,
-	                          _react2.default.createElement(
-	                            "tr",
+	                            "thead",
 	                            null,
 	                            _react2.default.createElement(
-	                              "td",
-	                              { style: { "min-width": "100px" } },
-	                              "2230 台積電"
-	                            ),
-	                            _react2.default.createElement(
-	                              "td",
-	                              { style: { "min-width": "70px" } },
-	                              _react2.default.createElement(
-	                                "span",
-	                                { className: "ui red label" },
-	                                "買進"
-	                              )
-	                            ),
-	                            _react2.default.createElement(
-	                              "td",
+	                              "tr",
 	                              null,
+	                              _react2.default.createElement("th", null),
+	                              _react2.default.createElement("th", null),
 	                              _react2.default.createElement(
-	                                "span",
-	                                { className: "fg-red" },
-	                                "150.5"
-	                              )
-	                            ),
-	                            _react2.default.createElement(
-	                              "td",
-	                              null,
-	                              _react2.default.createElement(
-	                                "p",
-	                                { className: "ta-center" },
-	                                "165"
+	                                "th",
+	                                null,
+	                                "市價"
 	                              ),
 	                              _react2.default.createElement(
-	                                "p",
-	                                { className: "fg-red ta-center" },
-	                                "(4.05%)"
-	                              )
-	                            ),
-	                            _react2.default.createElement(
-	                              "td",
-	                              null,
-	                              _react2.default.createElement(
-	                                "p",
-	                                { className: "ta-center" },
-	                                "145"
+	                                "th",
+	                                null,
+	                                "停利價"
 	                              ),
 	                              _react2.default.createElement(
-	                                "p",
-	                                { className: "fg-green ta-center" },
-	                                "(6.35%)"
-	                              )
-	                            ),
-	                            _react2.default.createElement(
-	                              "td",
-	                              null,
-	                              "這是說明這是說明這是說明這是說明這是說明這是說明這是說明"
-	                            ),
-	                            _react2.default.createElement(
-	                              "td",
-	                              null,
+	                                "th",
+	                                null,
+	                                "停損價"
+	                              ),
 	                              _react2.default.createElement(
-	                                "button",
-	                                { className: "ui icon button" },
-	                                _react2.default.createElement("i", { className: "plus icon" })
-	                              )
+	                                "th",
+	                                null,
+	                                "說明"
+	                              ),
+	                              _react2.default.createElement("th", null)
 	                            )
 	                          ),
 	                          _react2.default.createElement(
-	                            "tr",
+	                            "tbody",
 	                            null,
 	                            _react2.default.createElement(
-	                              "td",
-	                              { style: { "min-width": "100px" } },
-	                              "2330 宏達電"
-	                            ),
-	                            _react2.default.createElement(
-	                              "td",
-	                              { style: { "min-width": "70px" } },
-	                              _react2.default.createElement(
-	                                "span",
-	                                { className: "ui red label" },
-	                                "買進"
-	                              )
-	                            ),
-	                            _react2.default.createElement(
-	                              "td",
+	                              "tr",
 	                              null,
 	                              _react2.default.createElement(
-	                                "span",
-	                                { className: "fg-red" },
-	                                "150.5"
-	                              )
-	                            ),
-	                            _react2.default.createElement(
-	                              "td",
-	                              null,
-	                              _react2.default.createElement(
-	                                "p",
-	                                { className: "ta-center" },
-	                                "165"
+	                                "td",
+	                                { style: { "min-width": "100px" } },
+	                                "2230 台積電"
 	                              ),
 	                              _react2.default.createElement(
-	                                "p",
-	                                { className: "fg-red ta-center" },
-	                                "(4.05%)"
-	                              )
-	                            ),
-	                            _react2.default.createElement(
-	                              "td",
-	                              null,
-	                              _react2.default.createElement(
-	                                "p",
-	                                { className: "ta-center" },
-	                                "145"
+	                                "td",
+	                                { style: { "min-width": "70px" } },
+	                                _react2.default.createElement(
+	                                  "span",
+	                                  { className: "ui red label" },
+	                                  "買進"
+	                                )
 	                              ),
 	                              _react2.default.createElement(
-	                                "p",
-	                                { className: "fg-green ta-center" },
-	                                "(6.35%)"
-	                              )
-	                            ),
-	                            _react2.default.createElement(
-	                              "td",
-	                              null,
-	                              "這是說明這是說明這是說明這是說明這是說明這是說明這是說明"
-	                            ),
-	                            _react2.default.createElement(
-	                              "td",
-	                              null,
-	                              _react2.default.createElement(
-	                                "button",
-	                                { className: "ui icon button" },
-	                                _react2.default.createElement("i", { className: "plus icon" })
-	                              )
-	                            )
-	                          ),
-	                          _react2.default.createElement(
-	                            "tr",
-	                            null,
-	                            _react2.default.createElement(
-	                              "td",
-	                              { style: { "min-width": "100px" } },
-	                              "1234 鴻海"
-	                            ),
-	                            _react2.default.createElement(
-	                              "td",
-	                              { style: { "min-width": "70px" } },
-	                              _react2.default.createElement(
-	                                "span",
-	                                { className: "ui green label" },
-	                                "賣出"
-	                              )
-	                            ),
-	                            _react2.default.createElement(
-	                              "td",
-	                              null,
-	                              _react2.default.createElement(
-	                                "span",
-	                                { className: "fg-red" },
-	                                "150.5"
-	                              )
-	                            ),
-	                            _react2.default.createElement(
-	                              "td",
-	                              null,
-	                              _react2.default.createElement(
-	                                "p",
-	                                { className: "ta-center" },
-	                                "165"
+	                                "td",
+	                                null,
+	                                _react2.default.createElement(
+	                                  "span",
+	                                  { className: "fg-red" },
+	                                  "150.5"
+	                                )
 	                              ),
 	                              _react2.default.createElement(
-	                                "p",
-	                                { className: "fg-red ta-center" },
-	                                "(4.05%)"
-	                              )
-	                            ),
-	                            _react2.default.createElement(
-	                              "td",
-	                              null,
-	                              _react2.default.createElement(
-	                                "p",
-	                                { className: "ta-center" },
-	                                "145"
+	                                "td",
+	                                null,
+	                                _react2.default.createElement(
+	                                  "p",
+	                                  { className: "ta-center" },
+	                                  "165"
+	                                ),
+	                                _react2.default.createElement(
+	                                  "p",
+	                                  { className: "fg-red ta-center" },
+	                                  "(4.05%)"
+	                                )
 	                              ),
 	                              _react2.default.createElement(
-	                                "p",
-	                                { className: "fg-green ta-center" },
-	                                "(6.35%)"
+	                                "td",
+	                                null,
+	                                _react2.default.createElement(
+	                                  "p",
+	                                  { className: "ta-center" },
+	                                  "145"
+	                                ),
+	                                _react2.default.createElement(
+	                                  "p",
+	                                  { className: "fg-green ta-center" },
+	                                  "(6.35%)"
+	                                )
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                "這是說明這是說明這是說明這是說明這是說明這是說明這是說明"
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                _react2.default.createElement(
+	                                  "button",
+	                                  { className: "ui icon button" },
+	                                  _react2.default.createElement("i", { className: "plus icon" })
+	                                )
 	                              )
 	                            ),
 	                            _react2.default.createElement(
-	                              "td",
-	                              null,
-	                              "這是說明這是說明這是說明這是說明這是說明這是說明這是說明"
-	                            ),
-	                            _react2.default.createElement(
-	                              "td",
+	                              "tr",
 	                              null,
 	                              _react2.default.createElement(
-	                                "button",
-	                                { className: "ui icon button" },
-	                                _react2.default.createElement("i", { className: "plus icon" })
+	                                "td",
+	                                { style: { "min-width": "100px" } },
+	                                "2330 宏達電"
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                { style: { "min-width": "70px" } },
+	                                _react2.default.createElement(
+	                                  "span",
+	                                  { className: "ui red label" },
+	                                  "買進"
+	                                )
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                _react2.default.createElement(
+	                                  "span",
+	                                  { className: "fg-red" },
+	                                  "150.5"
+	                                )
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                _react2.default.createElement(
+	                                  "p",
+	                                  { className: "ta-center" },
+	                                  "165"
+	                                ),
+	                                _react2.default.createElement(
+	                                  "p",
+	                                  { className: "fg-red ta-center" },
+	                                  "(4.05%)"
+	                                )
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                _react2.default.createElement(
+	                                  "p",
+	                                  { className: "ta-center" },
+	                                  "145"
+	                                ),
+	                                _react2.default.createElement(
+	                                  "p",
+	                                  { className: "fg-green ta-center" },
+	                                  "(6.35%)"
+	                                )
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                "這是說明這是說明這是說明這是說明這是說明這是說明這是說明"
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                _react2.default.createElement(
+	                                  "button",
+	                                  { className: "ui icon button" },
+	                                  _react2.default.createElement("i", { className: "plus icon" })
+	                                )
+	                              )
+	                            ),
+	                            _react2.default.createElement(
+	                              "tr",
+	                              null,
+	                              _react2.default.createElement(
+	                                "td",
+	                                { style: { "min-width": "100px" } },
+	                                "1234 鴻海"
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                { style: { "min-width": "70px" } },
+	                                _react2.default.createElement(
+	                                  "span",
+	                                  { className: "ui green label" },
+	                                  "賣出"
+	                                )
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                _react2.default.createElement(
+	                                  "span",
+	                                  { className: "fg-red" },
+	                                  "150.5"
+	                                )
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                _react2.default.createElement(
+	                                  "p",
+	                                  { className: "ta-center" },
+	                                  "165"
+	                                ),
+	                                _react2.default.createElement(
+	                                  "p",
+	                                  { className: "fg-red ta-center" },
+	                                  "(4.05%)"
+	                                )
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                _react2.default.createElement(
+	                                  "p",
+	                                  { className: "ta-center" },
+	                                  "145"
+	                                ),
+	                                _react2.default.createElement(
+	                                  "p",
+	                                  { className: "fg-green ta-center" },
+	                                  "(6.35%)"
+	                                )
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                "這是說明這是說明這是說明這是說明這是說明這是說明這是說明"
+	                              ),
+	                              _react2.default.createElement(
+	                                "td",
+	                                null,
+	                                _react2.default.createElement(
+	                                  "button",
+	                                  { className: "ui icon button" },
+	                                  _react2.default.createElement("i", { className: "plus icon" })
+	                                )
 	                              )
 	                            )
 	                          )
+	                        )
+	                      ),
+	                      _react2.default.createElement(
+	                        "h3",
+	                        { className: "ui attached header" },
+	                        "說明"
+	                      ),
+	                      _react2.default.createElement(
+	                        "div",
+	                        { className: "ui bottom attached segment" },
+	                        _react2.default.createElement(
+	                          "p",
+	                          null,
+	                          "鴻準的ROE浮動的現象相當劇烈，一下高一下低第一季估算 已經大幅度下降至3.38%季營收的成長率 在2013年第一季更是大幅度的衰退59%年營收成長率(以季為單位)也在下滑，這對於法人來說 就是非常強烈的賣出理由！！股價下跌，我們也不意外了另外，由上面的K線圖中 也可以看出大約有半年的時間外資的籌碼是賣多而買少本土投信更是幾乎完全不碰的全面撤出！"
 	                        )
 	                      )
 	                    )
@@ -22042,7 +22065,28 @@
 	                )
 	              )
 	            ),
-	            _react2.default.createElement("div", { className: "extra content" })
+	            _react2.default.createElement(
+	              "div",
+	              { className: "extra content action-list" },
+	              _react2.default.createElement("i", { className: "thumbs up icon" }),
+	              _react2.default.createElement(
+	                "span",
+	                { className: "mr-20" },
+	                "17"
+	              ),
+	              _react2.default.createElement("i", { className: "comment icon" }),
+	              _react2.default.createElement(
+	                "span",
+	                { className: "mr-20" },
+	                "17"
+	              ),
+	              _react2.default.createElement("i", { className: "external share icon" }),
+	              _react2.default.createElement(
+	                "span",
+	                { className: "mr-20" },
+	                "17"
+	              )
+	            )
 	          )
 	        )
 	      ),
