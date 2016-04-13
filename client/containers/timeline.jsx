@@ -38,7 +38,7 @@ const Timeline = React.createClass({
                             <div className="subject">
                                 <div className="ui accordion">
                                     <button className="ui blue basic button title">
-                                        <span>標的分析</span>
+                                        <span>標的分析??</span>
                                         <i className="angle down icon"></i>
                                     </button>
                                   <div className="content">
