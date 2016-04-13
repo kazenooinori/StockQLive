@@ -21,7 +21,7 @@
     bottom: 0px;
     width: 300px;
     z-index: 3;
-    overflow: hidden;
+    overflow: scroll;;
 }
 
 .tail {
@@ -69,8 +69,8 @@
 }
 
 .stock-list {
-    width: 300px;
+    width: 280px;
 }
 .stock-popup {
-    width: 300px;
+    width: 280px;
 }
