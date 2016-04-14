@@ -1,3 +1,7 @@
+body {
+    background-color: #E1E8ED;
+}
+
 .left_col {
     position: absolute;
     top: 0px;
@@ -60,11 +64,11 @@
 }
 
 
-.list .item .name {
+.list .stock-item .name {
     display: inline-block;
     padding-top: 2px;
 }
-.list .item .label {
+.list .stock-item .label {
     float: right;
 }
 

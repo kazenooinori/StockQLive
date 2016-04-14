@@ -22871,403 +22871,10 @@
 	exports.default = StockItemPopup;
 
 /***/ },
-/* 305 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(159);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	var _reactRedux = __webpack_require__(263);
-
-	var _chaActions = __webpack_require__(287);
-
-	var ChaActions = _interopRequireWildcard(_chaActions);
-
-	var _loggedInController = __webpack_require__(306);
-
-	var _loggedInController2 = _interopRequireDefault(_loggedInController);
-
-	var _loggingInController = __webpack_require__(307);
-
-	var _loggingInController2 = _interopRequireDefault(_loggingInController);
-
-	var _channelItem = __webpack_require__(308);
-
-	var _channelItem2 = _interopRequireDefault(_channelItem);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var Component = _react2.default.Component;
-	var PropTypes = _react2.default.PropTypes;
-
-
-	var MenuRail = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "MenuRail",
-
-	    propTypes: {
-	        user: PropTypes.shape({
-	            _id: PropTypes.string.isRequired,
-	            username: PropTypes.string.isRequired
-	        }),
-	        personalChannels: PropTypes.array.isRequired,
-	        publicChannels: PropTypes.array.isRequired,
-	        onLogOutUser: PropTypes.func.isRequired
-	    },
-	    onClickLogin: function onClickLogin() {
-	        $("#login-modal").modal("show");
-	    },
-	    onClickSignUp: function onClickSignUp() {
-	        $("#signup-modal").modal("show");
-	    },
-	    onClickCreateChannel: function onClickCreateChannel() {
-	        $("#create-channel-modal").modal("show");
-	    },
-	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-	        if (this.props.user._id !== nextProps.user._id) {
-	            $("#login-modal").modal("hide");
-	            $("#signup-modal").modal("hide");
-	        }
-	    },
-	    componentDidMount: function componentDidMount() {
-	        $(_reactDom2.default.findDOMNode(this.refs.menu)).find('.item').tab();
-	    },
-	    renderLoginStatus: function renderLoginStatus() {
-	        var _props = this.props;
-	        var user = _props.user;
-	        var onLogOutUser = _props.onLogOutUser;
-
-	        if (user.username) {
-	            return _react2.default.createElement(_loggedInController2.default, {
-	                user: user,
-	                onLogOutUser: onLogOutUser });
-	        } else {
-	            return _react2.default.createElement(_loggingInController2.default, {
-	                onClickLogin: this.onClickLogin,
-	                onClickSignUp: this.onClickSignUp });
-	        }
-	    },
-	    renderTab: function renderTab() {
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "ui secondary menu", ref: "menu" },
-	            _react2.default.createElement(
-	                "a",
-	                { className: "item active", "data-tab": "channel" },
-	                "個人頻道"
-	            ),
-	            _react2.default.createElement(
-	                "a",
-	                { className: "item", "data-tab": "market" },
-	                "公開"
-	            ),
-	            _react2.default.createElement(
-	                "a",
-	                { className: "item", "data-tab": "news" },
-	                "新聞"
-	            )
-	        );
-	    },
-	    renderCreateChannel: function renderCreateChannel() {
-	        return _react2.default.createElement(
-	            "button",
-	            { className: "ui blue basic button", onClick: this.onClickCreateChannel },
-	            "新增頻道"
-	        );
-	    },
-	    renderChannels: function renderChannels(channels) {
-	        return channels.map(function (channel) {
-	            return _react2.default.createElement(_channelItem2.default, _extends({ key: channel._id }, channel));
-	        });
-	    },
-	    render: function render() {
-	        var _props2 = this.props;
-	        var personalChannels = _props2.personalChannels;
-	        var publicChannels = _props2.publicChannels;
-
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "menu-rail" },
-	            _react2.default.createElement(
-	                "a",
-	                { className: "logo" },
-	                _react2.default.createElement("img", { src: "/images/logo.png" })
-	            ),
-	            this.renderLoginStatus(),
-	            this.renderTab(),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "ui tab segment board active", "data-tab": "channel" },
-	                this.renderCreateChannel(),
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "channel-list ui middle aligned selection list" },
-	                    this.renderChannels(personalChannels)
-	                )
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "ui tab segment board", "data-tab": "market" },
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "channel-list ui middle aligned selection list" },
-	                    this.renderChannels(publicChannels)
-	                )
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "ui tab segment board", "data-tab": "news" },
-	                "新聞放在這"
-	            )
-	        );
-	    }
-	}));
-
-	var mapStateToProps = function mapStateToProps(state) {
-	    return {
-	        personalChannels: state.channels.filter(function (channel) {
-	            return channel.type === "personal";
-	        }),
-	        publicChannels: state.channels.filter(function (channel) {
-	            return channel.type === "public";
-	        }),
-	        user: state.user
-	    };
-	};
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	    return {
-	        onLogOutUser: function onLogOutUser() {
-	            dispatch(ChaActions.logOutUser());
-	        }
-	    };
-	};
-
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(MenuRail);
-
-/***/ },
-/* 306 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var PropTypes = _react2.default.PropTypes;
-
-
-	var LoggedInController = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "LoggedInController",
-
-	    propTypes: {
-	        user: PropTypes.shape({
-	            _id: PropTypes.string,
-	            username: PropTypes.string
-	        }),
-	        onLogOutUser: PropTypes.func
-	    },
-	    render: function render() {
-	        var _props = this.props;
-	        var user = _props.user;
-	        var onLogOutUser = _props.onLogOutUser;
-
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "login" },
-	            user.username,
-	            _react2.default.createElement(
-	                "div",
-	                { className: "button-groups" },
-	                _react2.default.createElement(
-	                    "button",
-	                    { className: "ui yellow button", onClick: onLogOutUser },
-	                    "logout"
-	                )
-	            )
-	        );
-	    }
-	}));
-
-	exports.default = LoggedInController;
-
-/***/ },
-/* 307 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var PropTypes = _react2.default.PropTypes;
-
-
-	var LoggingInController = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "LoggingInController",
-
-	    propTypes: {
-	        onClickLogin: PropTypes.func,
-	        onClickSignUp: PropTypes.func
-	    },
-	    render: function render() {
-	        var _props = this.props;
-	        var onClickLogin = _props.onClickLogin;
-	        var onClickSignUp = _props.onClickSignUp;
-
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "login" },
-	            _react2.default.createElement(
-	                "div",
-	                { className: "button-groups" },
-	                _react2.default.createElement(
-	                    "button",
-	                    { className: "ui primary button", onClick: onClickLogin },
-	                    "login"
-	                ),
-	                _react2.default.createElement(
-	                    "button",
-	                    { className: "ui green button", onClick: onClickSignUp },
-	                    "signup"
-	                )
-	            )
-	        );
-	    }
-	}));
-
-	exports.default = LoggingInController;
-
-/***/ },
-/* 308 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var PropTypes = _react2.default.PropTypes;
-
-
-	var ChannelItem = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "ChannelItem",
-
-	    propTypes: {
-	        _id: PropTypes.string.isRequired,
-	        name: PropTypes.string.isRequired,
-	        chatroomId: PropTypes.string.isRequired
-	    },
-	    render: function render() {
-	        var _props = this.props;
-	        var _id = _props._id;
-	        var name = _props.name;
-	        var chatroomId = _props.chatroomId;
-
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "channel-item item" },
-	            _react2.default.createElement(
-	                "a",
-	                { className: "content", href: "/channel/" + _id },
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "description clearfix" },
-	                    _react2.default.createElement(
-	                        "span",
-	                        { className: "name" },
-	                        "#",
-	                        name
-	                    ),
-	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "ui horizontal label" },
-	                        _react2.default.createElement("i", { className: "users icon" }),
-	                        "25"
-	                    )
-	                )
-	            )
-	        );
-	    }
-	}));
-
-	exports.default = ChannelItem;
-
-/***/ },
+/* 305 */,
+/* 306 */,
+/* 307 */,
+/* 308 */,
 /* 309 */,
 /* 310 */,
 /* 311 */,
@@ -23342,9 +22949,9 @@
 
 	var _informationRail2 = _interopRequireDefault(_informationRail);
 
-	var _menuRail = __webpack_require__(305);
+	var _stockTrendRail = __webpack_require__(317);
 
-	var _menuRail2 = _interopRequireDefault(_menuRail);
+	var _stockTrendRail2 = _interopRequireDefault(_stockTrendRail);
 
 	var _reactRedux = __webpack_require__(263);
 
@@ -23379,7 +22986,7 @@
 	      _react2.default.createElement(
 	        "div",
 	        { className: "left_col" },
-	        _react2.default.createElement(_menuRail2.default, null)
+	        _react2.default.createElement(_stockTrendRail2.default, null)
 	      ),
 	      _react2.default.createElement(
 	        "div",
@@ -23458,11 +23065,25 @@
 	                      _react2.default.createElement(
 	                        "h3",
 	                        { className: "ui top attached header" },
+	                        "說明"
+	                      ),
+	                      _react2.default.createElement(
+	                        "div",
+	                        { className: "ui attached segment" },
+	                        _react2.default.createElement(
+	                          "p",
+	                          null,
+	                          "鴻準的ROE浮動的現象相當劇烈，一下高一下低第一季估算 已經大幅度下降至3.38%季營收的成長率 在2013年第一季更是大幅度的衰退59%年營收成長率(以季為單位)也在下滑，這對於法人來說 就是非常強烈的賣出理由！！股價下跌，我們也不意外了另外，由上面的K線圖中 也可以看出大約有半年的時間外資的籌碼是賣多而買少本土投信更是幾乎完全不碰的全面撤出！"
+	                        )
+	                      ),
+	                      _react2.default.createElement(
+	                        "h3",
+	                        { className: "ui attached header" },
 	                        "標的"
 	                      ),
 	                      _react2.default.createElement(
 	                        "div",
-	                        { className: "ui attached segment p-0" },
+	                        { className: "ui bottom attached segment p-0" },
 	                        _react2.default.createElement(
 	                          "table",
 	                          { className: "ui table subjects-table selectable striped" },
@@ -23708,20 +23329,6 @@
 	                              )
 	                            )
 	                          )
-	                        )
-	                      ),
-	                      _react2.default.createElement(
-	                        "h3",
-	                        { className: "ui attached header" },
-	                        "說明"
-	                      ),
-	                      _react2.default.createElement(
-	                        "div",
-	                        { className: "ui bottom attached segment" },
-	                        _react2.default.createElement(
-	                          "p",
-	                          null,
-	                          "鴻準的ROE浮動的現象相當劇烈，一下高一下低第一季估算 已經大幅度下降至3.38%季營收的成長率 在2013年第一季更是大幅度的衰退59%年營收成長率(以季為單位)也在下滑，這對於法人來說 就是非常強烈的賣出理由！！股價下跌，我們也不意外了另外，由上面的K線圖中 也可以看出大約有半年的時間外資的籌碼是賣多而買少本土投信更是幾乎完全不碰的全面撤出！"
 	                        )
 	                      )
 	                    )
@@ -23823,11 +23430,25 @@
 	                      _react2.default.createElement(
 	                        "h3",
 	                        { className: "ui top attached header" },
+	                        "說明"
+	                      ),
+	                      _react2.default.createElement(
+	                        "div",
+	                        { className: "ui attached segment" },
+	                        _react2.default.createElement(
+	                          "p",
+	                          null,
+	                          "鴻準的ROE浮動的現象相當劇烈，一下高一下低第一季估算 已經大幅度下降至3.38%季營收的成長率 在2013年第一季更是大幅度的衰退59%年營收成長率(以季為單位)也在下滑，這對於法人來說 就是非常強烈的賣出理由！！股價下跌，我們也不意外了另外，由上面的K線圖中 也可以看出大約有半年的時間外資的籌碼是賣多而買少本土投信更是幾乎完全不碰的全面撤出！"
+	                        )
+	                      ),
+	                      _react2.default.createElement(
+	                        "h3",
+	                        { className: "ui attached header" },
 	                        "標的"
 	                      ),
 	                      _react2.default.createElement(
 	                        "div",
-	                        { className: "ui attached segment p-0" },
+	                        { className: "ui bottom attached segment p-0" },
 	                        _react2.default.createElement(
 	                          "table",
 	                          { className: "ui table subjects-table selectable striped" },
@@ -24074,20 +23695,6 @@
 	                            )
 	                          )
 	                        )
-	                      ),
-	                      _react2.default.createElement(
-	                        "h3",
-	                        { className: "ui attached header" },
-	                        "說明"
-	                      ),
-	                      _react2.default.createElement(
-	                        "div",
-	                        { className: "ui bottom attached segment" },
-	                        _react2.default.createElement(
-	                          "p",
-	                          null,
-	                          "鴻準的ROE浮動的現象相當劇烈，一下高一下低第一季估算 已經大幅度下降至3.38%季營收的成長率 在2013年第一季更是大幅度的衰退59%年營收成長率(以季為單位)也在下滑，這對於法人來說 就是非常強烈的賣出理由！！股價下跌，我們也不意外了另外，由上面的K線圖中 也可以看出大約有半年的時間外資的籌碼是賣多而買少本土投信更是幾乎完全不碰的全面撤出！"
-	                        )
 	                      )
 	                    )
 	                  )
@@ -24129,6 +23736,295 @@
 	}));
 
 	exports.default = (0, _reactRedux.connect)()(Timeline);
+
+/***/ },
+/* 317 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(159);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var _React = { React: _react2.default };
+	var PropTypes = _React.PropTypes;
+
+
+	var StockTrendRail = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "StockTrendRail",
+	    render: function render() {
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "stock-trend-rail" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "ui small header" },
+	                "趨勢類別"
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "trend-categorys" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "trend-category" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "trend-title" },
+	                        "上市股票"
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "trend-body bg-gray" },
+	                        "股"
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "trend-category" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "trend-title" },
+	                        "上櫃股票"
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "trend-body bg-bluegray" },
+	                        "櫃"
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "trend-category" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "trend-title" },
+	                        "原物料"
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "trend-body bg-yellow" },
+	                        "原"
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "trend-category" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "trend-title" },
+	                        "匯率"
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "trend-body bg-lipstick" },
+	                        "匯"
+	                    )
+	                )
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "ui small header" },
+	                "熱門標籤"
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "trend-tags ui divided selection list" },
+	                _react2.default.createElement(
+	                    "a",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "right floated" },
+	                        _react2.default.createElement("i", { className: "user icon" }),
+	                        "234"
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "ui red horizontal label" },
+	                        "1"
+	                    ),
+	                    "黃金"
+	                ),
+	                _react2.default.createElement(
+	                    "a",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "right floated" },
+	                        _react2.default.createElement("i", { className: "user icon" }),
+	                        "123"
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "ui red horizontal label" },
+	                        "2"
+	                    ),
+	                    "台積電"
+	                ),
+	                _react2.default.createElement(
+	                    "a",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "right floated" },
+	                        _react2.default.createElement("i", { className: "user icon" }),
+	                        "64"
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "ui red horizontal label" },
+	                        "3"
+	                    ),
+	                    "葉倫"
+	                ),
+	                _react2.default.createElement(
+	                    "a",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "right floated" },
+	                        _react2.default.createElement("i", { className: "user icon" }),
+	                        "33"
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "ui grey horizontal label" },
+	                        "4"
+	                    ),
+	                    "Apple"
+	                ),
+	                _react2.default.createElement(
+	                    "a",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "right floated" },
+	                        _react2.default.createElement("i", { className: "user icon" }),
+	                        "24"
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "ui grey horizontal label" },
+	                        "5"
+	                    ),
+	                    "能源會議"
+	                )
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "ui small header" },
+	                "熱門投資人"
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "trend-tags ui divided selection list" },
+	                _react2.default.createElement(
+	                    "a",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "right floated" },
+	                        _react2.default.createElement("i", { className: "user icon" }),
+	                        "234"
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "ui red horizontal label" },
+	                        "1"
+	                    ),
+	                    "雷光夏"
+	                ),
+	                _react2.default.createElement(
+	                    "a",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "right floated" },
+	                        _react2.default.createElement("i", { className: "user icon" }),
+	                        "123"
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "ui red horizontal label" },
+	                        "2"
+	                    ),
+	                    "綠角"
+	                ),
+	                _react2.default.createElement(
+	                    "a",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "right floated" },
+	                        _react2.default.createElement("i", { className: "user icon" }),
+	                        "64"
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "ui red horizontal label" },
+	                        "3"
+	                    ),
+	                    "MarcoMarco"
+	                ),
+	                _react2.default.createElement(
+	                    "a",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "right floated" },
+	                        _react2.default.createElement("i", { className: "user icon" }),
+	                        "33"
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "ui grey horizontal label" },
+	                        "4"
+	                    ),
+	                    "Bestdo"
+	                ),
+	                _react2.default.createElement(
+	                    "a",
+	                    { className: "item" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "right floated" },
+	                        _react2.default.createElement("i", { className: "user icon" }),
+	                        "24"
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "ui grey horizontal label" },
+	                        "5"
+	                    ),
+	                    "天元突破"
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = StockTrendRail;
 
 /***/ }
 /******/ ]);

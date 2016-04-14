@@ -10,6 +10,27 @@
     color: #21ba45!important;
 }
 
+.bg-blue {
+    background-color: #2185d0!important;
+    color: white !important;
+}
+.bg-gray {
+    background-color: #66757f!important;
+    color: white !important;
+}
+.bg-bluegray {
+    background-color: #7bb0a6!important;
+    color: white !important;
+}
+.bg-yellow {
+    background-color: #ffc71a!important;
+    color: white !important;
+}
+.bg-lipstick {
+    background-color: #e32e5b!important;
+    color: white !important;
+}
+
 .ta-center {
     text-align: center;
 }

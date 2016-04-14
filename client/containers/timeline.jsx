@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import InformationRail from "./information-rail";
-import MenuRail from "./menu-rail";
+import StockTrendRail from "./stock-trend-rail";
 import {connect} from "react-redux";
 
 const {PropTypes} = React;
@@ -19,7 +19,7 @@ const Timeline = React.createClass({
         return (
             <div className="timeline">
                 <div className="left_col">
-                    <MenuRail/>
+                    <StockTrendRail/>
                 </div>
                 <div className="main_col">
                     <div className="trend-card-list">
@@ -48,9 +48,15 @@ const Timeline = React.createClass({
                                     <div className="transition hidden">
 
                                         <h3 className="ui top attached header">
+                                            說明
+                                        </h3>
+                                        <div className="ui attached segment">
+                                          <p>鴻準的ROE浮動的現象相當劇烈，一下高一下低第一季估算 已經大幅度下降至3.38%季營收的成長率 在2013年第一季更是大幅度的衰退59%年營收成長率(以季為單位)也在下滑，這對於法人來說 就是非常強烈的賣出理由！！股價下跌，我們也不意外了另外，由上面的K線圖中 也可以看出大約有半年的時間外資的籌碼是賣多而買少本土投信更是幾乎完全不碰的全面撤出！</p>
+                                        </div>
+                                        <h3 className="ui attached header">
                                             標的
                                         </h3>
-                                        <div className="ui attached segment p-0">
+                                        <div className="ui bottom attached segment p-0">
 
 
                                             <table className="ui table subjects-table selectable striped">
@@ -116,12 +122,7 @@ const Timeline = React.createClass({
 
 
                                         </div>
-                                        <h3 className="ui attached header">
-                                            說明
-                                        </h3>
-                                        <div className="ui bottom attached segment">
-                                          <p>鴻準的ROE浮動的現象相當劇烈，一下高一下低第一季估算 已經大幅度下降至3.38%季營收的成長率 在2013年第一季更是大幅度的衰退59%年營收成長率(以季為單位)也在下滑，這對於法人來說 就是非常強烈的賣出理由！！股價下跌，我們也不意外了另外，由上面的K線圖中 也可以看出大約有半年的時間外資的籌碼是賣多而買少本土投信更是幾乎完全不碰的全面撤出！</p>
-                                        </div>
+
 
 
                                     </div>
@@ -168,10 +169,17 @@ const Timeline = React.createClass({
                                   <div className="content">
                                     <div className="transition hidden">
 
+
                                         <h3 className="ui top attached header">
+                                            說明
+                                        </h3>
+                                        <div className="ui attached segment">
+                                          <p>鴻準的ROE浮動的現象相當劇烈，一下高一下低第一季估算 已經大幅度下降至3.38%季營收的成長率 在2013年第一季更是大幅度的衰退59%年營收成長率(以季為單位)也在下滑，這對於法人來說 就是非常強烈的賣出理由！！股價下跌，我們也不意外了另外，由上面的K線圖中 也可以看出大約有半年的時間外資的籌碼是賣多而買少本土投信更是幾乎完全不碰的全面撤出！</p>
+                                        </div>
+                                        <h3 className="ui attached header">
                                             標的
                                         </h3>
-                                        <div className="ui attached segment p-0">
+                                        <div className="ui bottom attached segment p-0">
 
 
                                             <table className="ui table subjects-table selectable striped">
@@ -237,12 +245,7 @@ const Timeline = React.createClass({
 
 
                                         </div>
-                                        <h3 className="ui attached header">
-                                            說明
-                                        </h3>
-                                        <div className="ui bottom attached segment">
-                                          <p>鴻準的ROE浮動的現象相當劇烈，一下高一下低第一季估算 已經大幅度下降至3.38%季營收的成長率 在2013年第一季更是大幅度的衰退59%年營收成長率(以季為單位)也在下滑，這對於法人來說 就是非常強烈的賣出理由！！股價下跌，我們也不意外了另外，由上面的K線圖中 也可以看出大約有半年的時間外資的籌碼是賣多而買少本土投信更是幾乎完全不碰的全面撤出！</p>
-                                        </div>
+
 
 
                                     </div>
