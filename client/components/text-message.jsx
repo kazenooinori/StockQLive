@@ -12,7 +12,7 @@ const TextMessage = React.createClass({
         return (
             <div className="comment">
                 <a className="avatar">
-                    <img src="/images/head.png"/>
+                    <img src={"/images/" + senderUsername + ".jpg"}/>
                 </a>
                 <div className="content">
                     <a className="author">{senderUsername}</a>

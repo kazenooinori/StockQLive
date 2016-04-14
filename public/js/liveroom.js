@@ -19899,7 +19899,7 @@
 	            _react2.default.createElement(
 	                "a",
 	                { className: "avatar" },
-	                _react2.default.createElement("img", { src: "/images/head.png" })
+	                _react2.default.createElement("img", { src: "/images/" + senderUsername + ".jpg" })
 	            ),
 	            _react2.default.createElement(
 	                "div",

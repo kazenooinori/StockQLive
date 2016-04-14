@@ -29,4 +29,8 @@ function handleErrorConnection () {
 }
 handleErrorConnection();
 
-module.exports = connection;
+module.exports = {
+    getConnection: function () {
+        return connection;
+    }
+};
