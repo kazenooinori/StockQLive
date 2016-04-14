@@ -1,3 +1,5 @@
-<nav>
-    navvv
+<nav class="navbar">
+    <div class="logo">
+        <img src="/images/logo.png"/>
+    </div>
 </nav>

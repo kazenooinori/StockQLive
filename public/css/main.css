@@ -2,6 +2,29 @@ body {
     background-color: #E1E8ED;
 }
 
+.navbar {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 44px;
+    background-color: white;
+    border-bottom: 1px solid #858585;
+}
+.navbar .logo img {
+    height: 36px;
+    margin-top: 4px;
+}
+
+
+.container {
+    margin-top: 44px;
+    position: absolute;
+    bottom: 0px;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+}
 .left_col {
     position: absolute;
     top: 0px;
