@@ -1,36 +1,25 @@
 const logger = require("../lib/logger");
 const mysql = require("mysql");
 const config = require("../config");
+const pool = mysql.createPool(config.mysqlConfig);
 
-var connection;
-
-function handleErrorConnection () {
-    connection = mysql.createConnection({
-        host     : config.mysqlURL,
-        user     : config.mysqlUser,
-        password : config.mysqlPassword,
-        database : config.mysqlDatabase,
-    });
-    connection.connect(function (error) {
-        if (error) {
-            logger.error("cannot connect to mysql");
-            return;
-        }
-        logger.info("connected to mysql");
-    });
-    connection.on("error", function (error) {
-        logger.error("db error", error);
-        if (error.code === "PROTOCOL_CONNECTION_LOST") {
-            handleErrorConnection();
-        } else {
-            throw error;
-        }
-    });
-}
-handleErrorConnection();
+pool.on("connection", (connection) => {
+    logger.info("new connection comes into mysql pool");
+});
+pool.on('enqueue', () => {
+    logger.info('Waiting for available connection slot');
+});
 
 module.exports = {
     getConnection: function () {
-        return connection;
+        return new Promise((resolve, reject) => {
+            pool.getConnection((error, connection) => {
+                if (error) {
+                    reject(error);
+                    return;
+                }
+                resolve(connection);
+            });
+        });
     }
 };
