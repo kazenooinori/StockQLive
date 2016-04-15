@@ -35964,9 +35964,9 @@
 	        // for demo stock chart
 	        var seriesOptions = [],
 	            seriesCounter = 0,
-	            names = ['MSFT', 'AAPL', 'GOOG'];
+	            names = ['0050'];
 	        $.each(names, function (i, name) {
-	            $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=' + name.toLowerCase() + '-c.json&callback=?', function (data) {
+	            $.getJSON('http://localhost:3000/api/stock/' + name.toLowerCase(), function (data) {
 	                seriesOptions[i] = {
 	                    name: name,
 	                    data: data
