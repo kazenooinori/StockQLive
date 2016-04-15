@@ -1,9 +1,14 @@
 const StockModel = require("../models/stock");
 
-function findStocks () {
-    return StockModel.find();
+function getCurrentStock () {
+    return StockModel.getCurrent();
+}
+
+function getStockHistory (stockNumber) {
+    return StockModel.getHistory(stockNumber);
 }
 
 module.exports = {
-    findStocks,
+    getCurrentStock,
+    getStockHistory,
 };
