@@ -2,13 +2,13 @@ import React from "react";
 import TextMessage from "../components/text-message.jsx";
 import InformationRail from "./information-rail";
 import MenuRail from "./menu-rail";
+import Messager from "./messager";
 import LoginModal from "../components/login-modal";
 import SignUpModal from "../components/signup-modal";
-import Messager from "./messager";
+import StockChart from "../components/stock-chart";
 import CreateChannelModal from "../components/create-channel-modal";
 import {connect} from "react-redux";
 import * as ChaActions from '../actions/cha-actions';
-import Highcharts from 'highcharts/highstock';
 
 const {Component, PropTypes} = React;
 
@@ -40,57 +40,6 @@ const Liveroom = React.createClass({
         onFetchChannels();
 
         this.props.updateStocks();
-
-// for demo stock chart
-        var seriesOptions = [],
-            seriesCounter = 0,
-            names = ['0050'];
-        $.each(names, function (i, name) {
-            $.getJSON('/api/stock/' + name.toLowerCase(), function (data) {
-                seriesOptions[i] = {
-                    name: name,
-                    data: data
-                };
-                // As we're loading the data asynchronously, we don't know what order it will arrive. So
-                // we keep a counter and create the chart when all the data is loaded.
-                seriesCounter += 1;
-                if (seriesCounter === names.length) {
-                    createChart();
-                }
-            });
-        });
-        function createChart() {
-            Highcharts.StockChart('stock-chart', {
-               rangeSelector: {
-                  selected: 4
-              },
-
-              yAxis: {
-                  labels: {
-                      formatter: function () {
-                          return (this.value > 0 ? ' + ' : '') + this.value + '%';
-                      }
-                  },
-                  plotLines: [{
-                      value: 0,
-                      width: 2,
-                      color: 'silver'
-                  }]
-              },
-
-              plotOptions: {
-                  series: {
-                      compare: 'percent'
-                  }
-              },
-
-              tooltip: {
-                  pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
-                  valueDecimals: 2
-              },
-              series: seriesOptions
-           });
-        }
     },
     renderStockItems (stocks) {
         return stocks.filter(checkLatestPrice).map((stock) => {
@@ -111,6 +60,7 @@ const Liveroom = React.createClass({
             channel,
             socket,
             stocks,
+            stockSeries,
         } = this.props;
         return (
             <div className="liveroom">
@@ -125,9 +75,8 @@ const Liveroom = React.createClass({
                         channel={channel}
                         socket={socket}/>
                     <div className="tail">
-                        <div id="stock-chart">
-
-                        </div>
+                        <StockChart
+                            stockSeries={stockSeries}/>
                         <div className="ui tab segment board active">
                             <div className="stock-list ui middle aligned selection list">
                                 {this.renderStockItems(stocks)}
@@ -160,6 +109,7 @@ const mapStateToProps = function (state) {
     return {
         user: state.user,
         stocks: state.stocks,
+        stockSeries: state.stockSeries.toJS(),
     };
 }
 const mapDispatchToProps = function (dispatch) {
@@ -179,7 +129,7 @@ const mapDispatchToProps = function (dispatch) {
         onCreateChannel: function (channel) {
             dispatch(ChaActions.createChannel(channel));
         },
-        updateStocks: () => {
+        updateStocks: function () {
             dispatch(ChaActions.updateStocks());
         },
     };
