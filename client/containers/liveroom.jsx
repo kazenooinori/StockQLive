@@ -46,7 +46,7 @@ const Liveroom = React.createClass({
             seriesCounter = 0,
             names = ['0050'];
         $.each(names, function (i, name) {
-            $.getJSON('http://localhost:3000/api/stock/' + name.toLowerCase(), function (data) {
+            $.getJSON('/api/stock/' + name.toLowerCase(), function (data) {
                 seriesOptions[i] = {
                     name: name,
                     data: data
