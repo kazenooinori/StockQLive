@@ -110,7 +110,7 @@ const mapStateToProps = function (state) {
     return {
         user: state.user,
         stocks: state.stocks,
-        stockSeries: state.stockSeries.toJS(),
+        stockSeries: state.stockSeries,
     };
 }
 const mapDispatchToProps = function (dispatch) {

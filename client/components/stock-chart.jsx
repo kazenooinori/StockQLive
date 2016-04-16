@@ -1,21 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Highcharts from 'highcharts/highstock';
+import PureRenderMixin from "react-addons-pure-render-mixin";
 
 const {PropTypes} = React;
 
 const StockChart = React.createClass({
     propTypes: {
-        stockSeries: PropTypes.array.isRequired,
+        stockSeries: PropTypes.object.isRequired,
     },
+    mixins: [PureRenderMixin],
     chart: undefined,
     componentDidMount() {
-        this.renderStockChart(this.props.stockSeries);
+        this.renderStockChart(this.props.stockSeries.toJS());
     },
-    componentWillReceiveProps (nextProps) {
-        if (this.chart && nextProps.stockSeries !== this.props.stockSeries) {
+    componentWillUpdate (nextProps, nextState) {
+        if (this.chart) {
             this.chart.destroy();
-            this.renderStockChart(nextProps.stockSeries);
+            this.renderStockChart(nextProps.stockSeries.toJS());
         }
     },
     renderStockChart (stockSeries) {
