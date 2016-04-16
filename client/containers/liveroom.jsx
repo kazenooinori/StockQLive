@@ -35,9 +35,10 @@ const Liveroom = React.createClass({
     },
     componentDidMount() {
         // initialize messages
-        const {onFetchChannels, onInitUser} = this.props;
+        const {onFetchChannels, onInitUser, onFetchStockSeries} = this.props;
         onInitUser();
         onFetchChannels();
+        onFetchStockSeries(["0050"]);
 
         this.props.updateStocks();
     },
@@ -131,6 +132,9 @@ const mapDispatchToProps = function (dispatch) {
         },
         updateStocks: function () {
             dispatch(ChaActions.updateStocks());
+        },
+        onFetchStockSeries: function (series) {
+            dispatch(ChaActions.fetchStockSeries(series));
         },
     };
 }

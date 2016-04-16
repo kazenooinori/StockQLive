@@ -8,12 +8,18 @@ const StockChart = React.createClass({
     propTypes: {
         stockSeries: PropTypes.array.isRequired,
     },
+    chart: undefined,
     componentDidMount() {
-        this.renderStockChart();
+        this.renderStockChart(this.props.stockSeries);
     },
-    renderStockChart () {
-        const {stockSeries} = this.props;
-        Highcharts.StockChart('stock-chart', {
+    componentWillReceiveProps (nextProps) {
+        if (this.chart && nextProps.stockSeries !== this.props.stockSeries) {
+            this.chart.destroy();
+            this.renderStockChart(nextProps.stockSeries);
+        }
+    },
+    renderStockChart (stockSeries) {
+        this.chart = Highcharts.StockChart('stock-chart', {
            rangeSelector: {
               selected: 4
           },

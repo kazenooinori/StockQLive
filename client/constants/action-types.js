@@ -16,4 +16,4 @@ export const APPEND_REQUESTS = "APPEND_REQUESTS";
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 
-export const UPDATE_STOCK_SERIES = "UPDATE_STOCK_SERIES";
+export const APPEND_STOCK_SERIES = "APPEND_STOCK_SERIES";
