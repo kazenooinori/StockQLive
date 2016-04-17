@@ -1,16 +1,11 @@
 import * as types from "../../constants/action-types";
-export default function messages (state = [], action) {
+import {List} from "immutable";
+
+const initialState = List();
+export default function messages (state = initialState, action) {
     switch (action.type) {
-        case types.SEND_MESSAGE:
-            return [
-                ...state,
-                action.message
-            ];
         case types.APPEND_MESSAGES:
-            return [
-                ...state,
-                ...action.messages
-            ];
+            return state.concat(action.messages);
         case types.APPEND_MESSAGE:
             const {message} = action;
             let shouldAppend = true;
@@ -19,10 +14,7 @@ export default function messages (state = [], action) {
                 return shouldAppend;
             });
             if (shouldAppend) {
-                return [
-                    ...state,
-                    message
-                ];
+                return state.push(action.message);
             }
             return state;
         default:

@@ -19,12 +19,15 @@ const channelId = container.dataset.channelId;
 const chatroomId = container.dataset.chatroomId;
 const channelName = container.dataset.channelName;
 const ownerUsername = container.dataset.ownerUsername;
-const channel = {
+
+// TODO should move channel initialization to reducer
+import {Map} from "immutable";
+const channel = Map({
     _id: channelId,
     name: channelName,
     ownerUsername: ownerUsername,
     chatroomId: chatroomId,
-};
+});
 
 ReactDOM.render(
     <Provider store={store}>

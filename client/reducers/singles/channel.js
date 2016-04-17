@@ -1,8 +1,16 @@
 import * as types from "../../constants/action-types";
-export default function Channel (state = {_id: "", ownerUsername: "", name: "", chatroomId: ""}, action) {
+import {Map} from "immutable";
+
+const initialState = Map({
+    _id: "",
+    ownerUsername: "",
+    name: "",
+    chatroomId: ""
+});
+export default function Channel (state = initialState, action) {
     switch (action.type) {
         case types.UPDATE_CHANNEL:
-            return Object.assign({}, action.channel);
+            return state.merge(action.channel);
         default:
             return state;
     }

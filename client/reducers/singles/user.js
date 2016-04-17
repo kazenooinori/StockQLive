@@ -1,14 +1,16 @@
 import * as types from "../../constants/action-types";
+import {Map} from "immutable";
 
-export default function user (state = {_id: "",username: ""}, action) {
+const initialState = Map({
+    _id: "",
+    username: ""
+});
+export default function user (state = initialState, action) {
     switch (action.type) {
         case types.LOGIN:
-            return Object.assign({}, action.user);
+            return state.merge(action.user);
         case types.LOGOUT:
-            return {
-                _id: "",
-                username: "",
-            };
+            return initialState;
         default:
             return state;
     }

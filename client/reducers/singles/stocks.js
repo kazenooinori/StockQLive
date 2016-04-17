@@ -1,10 +1,11 @@
 import * as types from "../../constants/action-types";
-export default function Stocks (state = [], action) {
+import {List} from "immutable";
+
+const initialState = List();
+export default function Stocks (state = initialState, action) {
     switch (action.type) {
         case types.UPDATE_STOCKS:
-            return [
-                ...action.stocks
-            ];
+            return Immutable.List(action.stocks);
         default:
             return state;
     }

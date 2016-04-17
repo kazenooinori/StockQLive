@@ -1,16 +1,13 @@
 import * as types from "../../constants/action-types";
-export default function Channels (state = [], action) {
+import {List} from "immutable";
+
+const initialState = List();
+export default function Channels (state = initialState, action) {
     switch (action.type) {
         case types.APPEND_CHANNELS:
-            return [
-                ...state,
-                ...action.channels,
-            ];
+            return state.concat(action.channels);
         case types.APPEND_CHANNEL:
-            return [
-                ...state,
-                action.channel,
-            ];
+            return state.push(action.channel);
         default:
             return state;
     }

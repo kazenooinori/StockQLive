@@ -22464,15 +22464,23 @@
 
 	var types = _interopRequireWildcard(_actionTypes);
 
+	var _immutable = __webpack_require__(304);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+	var initialState = (0, _immutable.Map)({
+	    _id: "",
+	    ownerUsername: "",
+	    name: "",
+	    chatroomId: ""
+	});
 	function Channel() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? { _id: "", ownerUsername: "", name: "", chatroomId: "" } : arguments[0];
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 	    var action = arguments[1];
 
 	    switch (action.type) {
 	        case types.UPDATE_CHANNEL:
-	            return Object.assign({}, action.channel);
+	            return state.merge(action.channel);
 	        default:
 	            return state;
 	    }
@@ -22493,19 +22501,20 @@
 
 	var types = _interopRequireWildcard(_actionTypes);
 
+	var _immutable = __webpack_require__(304);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
+	var initialState = (0, _immutable.List)();
 	function Channels() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 	    var action = arguments[1];
 
 	    switch (action.type) {
 	        case types.APPEND_CHANNELS:
-	            return [].concat(_toConsumableArray(state), _toConsumableArray(action.channels));
+	            return state.concat(action.channels);
 	        case types.APPEND_CHANNEL:
-	            return [].concat(_toConsumableArray(state), [action.channel]);
+	            return state.push(action.channel);
 	        default:
 	            return state;
 	    }
@@ -22526,17 +22535,18 @@
 
 	var types = _interopRequireWildcard(_actionTypes);
 
+	var _immutable = __webpack_require__(304);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
+	var initialState = (0, _immutable.List)();
 	function Stocks() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 	    var action = arguments[1];
 
 	    switch (action.type) {
 	        case types.UPDATE_STOCKS:
-	            return [].concat(_toConsumableArray(action.stocks));
+	            return Immutable.List(action.stocks);
 	        default:
 	            return state;
 	    }
@@ -22559,14 +22569,9 @@
 
 	var _immutable = __webpack_require__(304);
 
-	var _immutable2 = _interopRequireDefault(_immutable);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-	// just for demo
-	var initialState = _immutable2.default.List();
+	var initialState = (0, _immutable.List)();
 	function stockSeries() {
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 	    var action = arguments[1];
@@ -27581,19 +27586,18 @@
 
 	var types = _interopRequireWildcard(_actionTypes);
 
+	var _immutable = __webpack_require__(304);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
+	var initialState = (0, _immutable.List)();
 	function messages() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 	    var action = arguments[1];
 
 	    switch (action.type) {
-	        case types.SEND_MESSAGE:
-	            return [].concat(_toConsumableArray(state), [action.message]);
 	        case types.APPEND_MESSAGES:
-	            return [].concat(_toConsumableArray(state), _toConsumableArray(action.messages));
+	            return state.concat(action.messages);
 	        case types.APPEND_MESSAGE:
 	            var message = action.message;
 
@@ -27603,7 +27607,7 @@
 	                return shouldAppend;
 	            });
 	            if (shouldAppend) {
-	                return [].concat(_toConsumableArray(state), [message]);
+	                return state.push(action.message);
 	            }
 	            return state;
 	        default:
@@ -27626,20 +27630,23 @@
 
 	var types = _interopRequireWildcard(_actionTypes);
 
+	var _immutable = __webpack_require__(304);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+	var initialState = (0, _immutable.Map)({
+	    _id: "",
+	    username: ""
+	});
 	function user() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? { _id: "", username: "" } : arguments[0];
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 	    var action = arguments[1];
 
 	    switch (action.type) {
 	        case types.LOGIN:
-	            return Object.assign({}, action.user);
+	            return state.merge(action.user);
 	        case types.LOGOUT:
-	            return {
-	                _id: "",
-	                username: ""
-	            };
+	            return initialState;
 	        default:
 	            return state;
 	    }

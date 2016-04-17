@@ -28,6 +28,7 @@ class Messager extends Component {
         e.preventDefault();
         const {user} = this.props;
         const {text} = this.state;
+        // TODO should move socket to action creater
         this.props.socket.emit('client send', {
             senderId: user._id,
             senderUsername: user.username,
@@ -146,6 +147,7 @@ const mapDispatchToProps = function (dispatch) {
         onSignUpUser: function (user) {
             dispatch(ChaActions.signUpUser(user));
         },
+        // TODO should move socket to action creater
         onSendMessage: function (message) {
             dispatch(ChaActions.sendMessage(message));
         },

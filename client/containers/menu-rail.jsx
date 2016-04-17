@@ -10,10 +10,7 @@ const {Component, PropTypes} = React;
 
 const MenuRail = React.createClass({
     propTypes: {
-        user: PropTypes.shape({
-            _id: PropTypes.string.isRequired,
-            username: PropTypes.string.isRequired,
-        }),
+        user: PropTypes.object,
         personalChannels: PropTypes.array.isRequired,
         publicChannels: PropTypes.array.isRequired,
         onLogOutUser: PropTypes.func.isRequired,
@@ -28,7 +25,7 @@ const MenuRail = React.createClass({
         $("#create-channel-modal").modal("show");
     },
     componentWillReceiveProps (nextProps) {
-        if (this.props.user._id !== nextProps.user._id) {
+        if (this.props.user.get("_id") !== nextProps.user.get("_id")) {
             $("#login-modal").modal("hide");
             $("#signup-modal").modal("hide");
         }
@@ -38,7 +35,7 @@ const MenuRail = React.createClass({
     },
     renderLoginStatus () {
         const {user, onLogOutUser} = this.props;
-        if (user.username) {
+        if (user.get("username")) {
             return (
                 <LoggedInController
                     user={user}

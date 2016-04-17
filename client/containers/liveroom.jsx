@@ -1,32 +1,28 @@
 import React from "react";
-import TextMessage from "../components/text-message.jsx";
+import PureRenderMixin from "react-addons-pure-render-mixin";
+import {connect} from "react-redux";
+
 import InformationRail from "./information-rail";
 import MenuRail from "./menu-rail";
 import Messager from "./messager";
+
+import TextMessage from "../components/text-message.jsx";
 import LoginModal from "../components/login-modal";
 import SignUpModal from "../components/signup-modal";
 import StockChart from "../components/stock-chart";
 import CreateChannelModal from "../components/create-channel-modal";
-import {connect} from "react-redux";
-import * as ChaActions from '../actions/cha-actions';
-
-const {Component, PropTypes} = React;
-
-const checkLatestPrice = (stock) => stock.latest_price !== -1;
 import StockItem from "../components/stock-item";
 
+import * as ChaActions from '../actions/cha-actions';
+
+
+const {Component, PropTypes} = React;
+const checkLatestPrice = (stock) => stock.latest_price !== -1;
 const Liveroom = React.createClass({
+    mixins: [PureRenderMixin],
     propTypes: {
-        user: PropTypes.shape({
-            _id: PropTypes.string.isRequired,
-            username: PropTypes.string.isRequired,
-        }),
-        channel: PropTypes.shape({
-            _id: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
-            ownerUsername: PropTypes.string.isRequired,
-            chatroomId: PropTypes.string.isRequired,
-        }),
+        user: PropTypes.object,
+        channel: PropTypes.object,
         socket: PropTypes.object.isRequired,
         onInitUser: PropTypes.func.isRequired,
         onFetchChannels: PropTypes.func.isRequired,
@@ -70,7 +66,7 @@ const Liveroom = React.createClass({
                 </div>
                 <div className="main_col">
                     <h1 className="ui dividing header">
-                        {channel.name}
+                        {channel.get("name")}
                     </h1>
                     <Messager
                         channel={channel}
@@ -101,10 +97,6 @@ const Liveroom = React.createClass({
         );
     },
 });
-/*
-
-
- */
 
 const mapStateToProps = function (state) {
     return {

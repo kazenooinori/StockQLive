@@ -1,22 +1,18 @@
 import React from "react";
-import TextMessage from "../components/text-message.jsx";
+import PureRenderMixin from "react-addons-pure-render-mixin";
 import {connect} from "react-redux";
+
+import TextMessage from "../components/text-message.jsx";
+
 import * as ChaActions from '../actions/cha-actions';
 
 const {Component, PropTypes} = React;
 
 const Messager = React.createClass({
+    mixins: [PureRenderMixin],
     propTypes: {
-        user: PropTypes.shape({
-            _id: PropTypes.string.isRequired,
-            username: PropTypes.string.isRequired,
-        }),
-        channel: PropTypes.shape({
-            _id: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
-            ownerUsername: PropTypes.string.isRequired,
-            chatroomId: PropTypes.string.isRequired,
-        }),
+        user: PropTypes.object,
+        channel: PropTypes.object,
         messages: PropTypes.array.isRequired,
         onSendMessage: PropTypes.func.isRequired,
         onFetchMessages: PropTypes.func.isRequired,
@@ -32,9 +28,9 @@ const Messager = React.createClass({
         const {user, channel} = this.props;
         const {text} = this.state;
         this.props.socket.emit('client send', {
-            senderId: user._id,
-            senderUsername: user.username,
-            chatroomId: channel.chatroomId,
+            senderId: user.get("_id"),
+            senderUsername: user.get("username"),
+            chatroomId: channel.get("chatroomId"),
             content: text,
         });
         this.setState({
@@ -49,10 +45,10 @@ const Messager = React.createClass({
     componentDidMount() {
         // initialize messages
         const {onFetchMessages, socket, onAppendMessage, channel} = this.props;
-        onFetchMessages(channel.chatroomId);
+        onFetchMessages(channel.get("chatroomId"));
 
         socket.on("server push", function (data) {
-            if (data.chatroomId && data.chatroomId === channel.chatroomId) {
+            if (data.chatroomId && data.chatroomId === channel.get("chatroomId")) {
                 onAppendMessage(data);
             }
         });
@@ -65,7 +61,7 @@ const Messager = React.createClass({
         return messages.map((message, index) => (<TextMessage key={index} message={message}/>));
     },
     renderMessageInputArea (user) {
-        if (user.username) {
+        if (user.get("username")) {
             return (
                 <form onSubmit={this.handleSubmitMessage}>
                     <div className="ui input">

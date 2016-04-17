@@ -20017,11 +20017,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactAddonsPureRenderMixin = __webpack_require__(324);
+
+	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
+
+	var _reactRedux = __webpack_require__(270);
+
 	var _textMessage = __webpack_require__(168);
 
 	var _textMessage2 = _interopRequireDefault(_textMessage);
-
-	var _reactRedux = __webpack_require__(270);
 
 	var _chaActions = __webpack_require__(294);
 
@@ -20048,17 +20052,10 @@
 	var Messager = _wrapComponent("_component")(_react2.default.createClass({
 	    displayName: "Messager",
 
+	    mixins: [_reactAddonsPureRenderMixin2.default],
 	    propTypes: {
-	        user: PropTypes.shape({
-	            _id: PropTypes.string.isRequired,
-	            username: PropTypes.string.isRequired
-	        }),
-	        channel: PropTypes.shape({
-	            _id: PropTypes.string.isRequired,
-	            name: PropTypes.string.isRequired,
-	            ownerUsername: PropTypes.string.isRequired,
-	            chatroomId: PropTypes.string.isRequired
-	        }),
+	        user: PropTypes.object,
+	        channel: PropTypes.object,
 	        messages: PropTypes.array.isRequired,
 	        onSendMessage: PropTypes.func.isRequired,
 	        onFetchMessages: PropTypes.func.isRequired,
@@ -20077,9 +20074,9 @@
 	        var text = this.state.text;
 
 	        this.props.socket.emit('client send', {
-	            senderId: user._id,
-	            senderUsername: user.username,
-	            chatroomId: channel.chatroomId,
+	            senderId: user.get("_id"),
+	            senderUsername: user.get("username"),
+	            chatroomId: channel.get("chatroomId"),
 	            content: text
 	        });
 	        this.setState({
@@ -20099,10 +20096,10 @@
 	        var onAppendMessage = _props2.onAppendMessage;
 	        var channel = _props2.channel;
 
-	        onFetchMessages(channel.chatroomId);
+	        onFetchMessages(channel.get("chatroomId"));
 
 	        socket.on("server push", function (data) {
-	            if (data.chatroomId && data.chatroomId === channel.chatroomId) {
+	            if (data.chatroomId && data.chatroomId === channel.get("chatroomId")) {
 	                onAppendMessage(data);
 	            }
 	        });
@@ -20120,7 +20117,7 @@
 	        });
 	    },
 	    renderMessageInputArea: function renderMessageInputArea(user) {
-	        if (user.username) {
+	        if (user.get("username")) {
 	            return _react2.default.createElement(
 	                "form",
 	                { onSubmit: this.handleSubmitMessage },
@@ -35757,15 +35754,23 @@
 
 	var types = _interopRequireWildcard(_actionTypes);
 
+	var _immutable = __webpack_require__(304);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+	var initialState = (0, _immutable.Map)({
+	    _id: "",
+	    ownerUsername: "",
+	    name: "",
+	    chatroomId: ""
+	});
 	function Channel() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? { _id: "", ownerUsername: "", name: "", chatroomId: "" } : arguments[0];
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 	    var action = arguments[1];
 
 	    switch (action.type) {
 	        case types.UPDATE_CHANNEL:
-	            return Object.assign({}, action.channel);
+	            return state.merge(action.channel);
 	        default:
 	            return state;
 	    }
@@ -35786,19 +35791,20 @@
 
 	var types = _interopRequireWildcard(_actionTypes);
 
+	var _immutable = __webpack_require__(304);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
+	var initialState = (0, _immutable.List)();
 	function Channels() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 	    var action = arguments[1];
 
 	    switch (action.type) {
 	        case types.APPEND_CHANNELS:
-	            return [].concat(_toConsumableArray(state), _toConsumableArray(action.channels));
+	            return state.concat(action.channels);
 	        case types.APPEND_CHANNEL:
-	            return [].concat(_toConsumableArray(state), [action.channel]);
+	            return state.push(action.channel);
 	        default:
 	            return state;
 	    }
@@ -35819,17 +35825,18 @@
 
 	var types = _interopRequireWildcard(_actionTypes);
 
+	var _immutable = __webpack_require__(304);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
+	var initialState = (0, _immutable.List)();
 	function Stocks() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 	    var action = arguments[1];
 
 	    switch (action.type) {
 	        case types.UPDATE_STOCKS:
-	            return [].concat(_toConsumableArray(action.stocks));
+	            return Immutable.List(action.stocks);
 	        default:
 	            return state;
 	    }
@@ -35852,14 +35859,9 @@
 
 	var _immutable = __webpack_require__(304);
 
-	var _immutable2 = _interopRequireDefault(_immutable);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-	// just for demo
-	var initialState = _immutable2.default.List();
+	var initialState = (0, _immutable.List)();
 	function stockSeries() {
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 	    var action = arguments[1];
@@ -40874,19 +40876,18 @@
 
 	var types = _interopRequireWildcard(_actionTypes);
 
+	var _immutable = __webpack_require__(304);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
+	var initialState = (0, _immutable.List)();
 	function messages() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 	    var action = arguments[1];
 
 	    switch (action.type) {
-	        case types.SEND_MESSAGE:
-	            return [].concat(_toConsumableArray(state), [action.message]);
 	        case types.APPEND_MESSAGES:
-	            return [].concat(_toConsumableArray(state), _toConsumableArray(action.messages));
+	            return state.concat(action.messages);
 	        case types.APPEND_MESSAGE:
 	            var message = action.message;
 
@@ -40896,7 +40897,7 @@
 	                return shouldAppend;
 	            });
 	            if (shouldAppend) {
-	                return [].concat(_toConsumableArray(state), [message]);
+	                return state.push(action.message);
 	            }
 	            return state;
 	        default:
@@ -40919,20 +40920,23 @@
 
 	var types = _interopRequireWildcard(_actionTypes);
 
+	var _immutable = __webpack_require__(304);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+	var initialState = (0, _immutable.Map)({
+	    _id: "",
+	    username: ""
+	});
 	function user() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? { _id: "", username: "" } : arguments[0];
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 	    var action = arguments[1];
 
 	    switch (action.type) {
 	        case types.LOGIN:
-	            return Object.assign({}, action.user);
+	            return state.merge(action.user);
 	        case types.LOGOUT:
-	            return {
-	                _id: "",
-	                username: ""
-	            };
+	            return initialState;
 	        default:
 	            return state;
 	    }
@@ -41228,6 +41232,8 @@
 
 	var _liveroom2 = _interopRequireDefault(_liveroom);
 
+	var _immutable = __webpack_require__(304);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var loggerMiddleware = (0, _reduxLogger2.default)();
@@ -41241,12 +41247,15 @@
 	var chatroomId = container.dataset.chatroomId;
 	var channelName = container.dataset.channelName;
 	var ownerUsername = container.dataset.ownerUsername;
-	var channel = {
+
+	// TODO should move channel initialization to reducer
+
+	var channel = (0, _immutable.Map)({
 	    _id: channelId,
 	    name: channelName,
 	    ownerUsername: ownerUsername,
 	    chatroomId: chatroomId
-	};
+	});
 
 	_reactDom2.default.render(_react2.default.createElement(
 	    _reactRedux.Provider,
@@ -41270,9 +41279,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _textMessage = __webpack_require__(168);
+	var _reactAddonsPureRenderMixin = __webpack_require__(324);
 
-	var _textMessage2 = _interopRequireDefault(_textMessage);
+	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
+
+	var _reactRedux = __webpack_require__(270);
 
 	var _informationRail = __webpack_require__(311);
 
@@ -41285,6 +41296,10 @@
 	var _messager = __webpack_require__(167);
 
 	var _messager2 = _interopRequireDefault(_messager);
+
+	var _textMessage = __webpack_require__(168);
+
+	var _textMessage2 = _interopRequireDefault(_textMessage);
 
 	var _loginModal = __webpack_require__(318);
 
@@ -41302,15 +41317,13 @@
 
 	var _createChannelModal2 = _interopRequireDefault(_createChannelModal);
 
-	var _reactRedux = __webpack_require__(270);
+	var _stockItem = __webpack_require__(312);
+
+	var _stockItem2 = _interopRequireDefault(_stockItem);
 
 	var _chaActions = __webpack_require__(294);
 
 	var ChaActions = _interopRequireWildcard(_chaActions);
-
-	var _stockItem = __webpack_require__(312);
-
-	var _stockItem2 = _interopRequireDefault(_stockItem);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -41329,26 +41342,16 @@
 	var Component = _react2.default.Component;
 	var PropTypes = _react2.default.PropTypes;
 
-
 	var checkLatestPrice = function checkLatestPrice(stock) {
 	    return stock.latest_price !== -1;
 	};
-
-
 	var Liveroom = _wrapComponent("_component")(_react2.default.createClass({
 	    displayName: "Liveroom",
 
+	    mixins: [_reactAddonsPureRenderMixin2.default],
 	    propTypes: {
-	        user: PropTypes.shape({
-	            _id: PropTypes.string.isRequired,
-	            username: PropTypes.string.isRequired
-	        }),
-	        channel: PropTypes.shape({
-	            _id: PropTypes.string.isRequired,
-	            name: PropTypes.string.isRequired,
-	            ownerUsername: PropTypes.string.isRequired,
-	            chatroomId: PropTypes.string.isRequired
-	        }),
+	        user: PropTypes.object,
+	        channel: PropTypes.object,
 	        socket: PropTypes.object.isRequired,
 	        onInitUser: PropTypes.func.isRequired,
 	        onFetchChannels: PropTypes.func.isRequired,
@@ -41401,7 +41404,7 @@
 	                _react2.default.createElement(
 	                    "h1",
 	                    { className: "ui dividing header" },
-	                    channel.name
+	                    channel.get("name")
 	                ),
 	                _react2.default.createElement(_messager2.default, {
 	                    channel: channel,
@@ -41438,10 +41441,6 @@
 	        );
 	    }
 	}));
-	/*
-
-
-	 */
 
 	var mapStateToProps = function mapStateToProps(state) {
 	    return {
@@ -41914,10 +41913,7 @@
 	    displayName: "MenuRail",
 
 	    propTypes: {
-	        user: PropTypes.shape({
-	            _id: PropTypes.string.isRequired,
-	            username: PropTypes.string.isRequired
-	        }),
+	        user: PropTypes.object,
 	        personalChannels: PropTypes.array.isRequired,
 	        publicChannels: PropTypes.array.isRequired,
 	        onLogOutUser: PropTypes.func.isRequired
@@ -41932,7 +41928,7 @@
 	        $("#create-channel-modal").modal("show");
 	    },
 	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-	        if (this.props.user._id !== nextProps.user._id) {
+	        if (this.props.user.get("_id") !== nextProps.user.get("_id")) {
 	            $("#login-modal").modal("hide");
 	            $("#signup-modal").modal("hide");
 	        }
@@ -41945,7 +41941,7 @@
 	        var user = _props.user;
 	        var onLogOutUser = _props.onLogOutUser;
 
-	        if (user.username) {
+	        if (user.get("username")) {
 	            return _react2.default.createElement(_loggedInController2.default, {
 	                user: user,
 	                onLogOutUser: onLogOutUser });
@@ -42085,10 +42081,7 @@
 	    displayName: "LoggedInController",
 
 	    propTypes: {
-	        user: PropTypes.shape({
-	            _id: PropTypes.string,
-	            username: PropTypes.string
-	        }),
+	        user: PropTypes.object,
 	        onLogOutUser: PropTypes.func
 	    },
 	    render: function render() {
@@ -42099,7 +42092,7 @@
 	        return _react2.default.createElement(
 	            "div",
 	            { className: "login" },
-	            user.username,
+	            user.get("username"),
 	            _react2.default.createElement(
 	                "div",
 	                { className: "button-groups" },

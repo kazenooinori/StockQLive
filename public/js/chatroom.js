@@ -20079,11 +20079,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactAddonsPureRenderMixin = __webpack_require__(324);
+
+	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
+
+	var _reactRedux = __webpack_require__(270);
+
 	var _textMessage = __webpack_require__(168);
 
 	var _textMessage2 = _interopRequireDefault(_textMessage);
-
-	var _reactRedux = __webpack_require__(270);
 
 	var _chaActions = __webpack_require__(294);
 
@@ -20110,17 +20114,10 @@
 	var Messager = _wrapComponent("_component")(_react2.default.createClass({
 	    displayName: "Messager",
 
+	    mixins: [_reactAddonsPureRenderMixin2.default],
 	    propTypes: {
-	        user: PropTypes.shape({
-	            _id: PropTypes.string.isRequired,
-	            username: PropTypes.string.isRequired
-	        }),
-	        channel: PropTypes.shape({
-	            _id: PropTypes.string.isRequired,
-	            name: PropTypes.string.isRequired,
-	            ownerUsername: PropTypes.string.isRequired,
-	            chatroomId: PropTypes.string.isRequired
-	        }),
+	        user: PropTypes.object,
+	        channel: PropTypes.object,
 	        messages: PropTypes.array.isRequired,
 	        onSendMessage: PropTypes.func.isRequired,
 	        onFetchMessages: PropTypes.func.isRequired,
@@ -20139,9 +20136,9 @@
 	        var text = this.state.text;
 
 	        this.props.socket.emit('client send', {
-	            senderId: user._id,
-	            senderUsername: user.username,
-	            chatroomId: channel.chatroomId,
+	            senderId: user.get("_id"),
+	            senderUsername: user.get("username"),
+	            chatroomId: channel.get("chatroomId"),
 	            content: text
 	        });
 	        this.setState({
@@ -20161,10 +20158,10 @@
 	        var onAppendMessage = _props2.onAppendMessage;
 	        var channel = _props2.channel;
 
-	        onFetchMessages(channel.chatroomId);
+	        onFetchMessages(channel.get("chatroomId"));
 
 	        socket.on("server push", function (data) {
-	            if (data.chatroomId && data.chatroomId === channel.chatroomId) {
+	            if (data.chatroomId && data.chatroomId === channel.get("chatroomId")) {
 	                onAppendMessage(data);
 	            }
 	        });
@@ -20182,7 +20179,7 @@
 	        });
 	    },
 	    renderMessageInputArea: function renderMessageInputArea(user) {
-	        if (user.username) {
+	        if (user.get("username")) {
 	            return _react2.default.createElement(
 	                "form",
 	                { onSubmit: this.handleSubmitMessage },
@@ -35819,15 +35816,23 @@
 
 	var types = _interopRequireWildcard(_actionTypes);
 
+	var _immutable = __webpack_require__(304);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+	var initialState = (0, _immutable.Map)({
+	    _id: "",
+	    ownerUsername: "",
+	    name: "",
+	    chatroomId: ""
+	});
 	function Channel() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? { _id: "", ownerUsername: "", name: "", chatroomId: "" } : arguments[0];
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 	    var action = arguments[1];
 
 	    switch (action.type) {
 	        case types.UPDATE_CHANNEL:
-	            return Object.assign({}, action.channel);
+	            return state.merge(action.channel);
 	        default:
 	            return state;
 	    }
@@ -35848,19 +35853,20 @@
 
 	var types = _interopRequireWildcard(_actionTypes);
 
+	var _immutable = __webpack_require__(304);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
+	var initialState = (0, _immutable.List)();
 	function Channels() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 	    var action = arguments[1];
 
 	    switch (action.type) {
 	        case types.APPEND_CHANNELS:
-	            return [].concat(_toConsumableArray(state), _toConsumableArray(action.channels));
+	            return state.concat(action.channels);
 	        case types.APPEND_CHANNEL:
-	            return [].concat(_toConsumableArray(state), [action.channel]);
+	            return state.push(action.channel);
 	        default:
 	            return state;
 	    }
@@ -35881,17 +35887,18 @@
 
 	var types = _interopRequireWildcard(_actionTypes);
 
+	var _immutable = __webpack_require__(304);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
+	var initialState = (0, _immutable.List)();
 	function Stocks() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 	    var action = arguments[1];
 
 	    switch (action.type) {
 	        case types.UPDATE_STOCKS:
-	            return [].concat(_toConsumableArray(action.stocks));
+	            return Immutable.List(action.stocks);
 	        default:
 	            return state;
 	    }
@@ -35914,14 +35921,9 @@
 
 	var _immutable = __webpack_require__(304);
 
-	var _immutable2 = _interopRequireDefault(_immutable);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-	// just for demo
-	var initialState = _immutable2.default.List();
+	var initialState = (0, _immutable.List)();
 	function stockSeries() {
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 	    var action = arguments[1];
@@ -40936,19 +40938,18 @@
 
 	var types = _interopRequireWildcard(_actionTypes);
 
+	var _immutable = __webpack_require__(304);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
+	var initialState = (0, _immutable.List)();
 	function messages() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 	    var action = arguments[1];
 
 	    switch (action.type) {
-	        case types.SEND_MESSAGE:
-	            return [].concat(_toConsumableArray(state), [action.message]);
 	        case types.APPEND_MESSAGES:
-	            return [].concat(_toConsumableArray(state), _toConsumableArray(action.messages));
+	            return state.concat(action.messages);
 	        case types.APPEND_MESSAGE:
 	            var message = action.message;
 
@@ -40958,7 +40959,7 @@
 	                return shouldAppend;
 	            });
 	            if (shouldAppend) {
-	                return [].concat(_toConsumableArray(state), [message]);
+	                return state.push(action.message);
 	            }
 	            return state;
 	        default:
@@ -40981,20 +40982,23 @@
 
 	var types = _interopRequireWildcard(_actionTypes);
 
+	var _immutable = __webpack_require__(304);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+	var initialState = (0, _immutable.Map)({
+	    _id: "",
+	    username: ""
+	});
 	function user() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? { _id: "", username: "" } : arguments[0];
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 	    var action = arguments[1];
 
 	    switch (action.type) {
 	        case types.LOGIN:
-	            return Object.assign({}, action.user);
+	            return state.merge(action.user);
 	        case types.LOGOUT:
-	            return {
-	                _id: "",
-	                username: ""
-	            };
+	            return initialState;
 	        default:
 	            return state;
 	    }
@@ -41251,6 +41255,107 @@
 	}
 
 	module.exports = createLogger;
+
+/***/ },
+/* 309 */,
+/* 310 */,
+/* 311 */,
+/* 312 */,
+/* 313 */,
+/* 314 */,
+/* 315 */,
+/* 316 */,
+/* 317 */,
+/* 318 */,
+/* 319 */,
+/* 320 */,
+/* 321 */,
+/* 322 */,
+/* 323 */,
+/* 324 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(325);
+
+/***/ },
+/* 325 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule ReactComponentWithPureRenderMixin
+	 */
+
+	'use strict';
+
+	var shallowCompare = __webpack_require__(326);
+
+	/**
+	 * If your React component's render function is "pure", e.g. it will render the
+	 * same result given the same props and state, provide this mixin for a
+	 * considerable performance boost.
+	 *
+	 * Most React components have pure render functions.
+	 *
+	 * Example:
+	 *
+	 *   var ReactComponentWithPureRenderMixin =
+	 *     require('ReactComponentWithPureRenderMixin');
+	 *   React.createClass({
+	 *     mixins: [ReactComponentWithPureRenderMixin],
+	 *
+	 *     render: function() {
+	 *       return <div className={this.props.className}>foo</div>;
+	 *     }
+	 *   });
+	 *
+	 * Note: This only checks shallow equality for props and state. If these contain
+	 * complex data structures this mixin may have false-negatives for deeper
+	 * differences. Only mixin to components which have simple props and state, or
+	 * use `forceUpdate()` when you know deep data structures have changed.
+	 */
+	var ReactComponentWithPureRenderMixin = {
+	  shouldComponentUpdate: function (nextProps, nextState) {
+	    return shallowCompare(this, nextProps, nextState);
+	  }
+	};
+
+	module.exports = ReactComponentWithPureRenderMixin;
+
+/***/ },
+/* 326 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	* @providesModule shallowCompare
+	*/
+
+	'use strict';
+
+	var shallowEqual = __webpack_require__(124);
+
+	/**
+	 * Does a shallow comparison for props and state.
+	 * See ReactComponentWithPureRenderMixin
+	 */
+	function shallowCompare(instance, nextProps, nextState) {
+	  return !shallowEqual(instance.props, nextProps) || !shallowEqual(instance.state, nextState);
+	}
+
+	module.exports = shallowCompare;
 
 /***/ }
 /******/ ]);
