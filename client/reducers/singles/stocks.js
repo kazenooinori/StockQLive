@@ -5,7 +5,7 @@ const initialState = List();
 export default function Stocks (state = initialState, action) {
     switch (action.type) {
         case types.UPDATE_STOCKS:
-            return Immutable.List(action.stocks);
+            return List(action.stocks);
         default:
             return state;
     }

@@ -35836,7 +35836,7 @@
 
 	    switch (action.type) {
 	        case types.UPDATE_STOCKS:
-	            return Immutable.List(action.stocks);
+	            return (0, _immutable.List)(action.stocks);
 	        default:
 	            return state;
 	    }
