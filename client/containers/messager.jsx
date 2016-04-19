@@ -78,7 +78,7 @@ const Messager = React.createClass({
         }
     },
     render () {
-        const {messages, onLogInUser, onSignUpUser, onCreateChannel, user, channel} = this.props;
+        const {messages, user} = this.props;
         return (
             <div className="messager">
                 <div id="message-box" className="message-box" ref="messageBox">
@@ -95,9 +95,7 @@ const Messager = React.createClass({
         );
     }
 });
-/*
-<h3 className="ui dividing header messager-header sticky" style={{paddingTop: "10px"}}>{channel.name}</h3>
- */
+
 const mapStateToProps = function (state) {
     return {
         user: state.user,

@@ -14,6 +14,7 @@ import CreateChannelModal from "../components/create-channel-modal";
 import StockItem from "../components/stock-item";
 
 import * as ChaActions from '../actions/cha-actions';
+import * as AuthActions from '../actions/auth-actions';
 
 
 const {Component, PropTypes} = React;
@@ -108,13 +109,13 @@ const mapStateToProps = function (state) {
 const mapDispatchToProps = function (dispatch) {
     return {
         onInitUser: function () {
-            dispatch(ChaActions.initUser());
+            dispatch(AuthActions.initUser());
         },
         onLogInUser: function (user) {
-            dispatch(ChaActions.logInUser(user));
+            dispatch(AuthActions.logInUser(user));
         },
         onSignUpUser: function (user) {
-            dispatch(ChaActions.signUpUser(user));
+            dispatch(AuthActions.signUpUser(user));
         },
         onFetchChannels: function () {
             dispatch(ChaActions.fetchChannels());

@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import {connect} from "react-redux";
-import * as ChaActions from "../actions/cha-actions";
+import * as AuthActions from '../actions/auth-actions';
 import LoggedInController from "../components/logged-in-controller";
 import LoggingInController from "../components/logging-in-controller";
 import ChannelItem from "../components/channel-item";
@@ -108,7 +108,7 @@ const mapStateToProps = function (state) {
 const mapDispatchToProps = function (dispatch) {
     return {
         onLogOutUser: function () {
-            dispatch(ChaActions.logOutUser());
+            dispatch(AuthActions.logOutUser());
         }
     }
 };
