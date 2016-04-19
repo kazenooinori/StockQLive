@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import {connect} from "react-redux";
-import * as ChaActions from "../actions/cha-actions";
+import * as StockActions from "../actions/stock-actions";
 import StockItem from "../components/stock-item";
 
 const {Component, PropTypes} = React;
@@ -52,7 +52,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         updateStocks: () => {
-            dispatch(ChaActions.updateStocks());
+            dispatch(StockActions.updateStocks());
         }
     };
 };

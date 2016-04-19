@@ -35084,8 +35084,6 @@
 	exports.fetchMessages = fetchMessages;
 	exports.createChannel = createChannel;
 	exports.fetchChannels = fetchChannels;
-	exports.updateStocks = updateStocks;
-	exports.fetchStockSeries = fetchStockSeries;
 
 	var _actionTypes = __webpack_require__(298);
 
@@ -35180,49 +35178,6 @@
 	            });
 	        }).catch(function (error) {
 	            console.error("create channel error", error);
-	        });
-	    };
-	}
-
-	function updateStocks() {
-	    return function (dispatch, getState) {
-	        return (0, _isomorphicFetch2.default)("/api/stock", {
-	            method: "GET",
-	            headers: {
-	                "Content-Type": "application/json",
-	                "Accept": "application/json"
-	            },
-	            credentials: true
-	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stocks) {
-	            dispatch({
-	                type: types.UPDATE_STOCKS,
-	                stocks: stocks
-	            });
-	        }).catch(function (error) {
-	            console.error("create channel error", error);
-	        });
-	    };
-	}
-	function fetchStockSeries(series) {
-	    return function (dispatch, getState) {
-	        var stockNumber = series[0];
-	        return (0, _isomorphicFetch2.default)("/api/stock/" + stockNumber, {
-	            method: "GET",
-	            headers: {
-	                "Content-Type": "application/json",
-	                "Accept": "application/json"
-	            },
-	            credentials: true
-	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stockSeries) {
-	            dispatch({
-	                type: types.APPEND_STOCK_SERIES,
-	                stockSeries: {
-	                    name: stockNumber,
-	                    data: stockSeries
-	                }
-	            });
-	        }).catch(function (error) {
-	            console.error("fetch stock series error", error);
 	        });
 	    };
 	}
@@ -41327,6 +41282,10 @@
 
 	var AuthActions = _interopRequireWildcard(_authActions);
 
+	var _stockActions = __webpack_require__(333);
+
+	var StockActions = _interopRequireWildcard(_stockActions);
+
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -41469,10 +41428,10 @@
 	            dispatch(ChaActions.createChannel(channel));
 	        },
 	        updateStocks: function updateStocks() {
-	            dispatch(ChaActions.updateStocks());
+	            dispatch(StockActions.updateStocks());
 	        },
 	        onFetchStockSeries: function onFetchStockSeries(series) {
-	            dispatch(ChaActions.fetchStockSeries(series));
+	            dispatch(StockActions.fetchStockSeries(series));
 	        }
 	    };
 	};
@@ -41499,9 +41458,9 @@
 
 	var _reactRedux = __webpack_require__(171);
 
-	var _chaActions = __webpack_require__(297);
+	var _stockActions = __webpack_require__(333);
 
-	var ChaActions = _interopRequireWildcard(_chaActions);
+	var StockActions = _interopRequireWildcard(_stockActions);
 
 	var _stockItem = __webpack_require__(315);
 
@@ -41584,7 +41543,7 @@
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	    return {
 	        updateStocks: function updateStocks() {
-	            dispatch(ChaActions.updateStocks());
+	            dispatch(StockActions.updateStocks());
 	        }
 	    };
 	};
@@ -43321,6 +43280,77 @@
 	            });
 	        }).catch(function (error) {
 	            console.error("fetch user error", error);
+	        });
+	    };
+	}
+
+/***/ },
+/* 333 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.updateStocks = updateStocks;
+	exports.fetchStockSeries = fetchStockSeries;
+
+	var _actionTypes = __webpack_require__(298);
+
+	var types = _interopRequireWildcard(_actionTypes);
+
+	var _isomorphicFetch = __webpack_require__(299);
+
+	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+	var _fetchUtils = __webpack_require__(301);
+
+	var fetchUtils = _interopRequireWildcard(_fetchUtils);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function updateStocks() {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/api/stock", {
+	            method: "GET",
+	            headers: {
+	                "Content-Type": "application/json",
+	                "Accept": "application/json"
+	            },
+	            credentials: true
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stocks) {
+	            dispatch({
+	                type: types.UPDATE_STOCKS,
+	                stocks: stocks
+	            });
+	        }).catch(function (error) {
+	            console.error("create channel error", error);
+	        });
+	    };
+	}
+	function fetchStockSeries(series) {
+	    return function (dispatch, getState) {
+	        var stockNumber = series[0];
+	        return (0, _isomorphicFetch2.default)("/api/stock/" + stockNumber, {
+	            method: "GET",
+	            headers: {
+	                "Content-Type": "application/json",
+	                "Accept": "application/json"
+	            },
+	            credentials: true
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stockSeries) {
+	            dispatch({
+	                type: types.APPEND_STOCK_SERIES,
+	                stockSeries: {
+	                    name: stockNumber,
+	                    data: stockSeries
+	                }
+	            });
+	        }).catch(function (error) {
+	            console.error("fetch stock series error", error);
 	        });
 	    };
 	}

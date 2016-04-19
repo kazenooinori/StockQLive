@@ -15,6 +15,7 @@ import StockItem from "../components/stock-item";
 
 import * as ChaActions from '../actions/cha-actions';
 import * as AuthActions from '../actions/auth-actions';
+import * as StockActions from '../actions/stock-actions';
 
 
 const {Component, PropTypes} = React;
@@ -124,10 +125,10 @@ const mapDispatchToProps = function (dispatch) {
             dispatch(ChaActions.createChannel(channel));
         },
         updateStocks: function () {
-            dispatch(ChaActions.updateStocks());
+            dispatch(StockActions.updateStocks());
         },
         onFetchStockSeries: function (series) {
-            dispatch(ChaActions.fetchStockSeries(series));
+            dispatch(StockActions.fetchStockSeries(series));
         },
     };
 }

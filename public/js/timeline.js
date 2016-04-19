@@ -21703,164 +21703,7 @@
 /* 294 */,
 /* 295 */,
 /* 296 */,
-/* 297 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.sendMessage = sendMessage;
-	exports.appendMessages = appendMessages;
-	exports.appendMessage = appendMessage;
-	exports.fetchMessages = fetchMessages;
-	exports.createChannel = createChannel;
-	exports.fetchChannels = fetchChannels;
-	exports.updateStocks = updateStocks;
-	exports.fetchStockSeries = fetchStockSeries;
-
-	var _actionTypes = __webpack_require__(298);
-
-	var types = _interopRequireWildcard(_actionTypes);
-
-	var _isomorphicFetch = __webpack_require__(299);
-
-	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
-
-	var _fetchUtils = __webpack_require__(301);
-
-	var fetchUtils = _interopRequireWildcard(_fetchUtils);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function sendMessage(message) {
-	    return {
-	        type: types.SEND_MESSAGE,
-	        message: message
-	    };
-	}
-
-	function appendMessages(messages) {
-	    return {
-	        type: types.APPEND_MESSAGES,
-	        messages: messages
-	    };
-	}
-
-	function appendMessage(message) {
-	    return {
-	        type: types.APPEND_MESSAGE,
-	        message: message
-	    };
-	}
-
-	function fetchMessages(chatroomId) {
-	    return function (dispatch, getState) {
-	        // should inform that the app is going to fetch messages
-	        //dispatch(requestMessages());
-	        return (0, _isomorphicFetch2.default)("/api/chatroom/" + chatroomId + "/messages", {
-	            method: "GET",
-	            headers: {
-	                "Accept": "application/json"
-	            },
-	            credentials: 'include'
-	        }).then(function (response) {
-	            return response.json();
-	        }).then(function (json) {
-	            dispatch(appendMessages(json));
-	        }).catch(function (error) {
-	            console.error("error when fetching messages", error);
-	        });
-	    };
-	}
-
-	function createChannel(channel) {
-	    return function (dispatch, getState) {
-	        return (0, _isomorphicFetch2.default)("/api/channel", {
-	            method: "POST",
-	            headers: {
-	                "Content-Type": "application/json",
-	                "Accept": "application/json"
-	            },
-	            body: JSON.stringify(channel),
-	            credentials: true
-	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (channel) {
-	            dispatch({
-	                type: types.APPEND_CHANNEL,
-	                channel: channel
-	            });
-	        }).catch(function (error) {
-	            console.error("create channel error", error);
-	        });
-	    };
-	}
-	function fetchChannels() {
-	    return function (dispatch, getState) {
-	        return (0, _isomorphicFetch2.default)("/api/channel", {
-	            method: "GET",
-	            headers: {
-	                "Content-Type": "application/json",
-	                "Accept": "application/json"
-	            },
-	            credentials: true
-	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (channels) {
-	            dispatch({
-	                type: types.APPEND_CHANNELS,
-	                channels: channels
-	            });
-	        }).catch(function (error) {
-	            console.error("create channel error", error);
-	        });
-	    };
-	}
-
-	function updateStocks() {
-	    return function (dispatch, getState) {
-	        return (0, _isomorphicFetch2.default)("/api/stock", {
-	            method: "GET",
-	            headers: {
-	                "Content-Type": "application/json",
-	                "Accept": "application/json"
-	            },
-	            credentials: true
-	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stocks) {
-	            dispatch({
-	                type: types.UPDATE_STOCKS,
-	                stocks: stocks
-	            });
-	        }).catch(function (error) {
-	            console.error("create channel error", error);
-	        });
-	    };
-	}
-	function fetchStockSeries(series) {
-	    return function (dispatch, getState) {
-	        var stockNumber = series[0];
-	        return (0, _isomorphicFetch2.default)("/api/stock/" + stockNumber, {
-	            method: "GET",
-	            headers: {
-	                "Content-Type": "application/json",
-	                "Accept": "application/json"
-	            },
-	            credentials: true
-	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stockSeries) {
-	            dispatch({
-	                type: types.APPEND_STOCK_SERIES,
-	                stockSeries: {
-	                    name: stockNumber,
-	                    data: stockSeries
-	                }
-	            });
-	        }).catch(function (error) {
-	            console.error("fetch stock series error", error);
-	        });
-	    };
-	}
-
-/***/ },
+/* 297 */,
 /* 298 */
 /***/ function(module, exports) {
 
@@ -27620,9 +27463,9 @@
 
 	var _reactRedux = __webpack_require__(171);
 
-	var _chaActions = __webpack_require__(297);
+	var _stockActions = __webpack_require__(333);
 
-	var ChaActions = _interopRequireWildcard(_chaActions);
+	var StockActions = _interopRequireWildcard(_stockActions);
 
 	var _stockItem = __webpack_require__(315);
 
@@ -27705,7 +27548,7 @@
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	    return {
 	        updateStocks: function updateStocks() {
-	            dispatch(ChaActions.updateStocks());
+	            dispatch(StockActions.updateStocks());
 	        }
 	    };
 	};
@@ -30614,6 +30457,78 @@
 	});
 
 	exports.default = rootReducer;
+
+/***/ },
+/* 332 */,
+/* 333 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.updateStocks = updateStocks;
+	exports.fetchStockSeries = fetchStockSeries;
+
+	var _actionTypes = __webpack_require__(298);
+
+	var types = _interopRequireWildcard(_actionTypes);
+
+	var _isomorphicFetch = __webpack_require__(299);
+
+	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+	var _fetchUtils = __webpack_require__(301);
+
+	var fetchUtils = _interopRequireWildcard(_fetchUtils);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function updateStocks() {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/api/stock", {
+	            method: "GET",
+	            headers: {
+	                "Content-Type": "application/json",
+	                "Accept": "application/json"
+	            },
+	            credentials: true
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stocks) {
+	            dispatch({
+	                type: types.UPDATE_STOCKS,
+	                stocks: stocks
+	            });
+	        }).catch(function (error) {
+	            console.error("create channel error", error);
+	        });
+	    };
+	}
+	function fetchStockSeries(series) {
+	    return function (dispatch, getState) {
+	        var stockNumber = series[0];
+	        return (0, _isomorphicFetch2.default)("/api/stock/" + stockNumber, {
+	            method: "GET",
+	            headers: {
+	                "Content-Type": "application/json",
+	                "Accept": "application/json"
+	            },
+	            credentials: true
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stockSeries) {
+	            dispatch({
+	                type: types.APPEND_STOCK_SERIES,
+	                stockSeries: {
+	                    name: stockNumber,
+	                    data: stockSeries
+	                }
+	            });
+	        }).catch(function (error) {
+	            console.error("fetch stock series error", error);
+	        });
+	    };
+	}
 
 /***/ }
 /******/ ]);
