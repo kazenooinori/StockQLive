@@ -1,5 +1,5 @@
 import React from "react";
-import * as momentUtils from "../../lib/moment-utils";
+import * as momentUtils from "../../shared/lib/moment-utils";
 
 const {PropTypes} = React;
 

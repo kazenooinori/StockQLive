@@ -1,6 +1,6 @@
 import * as types from "../constants/action-types";
 import fetch from "isomorphic-fetch";
-import * as fetchUtils from "../../lib/fetch-utils";
+import * as fetchUtils from "../../shared/lib/fetch-utils";
 
 export function sendMessage (message) {
     return {
