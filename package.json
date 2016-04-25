@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "this is a chatting ",
   "scripts": {
-    "test:shared": "./node_modules/.bin/babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/mocha -- --compilers js:babel-core/register --recursive shared/tests/**/*.js",
-    "test:server": "./node_modules/.bin/babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/mocha -- --compilers js:babel-core/register --recursive server/tests/**/*.js",
+    "test:shared": "babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- --compilers js:babel-core/register shared/tests/**/*.js",
+    "test:server": "babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- --compilers js:babel-core/register server/tests/**/*.js",
     "start": "node bin/root.js"
   },
   "devDependencies": {

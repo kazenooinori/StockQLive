@@ -21963,7 +21963,7 @@
 	var moment = __webpack_require__(197);
 	function relativeDateTime(date) {
 	    var _date = new Date(date);
-	    return moment(date).calendar();
+	    return moment(_date).calendar();
 	}
 
 /***/ },
@@ -41242,7 +41242,7 @@
 
 	var _informationRail2 = _interopRequireDefault(_informationRail);
 
-	var _menuRail = __webpack_require__(317);
+	var _menuRail = __webpack_require__(318);
 
 	var _menuRail2 = _interopRequireDefault(_menuRail);
 
@@ -41254,23 +41254,23 @@
 
 	var _textMessage2 = _interopRequireDefault(_textMessage);
 
-	var _loginModal = __webpack_require__(321);
+	var _loginModal = __webpack_require__(323);
 
 	var _loginModal2 = _interopRequireDefault(_loginModal);
 
-	var _signupModal = __webpack_require__(323);
+	var _signupModal = __webpack_require__(325);
 
 	var _signupModal2 = _interopRequireDefault(_signupModal);
 
-	var _stockChart = __webpack_require__(325);
+	var _stockChart = __webpack_require__(327);
 
 	var _stockChart2 = _interopRequireDefault(_stockChart);
 
-	var _createChannelModal = __webpack_require__(327);
+	var _createChannelModal = __webpack_require__(329);
 
 	var _createChannelModal2 = _interopRequireDefault(_createChannelModal);
 
-	var _stockItem = __webpack_require__(315);
+	var _stockItem = __webpack_require__(316);
 
 	var _stockItem2 = _interopRequireDefault(_stockItem);
 
@@ -41278,11 +41278,11 @@
 
 	var ChaActions = _interopRequireWildcard(_chaActions);
 
-	var _authActions = __webpack_require__(332);
+	var _authActions = __webpack_require__(319);
 
 	var AuthActions = _interopRequireWildcard(_authActions);
 
-	var _stockActions = __webpack_require__(333);
+	var _stockActions = __webpack_require__(315);
 
 	var StockActions = _interopRequireWildcard(_stockActions);
 
@@ -41458,11 +41458,11 @@
 
 	var _reactRedux = __webpack_require__(171);
 
-	var _stockActions = __webpack_require__(333);
+	var _stockActions = __webpack_require__(315);
 
 	var StockActions = _interopRequireWildcard(_stockActions);
 
-	var _stockItem = __webpack_require__(315);
+	var _stockItem = __webpack_require__(316);
 
 	var _stockItem2 = _interopRequireDefault(_stockItem);
 
@@ -41559,6 +41559,77 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.updateStocks = updateStocks;
+	exports.fetchStockSeries = fetchStockSeries;
+
+	var _actionTypes = __webpack_require__(298);
+
+	var types = _interopRequireWildcard(_actionTypes);
+
+	var _isomorphicFetch = __webpack_require__(299);
+
+	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+	var _fetchUtils = __webpack_require__(301);
+
+	var fetchUtils = _interopRequireWildcard(_fetchUtils);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function updateStocks() {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/api/stock", {
+	            method: "GET",
+	            headers: {
+	                "Content-Type": "application/json",
+	                "Accept": "application/json"
+	            },
+	            credentials: true
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stocks) {
+	            dispatch({
+	                type: types.UPDATE_STOCKS,
+	                stocks: stocks
+	            });
+	        }).catch(function (error) {
+	            console.error("create channel error", error);
+	        });
+	    };
+	}
+	function fetchStockSeries(series) {
+	    return function (dispatch, getState) {
+	        var stockNumber = series[0];
+	        return (0, _isomorphicFetch2.default)("/api/stock/" + stockNumber, {
+	            method: "GET",
+	            headers: {
+	                "Content-Type": "application/json",
+	                "Accept": "application/json"
+	            },
+	            credentials: true
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stockSeries) {
+	            dispatch({
+	                type: types.APPEND_STOCK_SERIES,
+	                stockSeries: {
+	                    name: stockNumber,
+	                    data: stockSeries
+	                }
+	            });
+	        }).catch(function (error) {
+	            console.error("fetch stock series error", error);
+	        });
+	    };
+	}
+
+/***/ },
+/* 316 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 
 	var _react = __webpack_require__(2);
 
@@ -41568,7 +41639,7 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _stockItemPopup = __webpack_require__(316);
+	var _stockItemPopup = __webpack_require__(317);
 
 	var _stockItemPopup2 = _interopRequireDefault(_stockItemPopup);
 
@@ -41649,7 +41720,7 @@
 	exports.default = StockItem;
 
 /***/ },
-/* 316 */
+/* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -41815,7 +41886,7 @@
 	exports.default = StockItemPopup;
 
 /***/ },
-/* 317 */
+/* 318 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -41836,19 +41907,19 @@
 
 	var _reactRedux = __webpack_require__(171);
 
-	var _authActions = __webpack_require__(332);
+	var _authActions = __webpack_require__(319);
 
 	var AuthActions = _interopRequireWildcard(_authActions);
 
-	var _loggedInController = __webpack_require__(318);
+	var _loggedInController = __webpack_require__(320);
 
 	var _loggedInController2 = _interopRequireDefault(_loggedInController);
 
-	var _loggingInController = __webpack_require__(319);
+	var _loggingInController = __webpack_require__(321);
 
 	var _loggingInController2 = _interopRequireDefault(_loggingInController);
 
-	var _channelItem = __webpack_require__(320);
+	var _channelItem = __webpack_require__(322);
 
 	var _channelItem2 = _interopRequireDefault(_channelItem);
 
@@ -42010,7 +42081,115 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(MenuRail);
 
 /***/ },
-/* 318 */
+/* 319 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.signUpUser = signUpUser;
+	exports.logInUser = logInUser;
+	exports.logOutUser = logOutUser;
+	exports.initUser = initUser;
+
+	var _actionTypes = __webpack_require__(298);
+
+	var types = _interopRequireWildcard(_actionTypes);
+
+	var _isomorphicFetch = __webpack_require__(299);
+
+	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+	var _fetchUtils = __webpack_require__(301);
+
+	var fetchUtils = _interopRequireWildcard(_fetchUtils);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function signUpUser(toSignUpUser) {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/api/signup", {
+	            method: 'POST',
+	            headers: {
+	                "Accept": "application/json",
+	                "Content-Type": "application/json"
+	            },
+	            body: JSON.stringify(toSignUpUser),
+	            credentials: 'include'
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (user) {
+	            dispatch({
+	                type: types.LOGIN,
+	                user: user
+	            });
+	        }).catch(function (error) {
+	            console.error("signup fail", error);
+	        });
+	    };
+	}
+	function logInUser(toLogInUser) {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/api/login", {
+	            method: 'POST',
+	            headers: {
+	                "Accept": "application/json",
+	                "Content-Type": "application/json"
+	            },
+	            body: JSON.stringify(toLogInUser),
+	            credentials: 'include'
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (user) {
+	            dispatch({
+	                type: types.LOGIN,
+	                user: user
+	            });
+	        }).catch(function (error) {
+	            console.error("login fail", error);
+	        });
+	    };
+	}
+	function logOutUser(user) {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/api/logout", {
+	            method: "GET",
+	            headers: {
+	                "Accept": "application/json"
+	            },
+	            credentials: 'include'
+	        }).then(fetchUtils.checkStatus).then(function () {
+	            dispatch({
+	                type: types.LOGOUT
+	            });
+	        }).catch(function (error) {
+	            console.error("logout user error", error);
+	        });
+	    };
+	}
+	function initUser() {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/api/user/me", {
+	            method: "GET",
+	            headers: {
+	                "Accept": "application/json"
+	            },
+	            credentials: 'include'
+	        }).then(fetchUtils.checkStatus).then(function (response) {
+	            return response.json();
+	        }).then(function (user) {
+	            dispatch({
+	                type: types.LOGIN,
+	                user: user
+	            });
+	        }).catch(function (error) {
+	            console.error("fetch user error", error);
+	        });
+	    };
+	}
+
+/***/ },
+/* 320 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -42070,7 +42249,7 @@
 	exports.default = LoggedInController;
 
 /***/ },
-/* 319 */
+/* 321 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -42134,7 +42313,7 @@
 	exports.default = LoggingInController;
 
 /***/ },
-/* 320 */
+/* 322 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -42206,7 +42385,7 @@
 	exports.default = ChannelItem;
 
 /***/ },
-/* 321 */
+/* 323 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -42223,7 +42402,7 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _loginForm = __webpack_require__(322);
+	var _loginForm = __webpack_require__(324);
 
 	var _loginForm2 = _interopRequireDefault(_loginForm);
 
@@ -42291,7 +42470,7 @@
 	exports.default = LoginModal;
 
 /***/ },
-/* 322 */
+/* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -42354,7 +42533,7 @@
 	exports.default = LoginForm;
 
 /***/ },
-/* 323 */
+/* 325 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -42371,7 +42550,7 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _signupForm = __webpack_require__(324);
+	var _signupForm = __webpack_require__(326);
 
 	var _signupForm2 = _interopRequireDefault(_signupForm);
 
@@ -42439,7 +42618,7 @@
 	exports.default = SignUpModal;
 
 /***/ },
-/* 324 */
+/* 326 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -42502,7 +42681,7 @@
 	exports.default = SignUpForm;
 
 /***/ },
-/* 325 */
+/* 327 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -42519,7 +42698,7 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _highstock = __webpack_require__(326);
+	var _highstock = __webpack_require__(328);
 
 	var _highstock2 = _interopRequireDefault(_highstock);
 
@@ -42599,7 +42778,7 @@
 	exports.default = StockChart;
 
 /***/ },
-/* 326 */
+/* 328 */
 /***/ function(module, exports) {
 
 	/*
@@ -43036,7 +43215,7 @@
 
 
 /***/ },
-/* 327 */
+/* 329 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -43171,189 +43350,6 @@
 	}));
 
 	exports.default = CreateChannelModal;
-
-/***/ },
-/* 328 */,
-/* 329 */,
-/* 330 */,
-/* 331 */,
-/* 332 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.signUpUser = signUpUser;
-	exports.logInUser = logInUser;
-	exports.logOutUser = logOutUser;
-	exports.initUser = initUser;
-
-	var _actionTypes = __webpack_require__(298);
-
-	var types = _interopRequireWildcard(_actionTypes);
-
-	var _isomorphicFetch = __webpack_require__(299);
-
-	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
-
-	var _fetchUtils = __webpack_require__(301);
-
-	var fetchUtils = _interopRequireWildcard(_fetchUtils);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function signUpUser(toSignUpUser) {
-	    return function (dispatch, getState) {
-	        return (0, _isomorphicFetch2.default)("/api/signup", {
-	            method: 'POST',
-	            headers: {
-	                "Accept": "application/json",
-	                "Content-Type": "application/json"
-	            },
-	            body: JSON.stringify(toSignUpUser),
-	            credentials: 'include'
-	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (user) {
-	            dispatch({
-	                type: types.LOGIN,
-	                user: user
-	            });
-	        }).catch(function (error) {
-	            console.error("signup fail", error);
-	        });
-	    };
-	}
-	function logInUser(toLogInUser) {
-	    return function (dispatch, getState) {
-	        return (0, _isomorphicFetch2.default)("/api/login", {
-	            method: 'POST',
-	            headers: {
-	                "Accept": "application/json",
-	                "Content-Type": "application/json"
-	            },
-	            body: JSON.stringify(toLogInUser),
-	            credentials: 'include'
-	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (user) {
-	            dispatch({
-	                type: types.LOGIN,
-	                user: user
-	            });
-	        }).catch(function (error) {
-	            console.error("login fail", error);
-	        });
-	    };
-	}
-	function logOutUser(user) {
-	    return function (dispatch, getState) {
-	        return (0, _isomorphicFetch2.default)("/api/logout", {
-	            method: "GET",
-	            headers: {
-	                "Accept": "application/json"
-	            },
-	            credentials: 'include'
-	        }).then(fetchUtils.checkStatus).then(function () {
-	            dispatch({
-	                type: types.LOGOUT
-	            });
-	        }).catch(function (error) {
-	            console.error("logout user error", error);
-	        });
-	    };
-	}
-	function initUser() {
-	    return function (dispatch, getState) {
-	        return (0, _isomorphicFetch2.default)("/api/user/me", {
-	            method: "GET",
-	            headers: {
-	                "Accept": "application/json"
-	            },
-	            credentials: 'include'
-	        }).then(fetchUtils.checkStatus).then(function (response) {
-	            return response.json();
-	        }).then(function (user) {
-	            dispatch({
-	                type: types.LOGIN,
-	                user: user
-	            });
-	        }).catch(function (error) {
-	            console.error("fetch user error", error);
-	        });
-	    };
-	}
-
-/***/ },
-/* 333 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.updateStocks = updateStocks;
-	exports.fetchStockSeries = fetchStockSeries;
-
-	var _actionTypes = __webpack_require__(298);
-
-	var types = _interopRequireWildcard(_actionTypes);
-
-	var _isomorphicFetch = __webpack_require__(299);
-
-	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
-
-	var _fetchUtils = __webpack_require__(301);
-
-	var fetchUtils = _interopRequireWildcard(_fetchUtils);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function updateStocks() {
-	    return function (dispatch, getState) {
-	        return (0, _isomorphicFetch2.default)("/api/stock", {
-	            method: "GET",
-	            headers: {
-	                "Content-Type": "application/json",
-	                "Accept": "application/json"
-	            },
-	            credentials: true
-	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stocks) {
-	            dispatch({
-	                type: types.UPDATE_STOCKS,
-	                stocks: stocks
-	            });
-	        }).catch(function (error) {
-	            console.error("create channel error", error);
-	        });
-	    };
-	}
-	function fetchStockSeries(series) {
-	    return function (dispatch, getState) {
-	        var stockNumber = series[0];
-	        return (0, _isomorphicFetch2.default)("/api/stock/" + stockNumber, {
-	            method: "GET",
-	            headers: {
-	                "Content-Type": "application/json",
-	                "Accept": "application/json"
-	            },
-	            credentials: true
-	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stockSeries) {
-	            dispatch({
-	                type: types.APPEND_STOCK_SERIES,
-	                stockSeries: {
-	                    name: stockNumber,
-	                    data: stockSeries
-	                }
-	            });
-	        }).catch(function (error) {
-	            console.error("fetch stock series error", error);
-	        });
-	    };
-	}
 
 /***/ }
 /******/ ]);

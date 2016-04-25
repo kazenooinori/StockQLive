@@ -1,10 +1,15 @@
 const mocha = require("mocha");
-const {assert} = require("chai");
+const {assert, expect} = require("chai");
+const channelStore = require("../../stores/channel");
 
 describe("server/stores/channel.js", () => {
+    before(() => {
+        
+    });
     describe("findChannels", () => {
-        it("should pass", () => {
-            assert.equal(-1, [1,2,3].indexOf(5));
+        it("should fin channels", (done) => {
+            //expect().equal(-1, [1,2,3].indexOf(5));
+            done();
         });
     });
 });

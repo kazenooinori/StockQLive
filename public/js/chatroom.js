@@ -22025,7 +22025,7 @@
 	var moment = __webpack_require__(197);
 	function relativeDateTime(date) {
 	    var _date = new Date(date);
-	    return moment(date).calendar();
+	    return moment(_date).calendar();
 	}
 
 /***/ },
