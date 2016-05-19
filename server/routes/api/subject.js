@@ -4,7 +4,7 @@ const router = express.Router();
 const SubjectStore = require("../../stores/subject");
 
 router.get("/", (req, res) => {
-    SubjectStore.getSubjectList()
+    SubjectStore.getSubjectList(req.query)
     .then((subjects) => {
         res.writeHead(200, {
             "Content-Type": "text/plain; charset=utf-8",
