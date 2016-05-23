@@ -51,6 +51,7 @@ app.use("/api/channel", require("./routes/api/channel"));
 app.use("/api/stock", require("./routes/api/stock"));
 app.use("/api/chatroom", require("./routes/api/chatroom"));
 app.use("/api/subject", require("./routes/api/subject"));
+app.use("/api/feedback", require("./routes/api/feedback"));
 app.use("/api/signup", require("./routes/api/signup"));
 app.use("/api/login", require("./routes/api/login"));
 app.use("/api/logout", require("./routes/api/logout"));

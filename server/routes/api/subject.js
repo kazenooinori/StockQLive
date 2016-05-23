@@ -45,7 +45,7 @@ router.get("/:subjectId", (req, res) => {
     });
 });
 
-router.get("/:subjectId/like", (req, res) => {
+router.post("/:subjectId/like", (req, res) => {
     SubjectStore.likeSubject(req.params.subjectId)
     .then((subject) => {
         res.writeHead(200, {
@@ -66,7 +66,7 @@ router.get("/:subjectId/like", (req, res) => {
     });
 });
 
-router.get("/:subjectId/dislike", (req, res) => {
+router.post("/:subjectId/dislike", (req, res) => {
     SubjectStore.dislikeSubject(req.params.subjectId)
     .then((subject) => {
         res.writeHead(200, {
