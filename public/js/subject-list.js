@@ -40712,32 +40712,32 @@
 	                        null,
 	                        _react2.default.createElement(
 	                            "th",
-	                            null,
+	                            { className: "five wide" },
 	                            "標題"
 	                        ),
 	                        _react2.default.createElement(
 	                            "th",
-	                            null,
+	                            { className: "one wide" },
 	                            "日期"
 	                        ),
 	                        _react2.default.createElement(
 	                            "th",
-	                            null,
+	                            { className: "one wide" },
 	                            "作者"
 	                        ),
 	                        _react2.default.createElement(
 	                            "th",
-	                            null,
+	                            { className: "two wide" },
 	                            "原文連結"
 	                        ),
 	                        _react2.default.createElement(
 	                            "th",
-	                            null,
+	                            { className: "one wide" },
 	                            "讚"
 	                        ),
 	                        _react2.default.createElement(
 	                            "th",
-	                            null,
+	                            { className: "one wide" },
 	                            "不喜歡"
 	                        )
 	                    )
@@ -40760,13 +40760,10 @@
 	        );
 	    },
 	    _onLoadMoreSubjects: function _onLoadMoreSubjects() {
-	        var _this = this;
-
-	        this.props.onLoadMoreSubjects(this.state.skip).then(function () {
-	            _this.setState(function (prevState) {
-	                prevState.skip += 15;
-	                return prevState;
-	            });
+	        this.props.onLoadMoreSubjects(this.state.skip);
+	        this.setState(function (prevState) {
+	            prevState.skip += 15;
+	            return prevState;
 	        });
 	    }
 	}));

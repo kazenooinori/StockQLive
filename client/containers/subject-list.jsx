@@ -44,12 +44,12 @@ const SubjectList = React.createClass({
                 <table className="ui selectable table">
                   <thead>
                     <tr>
-                      <th>標題</th>
-                      <th>日期</th>
-                      <th>作者</th>
-                      <th>原文連結</th>
-                      <th>讚</th>
-                      <th>不喜歡</th>
+                      <th className="five wide">標題</th>
+                      <th className="one wide">日期</th>
+                      <th className="one wide">作者</th>
+                      <th className="two wide">原文連結</th>
+                      <th className="one wide">讚</th>
+                      <th className="one wide">不喜歡</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -67,12 +67,10 @@ const SubjectList = React.createClass({
 
     _onLoadMoreSubjects () {
         this.props.onLoadMoreSubjects(this.state.skip)
-        .then(() => {
-            this.setState((prevState) => {
-                prevState.skip += 15;
-                return prevState;
-            });
-        })
+        this.setState((prevState) => {
+            prevState.skip += 15;
+            return prevState;
+        });
     },
 });
 
