@@ -42,17 +42,18 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
 
 
 app.use("/", require("./routes/timeline"));
-app.use("/channel", require("./routes/channel"));
-app.use("/chatroom", require("./routes/chatroom"));
+// disable routes temporarily
+// app.use("/channel", require("./routes/channel"));
+// app.use("/chatroom", require("./routes/chatroom"));
 
 // api
 app.use("/api/user", require("./routes/api/user"));
-app.use("/api/channel", require("./routes/api/channel"));
-app.use("/api/stock", require("./routes/api/stock"));
-app.use("/api/chatroom", require("./routes/api/chatroom"));
+// app.use("/api/channel", require("./routes/api/channel"));
+// app.use("/api/stock", require("./routes/api/stock"));
+// app.use("/api/chatroom", require("./routes/api/chatroom"));
 app.use("/api/subject", require("./routes/api/subject"));
 app.use("/api/feedback", require("./routes/api/feedback"));
-app.use("/api/signup", require("./routes/api/signup"));
+// app.use("/api/signup", require("./routes/api/signup"));
 app.use("/api/login", require("./routes/api/login"));
 app.use("/api/logout", require("./routes/api/logout"));
 
