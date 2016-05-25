@@ -41,7 +41,7 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
 });
 
 
-app.use("/", require("./routes/timeline"));
+app.use("/", require("./routes/subject-list"));
 // disable routes temporarily
 // app.use("/channel", require("./routes/channel"));
 // app.use("/chatroom", require("./routes/chatroom"));

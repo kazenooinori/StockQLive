@@ -21954,16 +21954,22 @@
 /* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 	exports.relativeDateTime = relativeDateTime;
+	exports.simpleFormattedDate = simpleFormattedDate;
 	var moment = __webpack_require__(197);
 	function relativeDateTime(date) {
 	    var _date = new Date(date);
 	    return moment(_date).calendar();
+	}
+
+	function simpleFormattedDate(date) {
+	    var _date = new Date(date);
+	    return moment(_date).format("M/D");
 	}
 
 /***/ },
@@ -35210,6 +35216,8 @@
 	var LOGOUT = exports.LOGOUT = "LOGOUT";
 
 	var APPEND_STOCK_SERIES = exports.APPEND_STOCK_SERIES = "APPEND_STOCK_SERIES";
+
+	var UPDATE_SUBJECTS = exports.UPDATE_SUBJECTS = "UPDATE_SUBJECTS";
 
 /***/ },
 /* 299 */

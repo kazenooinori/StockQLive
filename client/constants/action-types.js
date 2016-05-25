@@ -17,3 +17,5 @@ export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 
 export const APPEND_STOCK_SERIES = "APPEND_STOCK_SERIES";
+
+export const UPDATE_SUBJECTS = "UPDATE_SUBJECTS";

@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(330);
+	module.exports = __webpack_require__(334);
 
 
 /***/ },
@@ -21732,6 +21732,8 @@
 
 	var APPEND_STOCK_SERIES = exports.APPEND_STOCK_SERIES = "APPEND_STOCK_SERIES";
 
+	var UPDATE_SUBJECTS = exports.UPDATE_SUBJECTS = "UPDATE_SUBJECTS";
+
 /***/ },
 /* 299 */
 /***/ function(module, exports, __webpack_require__) {
@@ -27903,7 +27905,11 @@
 /* 327 */,
 /* 328 */,
 /* 329 */,
-/* 330 */
+/* 330 */,
+/* 331 */,
+/* 332 */,
+/* 333 */,
+/* 334 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -27916,7 +27922,7 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _timeline = __webpack_require__(331);
+	var _timeline = __webpack_require__(335);
 
 	var _timeline2 = _interopRequireDefault(_timeline);
 
@@ -27932,7 +27938,7 @@
 
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 
-	var _timeline3 = __webpack_require__(333);
+	var _timeline3 = __webpack_require__(337);
 
 	var _timeline4 = _interopRequireDefault(_timeline3);
 
@@ -27948,7 +27954,7 @@
 	), document.getElementById("main"));
 
 /***/ },
-/* 331 */
+/* 335 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -27969,7 +27975,7 @@
 
 	var _informationRail2 = _interopRequireDefault(_informationRail);
 
-	var _stockTrendRail = __webpack_require__(332);
+	var _stockTrendRail = __webpack_require__(336);
 
 	var _stockTrendRail2 = _interopRequireDefault(_stockTrendRail);
 
@@ -30218,7 +30224,7 @@
 	exports.default = (0, _reactRedux.connect)()(Timeline);
 
 /***/ },
-/* 332 */
+/* 336 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -30507,7 +30513,7 @@
 	exports.default = StockTrendRail;
 
 /***/ },
-/* 333 */
+/* 337 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";

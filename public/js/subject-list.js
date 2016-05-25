@@ -44,73 +44,11 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(1);
+	module.exports = __webpack_require__(330);
 
 
 /***/ },
-/* 1 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(33);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	var _messager = __webpack_require__(167);
-
-	var _messager2 = _interopRequireDefault(_messager);
-
-	var _redux = __webpack_require__(178);
-
-	var _reactRedux = __webpack_require__(171);
-
-	var _chatroom = __webpack_require__(302);
-
-	var _chatroom2 = _interopRequireDefault(_chatroom);
-
-	var _reduxThunk = __webpack_require__(310);
-
-	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
-
-	var _reduxLogger = __webpack_require__(311);
-
-	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var loggerMiddleware = (0, _reduxLogger2.default)();
-	var store = (0, _redux.createStore)(_chatroom2.default, (0, _redux.applyMiddleware)(_reduxThunk2.default, loggerMiddleware));
-
-	// this comes from socket.io package
-	var socket = io("/chat");
-
-	var container = document.getElementById("main");
-	var channelId = container.dataset.channelId;
-	var chatroomId = container.dataset.chatroomId;
-	var channelName = container.dataset.channelName;
-	var ownerUsername = container.dataset.ownerUsername;
-	var channel = {
-	    _id: channelId,
-	    name: channelName,
-	    ownerUsername: ownerUsername,
-	    chatroomId: chatroomId
-	};
-
-	_reactDom2.default.render(_react2.default.createElement(
-	    _reactRedux.Provider,
-	    { store: store },
-	    _react2.default.createElement(_messager2.default, {
-	        chatroomId: chatroomId,
-	        channel: channel,
-	        socket: socket })
-	), container);
-
-/***/ },
+/* 1 */,
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -20066,190 +20004,7 @@
 	module.exports = ReactMount.renderSubtreeIntoContainer;
 
 /***/ },
-/* 167 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactAddonsPureRenderMixin = __webpack_require__(168);
-
-	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
-
-	var _reactRedux = __webpack_require__(171);
-
-	var _textMessage = __webpack_require__(195);
-
-	var _textMessage2 = _interopRequireDefault(_textMessage);
-
-	var _chaActions = __webpack_require__(297);
-
-	var ChaActions = _interopRequireWildcard(_chaActions);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var Component = _react2.default.Component;
-	var PropTypes = _react2.default.PropTypes;
-
-
-	var Messager = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "Messager",
-
-	    mixins: [_reactAddonsPureRenderMixin2.default],
-	    propTypes: {
-	        user: PropTypes.object,
-	        channel: PropTypes.object,
-	        messages: PropTypes.array.isRequired,
-	        onSendMessage: PropTypes.func.isRequired,
-	        onFetchMessages: PropTypes.func.isRequired,
-	        onAppendMessage: PropTypes.func.isRequired
-	    },
-	    getInitialState: function getInitialState() {
-	        return {
-	            text: ""
-	        };
-	    },
-	    handleSubmitMessage: function handleSubmitMessage(e) {
-	        e.preventDefault();
-	        var _props = this.props;
-	        var user = _props.user;
-	        var channel = _props.channel;
-	        var text = this.state.text;
-
-	        this.props.socket.emit('client send', {
-	            senderId: user.get("_id"),
-	            senderUsername: user.get("username"),
-	            chatroomId: channel.get("chatroomId"),
-	            content: text
-	        });
-	        this.setState({
-	            text: ""
-	        });
-	    },
-	    handleInputText: function handleInputText(e) {
-	        this.setState({
-	            text: e.target.value
-	        });
-	    },
-	    componentDidMount: function componentDidMount() {
-	        // initialize messages
-	        var _props2 = this.props;
-	        var onFetchMessages = _props2.onFetchMessages;
-	        var socket = _props2.socket;
-	        var onAppendMessage = _props2.onAppendMessage;
-	        var channel = _props2.channel;
-
-	        onFetchMessages(channel.get("chatroomId"));
-
-	        socket.on("server push", function (data) {
-	            if (data.chatroomId && data.chatroomId === channel.get("chatroomId")) {
-	                onAppendMessage(data);
-	            }
-	        });
-	    },
-	    componentDidUpdate: function componentDidUpdate() {
-	        var _refs = this.refs;
-	        var messageBox = _refs.messageBox;
-	        var messageList = _refs.messageList;
-
-	        messageBox.scrollTop = messageList.offsetHeight;
-	    },
-	    renderTextMessage: function renderTextMessage(messages) {
-	        return messages.map(function (message, index) {
-	            return _react2.default.createElement(_textMessage2.default, { key: index, message: message });
-	        });
-	    },
-	    renderMessageInputArea: function renderMessageInputArea(user) {
-	        if (user.get("username")) {
-	            return _react2.default.createElement(
-	                "form",
-	                { onSubmit: this.handleSubmitMessage },
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "ui input" },
-	                    _react2.default.createElement("input", { ref: "textInput", type: "text", placeholder: "說說話", onInput: this.handleInputText, value: this.state.text })
-	                )
-	            );
-	        } else {
-	            return _react2.default.createElement(
-	                "div",
-	                { className: "ui input" },
-	                _react2.default.createElement("input", { ref: "textInput", type: "text", placeholder: "請先登入", disabled: true })
-	            );
-	        }
-	    },
-	    render: function render() {
-	        var _props3 = this.props;
-	        var messages = _props3.messages;
-	        var user = _props3.user;
-
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "messager" },
-	            _react2.default.createElement(
-	                "div",
-	                { id: "message-box", className: "message-box", ref: "messageBox" },
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "ui comments" },
-	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "message-list", ref: "messageList" },
-	                        this.renderTextMessage(messages)
-	                    )
-	                )
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "message-input-area" },
-	                this.renderMessageInputArea(user)
-	            )
-	        );
-	    }
-	}));
-
-	var mapStateToProps = function mapStateToProps(state) {
-	    return {
-	        user: state.user,
-	        messages: state.messages
-	    };
-	};
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	    return {
-	        onSendMessage: function onSendMessage(message) {
-	            dispatch(ChaActions.sendMessage(message));
-	        },
-	        onFetchMessages: function onFetchMessages(chatroomId) {
-	            dispatch(ChaActions.fetchMessages(chatroomId));
-	        },
-	        onAppendMessage: function onAppendMessage(message) {
-	            dispatch(ChaActions.appendMessage(message));
-	        }
-	    };
-	};
-
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Messager);
-
-/***/ },
+/* 167 */,
 /* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -21929,90 +21684,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 195 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _momentUtils = __webpack_require__(196);
-
-	var momentUtils = _interopRequireWildcard(_momentUtils);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var PropTypes = _react2.default.PropTypes;
-
-
-	var TextMessage = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "TextMessage",
-
-	    propTypes: {
-	        message: PropTypes.object
-	    },
-	    render: function render() {
-	        var _props$message = this.props.message;
-	        var senderUsername = _props$message.senderUsername;
-	        var content = _props$message.content;
-	        var createdAt = _props$message.createdAt;
-
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "comment" },
-	            _react2.default.createElement(
-	                "a",
-	                { className: "avatar" },
-	                _react2.default.createElement("img", { src: "/images/" + senderUsername + ".jpg" })
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "content" },
-	                _react2.default.createElement(
-	                    "a",
-	                    { className: "author" },
-	                    senderUsername
-	                ),
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "metadata" },
-	                    _react2.default.createElement(
-	                        "span",
-	                        { className: "date" },
-	                        momentUtils.relativeDateTime(createdAt)
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "text" },
-	                    content
-	                )
-	            )
-	        );
-	    }
-	}));
-
-	exports.default = TextMessage;
-
-/***/ },
+/* 195 */,
 /* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -35138,119 +34810,7 @@
 	}));
 
 /***/ },
-/* 297 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.sendMessage = sendMessage;
-	exports.appendMessages = appendMessages;
-	exports.appendMessage = appendMessage;
-	exports.fetchMessages = fetchMessages;
-	exports.createChannel = createChannel;
-	exports.fetchChannels = fetchChannels;
-
-	var _actionTypes = __webpack_require__(298);
-
-	var types = _interopRequireWildcard(_actionTypes);
-
-	var _isomorphicFetch = __webpack_require__(299);
-
-	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
-
-	var _fetchUtils = __webpack_require__(301);
-
-	var fetchUtils = _interopRequireWildcard(_fetchUtils);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function sendMessage(message) {
-	    return {
-	        type: types.SEND_MESSAGE,
-	        message: message
-	    };
-	}
-
-	function appendMessages(messages) {
-	    return {
-	        type: types.APPEND_MESSAGES,
-	        messages: messages
-	    };
-	}
-
-	function appendMessage(message) {
-	    return {
-	        type: types.APPEND_MESSAGE,
-	        message: message
-	    };
-	}
-
-	function fetchMessages(chatroomId) {
-	    return function (dispatch, getState) {
-	        // should inform that the app is going to fetch messages
-	        //dispatch(requestMessages());
-	        return (0, _isomorphicFetch2.default)("/api/chatroom/" + chatroomId + "/messages", {
-	            method: "GET",
-	            headers: {
-	                "Accept": "application/json"
-	            },
-	            credentials: 'include'
-	        }).then(function (response) {
-	            return response.json();
-	        }).then(function (json) {
-	            dispatch(appendMessages(json));
-	        }).catch(function (error) {
-	            console.error("error when fetching messages", error);
-	        });
-	    };
-	}
-
-	function createChannel(channel) {
-	    return function (dispatch, getState) {
-	        return (0, _isomorphicFetch2.default)("/api/channel", {
-	            method: "POST",
-	            headers: {
-	                "Content-Type": "application/json",
-	                "Accept": "application/json"
-	            },
-	            body: JSON.stringify(channel),
-	            credentials: true
-	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (channel) {
-	            dispatch({
-	                type: types.APPEND_CHANNEL,
-	                channel: channel
-	            });
-	        }).catch(function (error) {
-	            console.error("create channel error", error);
-	        });
-	    };
-	}
-	function fetchChannels() {
-	    return function (dispatch, getState) {
-	        return (0, _isomorphicFetch2.default)("/api/channel", {
-	            method: "GET",
-	            headers: {
-	                "Content-Type": "application/json",
-	                "Accept": "application/json"
-	            },
-	            credentials: true
-	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (channels) {
-	            dispatch({
-	                type: types.APPEND_CHANNELS,
-	                channels: channels
-	            });
-	        }).catch(function (error) {
-	            console.error("create channel error", error);
-	        });
-	    };
-	}
-
-/***/ },
+/* 297 */,
 /* 298 */
 /***/ function(module, exports) {
 
@@ -35714,92 +35274,8 @@
 	}
 
 /***/ },
-/* 302 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _redux = __webpack_require__(178);
-
-	var _channel = __webpack_require__(303);
-
-	var _channel2 = _interopRequireDefault(_channel);
-
-	var _channels = __webpack_require__(305);
-
-	var _channels2 = _interopRequireDefault(_channels);
-
-	var _stocks = __webpack_require__(306);
-
-	var _stocks2 = _interopRequireDefault(_stocks);
-
-	var _stockSeries = __webpack_require__(307);
-
-	var _stockSeries2 = _interopRequireDefault(_stockSeries);
-
-	var _messages = __webpack_require__(308);
-
-	var _messages2 = _interopRequireDefault(_messages);
-
-	var _user = __webpack_require__(309);
-
-	var _user2 = _interopRequireDefault(_user);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var rootReducer = (0, _redux.combineReducers)({
-	    channel: _channel2.default,
-	    channels: _channels2.default,
-	    stocks: _stocks2.default,
-	    stockSeries: _stockSeries2.default,
-	    messages: _messages2.default,
-	    user: _user2.default
-	});
-
-	exports.default = rootReducer;
-
-/***/ },
-/* 303 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = Channel;
-
-	var _actionTypes = __webpack_require__(298);
-
-	var types = _interopRequireWildcard(_actionTypes);
-
-	var _immutable = __webpack_require__(304);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	var initialState = (0, _immutable.Map)({
-	    _id: "",
-	    ownerUsername: "",
-	    name: "",
-	    chatroomId: ""
-	});
-	function Channel() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
-	    var action = arguments[1];
-
-	    switch (action.type) {
-	        case types.UPDATE_CHANNEL:
-	            return state.merge(action.channel);
-	        default:
-	            return state;
-	    }
-	}
-
-/***/ },
+/* 302 */,
+/* 303 */,
 /* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -40787,185 +40263,11 @@
 	}));
 
 /***/ },
-/* 305 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = Channels;
-
-	var _actionTypes = __webpack_require__(298);
-
-	var types = _interopRequireWildcard(_actionTypes);
-
-	var _immutable = __webpack_require__(304);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	var initialState = (0, _immutable.List)();
-	function Channels() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
-	    var action = arguments[1];
-
-	    switch (action.type) {
-	        case types.APPEND_CHANNELS:
-	            return state.concat(action.channels);
-	        case types.APPEND_CHANNEL:
-	            return state.push(action.channel);
-	        default:
-	            return state;
-	    }
-	}
-
-/***/ },
-/* 306 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = Stocks;
-
-	var _actionTypes = __webpack_require__(298);
-
-	var types = _interopRequireWildcard(_actionTypes);
-
-	var _immutable = __webpack_require__(304);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	var initialState = (0, _immutable.List)();
-	function Stocks() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
-	    var action = arguments[1];
-
-	    switch (action.type) {
-	        case types.UPDATE_STOCKS:
-	            return (0, _immutable.List)(action.stocks);
-	        default:
-	            return state;
-	    }
-	}
-
-/***/ },
-/* 307 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = stockSeries;
-
-	var _actionTypes = __webpack_require__(298);
-
-	var types = _interopRequireWildcard(_actionTypes);
-
-	var _immutable = __webpack_require__(304);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	var initialState = (0, _immutable.List)();
-	function stockSeries() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
-	    var action = arguments[1];
-
-	    switch (action.type) {
-	        case types.APPEND_STOCK_SERIES:
-	            return state.push(action.stockSeries);
-	        default:
-	            return state;
-	    }
-	}
-
-/***/ },
-/* 308 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = messages;
-
-	var _actionTypes = __webpack_require__(298);
-
-	var types = _interopRequireWildcard(_actionTypes);
-
-	var _immutable = __webpack_require__(304);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	var initialState = (0, _immutable.List)();
-	function messages() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
-	    var action = arguments[1];
-
-	    switch (action.type) {
-	        case types.APPEND_MESSAGES:
-	            return state.concat(action.messages);
-	        case types.APPEND_MESSAGE:
-	            var message = action.message;
-
-	            var shouldAppend = true;
-	            state.every(function (existedMessage) {
-	                shouldAppend = existedMessage._id !== message._id;
-	                return shouldAppend;
-	            });
-	            if (shouldAppend) {
-	                return state.push(action.message);
-	            }
-	            return state;
-	        default:
-	            return state;
-	    }
-	}
-
-/***/ },
-/* 309 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = user;
-
-	var _actionTypes = __webpack_require__(298);
-
-	var types = _interopRequireWildcard(_actionTypes);
-
-	var _immutable = __webpack_require__(304);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	var initialState = (0, _immutable.Map)({
-	    _id: "",
-	    username: ""
-	});
-	function user() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
-	    var action = arguments[1];
-
-	    switch (action.type) {
-	        case types.LOGIN:
-	            return state.merge(action.user);
-	        case types.LOGOUT:
-	            return initialState;
-	        default:
-	            return state;
-	    }
-	}
-
-/***/ },
+/* 305 */,
+/* 306 */,
+/* 307 */,
+/* 308 */,
+/* 309 */,
 /* 310 */
 /***/ function(module, exports) {
 
@@ -41216,6 +40518,348 @@
 	}
 
 	module.exports = createLogger;
+
+/***/ },
+/* 312 */,
+/* 313 */,
+/* 314 */,
+/* 315 */,
+/* 316 */,
+/* 317 */,
+/* 318 */,
+/* 319 */,
+/* 320 */,
+/* 321 */,
+/* 322 */,
+/* 323 */,
+/* 324 */,
+/* 325 */,
+/* 326 */,
+/* 327 */,
+/* 328 */,
+/* 329 */,
+/* 330 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(33);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _subjectList = __webpack_require__(331);
+
+	var _subjectList2 = _interopRequireDefault(_subjectList);
+
+	var _redux = __webpack_require__(178);
+
+	var _reduxThunk = __webpack_require__(310);
+
+	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
+
+	var _reduxLogger = __webpack_require__(311);
+
+	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
+
+	var _reactRedux = __webpack_require__(171);
+
+	var _subjectList3 = __webpack_require__(332);
+
+	var _subjectList4 = _interopRequireDefault(_subjectList3);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var loggerMiddleware = (0, _reduxLogger2.default)();
+	var store = (0, _redux.createStore)(_subjectList4.default, (0, _redux.applyMiddleware)(_reduxThunk2.default, loggerMiddleware));
+
+	_reactDom2.default.render(_react2.default.createElement(
+	    _reactRedux.Provider,
+	    { store: store },
+	    _react2.default.createElement(_subjectList2.default, null)
+	), document.getElementById("main"));
+
+/***/ },
+/* 331 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactAddonsPureRenderMixin = __webpack_require__(168);
+
+	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
+
+	var _reactDom = __webpack_require__(33);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _reactRedux = __webpack_require__(171);
+
+	var _subjectActions = __webpack_require__(338);
+
+	var SubjectActions = _interopRequireWildcard(_subjectActions);
+
+	var _momentUtils = __webpack_require__(196);
+
+	var momentUtils = _interopRequireWildcard(_momentUtils);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+	var SubjectList = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "SubjectList",
+
+	    mixins: [_reactAddonsPureRenderMixin2.default],
+	    propTypes: {
+	        subjects: PropTypes.object,
+	        onInitSubjects: PropTypes.func.isRequired
+	    },
+	    componentDidMount: function componentDidMount() {
+	        var onInitSubjects = this.props.onInitSubjects;
+
+
+	        onInitSubjects();
+	    },
+	    renderSubjects: function renderSubjects(subjects) {
+	        return subjects.map(function (subject) {
+	            return _react2.default.createElement(
+	                "tr",
+	                { key: subject._id },
+	                _react2.default.createElement(
+	                    "td",
+	                    null,
+	                    subject.name
+	                ),
+	                _react2.default.createElement(
+	                    "td",
+	                    null,
+	                    momentUtils.simpleFormattedDate(subject.postedAt)
+	                ),
+	                _react2.default.createElement(
+	                    "td",
+	                    null,
+	                    subject.author
+	                ),
+	                _react2.default.createElement(
+	                    "td",
+	                    null,
+	                    _react2.default.createElement(
+	                        "a",
+	                        { href: subject.uri, target: "_blank" },
+	                        "原文連結"
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "td",
+	                    null,
+	                    subject.likes
+	                ),
+	                _react2.default.createElement(
+	                    "td",
+	                    null,
+	                    subject.dislikes
+	                )
+	            );
+	        });
+	    },
+	    render: function render() {
+	        var subjects = this.props.subjects;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "subject-list" },
+	            _react2.default.createElement(
+	                "table",
+	                { className: "ui selectable table" },
+	                _react2.default.createElement(
+	                    "thead",
+	                    null,
+	                    _react2.default.createElement(
+	                        "tr",
+	                        null,
+	                        _react2.default.createElement(
+	                            "th",
+	                            null,
+	                            "標題"
+	                        ),
+	                        _react2.default.createElement(
+	                            "th",
+	                            null,
+	                            "日期"
+	                        ),
+	                        _react2.default.createElement(
+	                            "th",
+	                            null,
+	                            "作者"
+	                        ),
+	                        _react2.default.createElement(
+	                            "th",
+	                            null,
+	                            "原文連結"
+	                        ),
+	                        _react2.default.createElement(
+	                            "th",
+	                            null,
+	                            "讚"
+	                        ),
+	                        _react2.default.createElement(
+	                            "th",
+	                            null,
+	                            "不喜歡"
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "tbody",
+	                    null,
+	                    this.renderSubjects(subjects)
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	function mapStateToProps(state) {
+	    return {
+	        subjects: state.subjects
+	    };
+	}
+	function mapDispatchToProps(dispatch) {
+	    return {
+	        onInitSubjects: function onInitSubjects() {
+	            dispatch(SubjectActions.initSubjects());
+	        }
+	    };
+	}
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SubjectList);
+
+/***/ },
+/* 332 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _redux = __webpack_require__(178);
+
+	var _subjects = __webpack_require__(333);
+
+	var _subjects2 = _interopRequireDefault(_subjects);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var rootReducer = (0, _redux.combineReducers)({
+	    subjects: _subjects2.default
+	});
+
+	exports.default = rootReducer;
+
+/***/ },
+/* 333 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = Subjects;
+
+	var _actionTypes = __webpack_require__(298);
+
+	var ActionType = _interopRequireWildcard(_actionTypes);
+
+	var _immutable = __webpack_require__(304);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	var initialState = (0, _immutable.List)();
+	function Subjects() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case ActionType.UPDATE_SUBJECTS:
+	            return (0, _immutable.List)(action.subjects);
+	        default:
+	            return state;
+
+	    }
+	};
+
+/***/ },
+/* 334 */,
+/* 335 */,
+/* 336 */,
+/* 337 */,
+/* 338 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.initSubjects = initSubjects;
+
+	var _actionTypes = __webpack_require__(298);
+
+	var types = _interopRequireWildcard(_actionTypes);
+
+	var _isomorphicFetch = __webpack_require__(299);
+
+	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+	var _fetchUtils = __webpack_require__(301);
+
+	var fetchUtils = _interopRequireWildcard(_fetchUtils);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function initSubjects() {
+	    return function (dispatch, getState) {
+	        (0, _isomorphicFetch2.default)("/api/subject", {
+	            Accept: "application/json"
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (subjects) {
+	            dispatch({
+	                type: types.UPDATE_SUBJECTS,
+	                subjects: subjects
+	            });
+	        }).catch(function (error) {
+	            console.log("initSubjects error", error);
+	        });
+	    };
+	}
 
 /***/ }
 /******/ ]);
