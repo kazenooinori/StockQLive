@@ -6,8 +6,9 @@ export default function Subjects (state = initialState, action) {
     switch (action.type) {
         case ActionType.UPDATE_SUBJECTS:
             return List(action.subjects);
+        case ActionType.APPEND_SUBJECTS:
+            return state.concat(action.subjects);
         default:
             return state;
-
     }
 };

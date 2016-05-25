@@ -34840,6 +34840,7 @@
 	var APPEND_STOCK_SERIES = exports.APPEND_STOCK_SERIES = "APPEND_STOCK_SERIES";
 
 	var UPDATE_SUBJECTS = exports.UPDATE_SUBJECTS = "UPDATE_SUBJECTS";
+	var APPEND_SUBJECTS = exports.APPEND_SUBJECTS = "APPEND_SUBJECTS";
 
 /***/ },
 /* 299 */
@@ -40638,6 +40639,11 @@
 	        subjects: PropTypes.object,
 	        onInitSubjects: PropTypes.func.isRequired
 	    },
+	    getInitialState: function getInitialState() {
+	        return {
+	            skip: 15
+	        };
+	    },
 	    componentDidMount: function componentDidMount() {
 	        var onInitSubjects = this.props.onInitSubjects;
 
@@ -40687,7 +40693,10 @@
 	        });
 	    },
 	    render: function render() {
-	        var subjects = this.props.subjects;
+	        var _props = this.props;
+	        var subjects = _props.subjects;
+	        var onLoadMoreSubjects = _props.onLoadMoreSubjects;
+	        var skip = this.state.skip;
 
 	        return _react2.default.createElement(
 	            "div",
@@ -40738,8 +40747,27 @@
 	                    null,
 	                    this.renderSubjects(subjects)
 	                )
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "ui centered grid p-10" },
+	                _react2.default.createElement(
+	                    "button",
+	                    { className: "ui primary button", onClick: this._onLoadMoreSubjects },
+	                    "讀更多"
+	                )
 	            )
 	        );
+	    },
+	    _onLoadMoreSubjects: function _onLoadMoreSubjects() {
+	        var _this = this;
+
+	        this.props.onLoadMoreSubjects(this.state.skip).then(function () {
+	            _this.setState(function (prevState) {
+	                prevState.skip += 15;
+	                return prevState;
+	            });
+	        });
 	    }
 	}));
 
@@ -40752,6 +40780,9 @@
 	    return {
 	        onInitSubjects: function onInitSubjects() {
 	            dispatch(SubjectActions.initSubjects());
+	        },
+	        onLoadMoreSubjects: function onLoadMoreSubjects(skip) {
+	            dispatch(SubjectActions.loadMoreSubjects(skip));
 	        }
 	    };
 	}
@@ -40809,9 +40840,10 @@
 	    switch (action.type) {
 	        case ActionType.UPDATE_SUBJECTS:
 	            return (0, _immutable.List)(action.subjects);
+	        case ActionType.APPEND_SUBJECTS:
+	            return state.concat(action.subjects);
 	        default:
 	            return state;
-
 	    }
 	};
 
@@ -40829,6 +40861,7 @@
 	    value: true
 	});
 	exports.initSubjects = initSubjects;
+	exports.loadMoreSubjects = loadMoreSubjects;
 
 	var _actionTypes = __webpack_require__(298);
 
@@ -40853,6 +40886,21 @@
 	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (subjects) {
 	            dispatch({
 	                type: types.UPDATE_SUBJECTS,
+	                subjects: subjects
+	            });
+	        }).catch(function (error) {
+	            console.log("initSubjects error", error);
+	        });
+	    };
+	}
+
+	function loadMoreSubjects(skip) {
+	    return function (dispatch, getState) {
+	        (0, _isomorphicFetch2.default)("/api/subject?skip=" + skip, {
+	            Accept: "application/json"
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (subjects) {
+	            dispatch({
+	                type: types.APPEND_SUBJECTS,
 	                subjects: subjects
 	            });
 	        }).catch(function (error) {

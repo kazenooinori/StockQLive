@@ -12,6 +12,11 @@ const SubjectList = React.createClass({
         subjects: PropTypes.object,
         onInitSubjects: PropTypes.func.isRequired,
     },
+    getInitialState () {
+        return {
+            skip: 15,
+        };
+    },
     componentDidMount () {
         const { onInitSubjects } = this.props;
 
@@ -32,7 +37,8 @@ const SubjectList = React.createClass({
         });
     },
     render () {
-        const { subjects } = this.props;
+        const { subjects, onLoadMoreSubjects } = this.props;
+        const { skip } = this.state;
         return (
             <div className="subject-list">
                 <table className="ui selectable table">
@@ -50,8 +56,23 @@ const SubjectList = React.createClass({
                       {this.renderSubjects(subjects)}
                   </tbody>
                 </table>
+                <div className="ui centered grid p-10">
+                    <button className="ui primary button" onClick={this._onLoadMoreSubjects}>
+                        讀更多
+                    </button>
+                </div>
             </div>
         );
+    },
+
+    _onLoadMoreSubjects () {
+        this.props.onLoadMoreSubjects(this.state.skip)
+        .then(() => {
+            this.setState((prevState) => {
+                prevState.skip += 15;
+                return prevState;
+            });
+        })
     },
 });
 
@@ -64,6 +85,9 @@ function mapDispatchToProps (dispatch) {
     return {
         onInitSubjects: function () {
             dispatch(SubjectActions.initSubjects());
+        },
+        onLoadMoreSubjects: function (skip) {
+            dispatch(SubjectActions.loadMoreSubjects(skip));
         },
     };
 }

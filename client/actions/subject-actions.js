@@ -20,3 +20,22 @@ export function initSubjects () {
         });
     };
 }
+
+export function loadMoreSubjects (skip) {
+    return function (dispatch, getState) {
+        fetch("/api/subject?skip=" + skip, {
+            Accept: "application/json"
+        })
+        .then(fetchUtils.checkStatus)
+        .then(fetchUtils.parseJSON)
+        .then((subjects) => {
+            dispatch({
+                type: types.APPEND_SUBJECTS,
+                subjects: subjects
+            });
+        })
+        .catch((error) => {
+            console.log("initSubjects error", error);
+        });
+    };
+}
