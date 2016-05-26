@@ -32,6 +32,7 @@ const SubjectList = React.createClass({
                   <td><a href={subject.uri} target="_blank">原文連結</a></td>
                   <td>{subject.likes}</td>
                   <td>{subject.dislikes}</td>
+                  <td>{subject.views}</td>
                 </tr>
             );
         });
@@ -50,6 +51,7 @@ const SubjectList = React.createClass({
                       <th className="two wide">原文連結</th>
                       <th className="one wide">讚</th>
                       <th className="one wide">不喜歡</th>
+                      <th className="one wide">點擊數</th>
                     </tr>
                   </thead>
                   <tbody>

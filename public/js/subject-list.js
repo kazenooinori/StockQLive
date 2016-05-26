@@ -40568,7 +40568,7 @@
 
 	var _reactRedux = __webpack_require__(171);
 
-	var _subjectList3 = __webpack_require__(332);
+	var _subjectList3 = __webpack_require__(333);
 
 	var _subjectList4 = _interopRequireDefault(_subjectList3);
 
@@ -40607,7 +40607,7 @@
 
 	var _reactRedux = __webpack_require__(171);
 
-	var _subjectActions = __webpack_require__(338);
+	var _subjectActions = __webpack_require__(332);
 
 	var SubjectActions = _interopRequireWildcard(_subjectActions);
 
@@ -40688,6 +40688,11 @@
 	                    "td",
 	                    null,
 	                    subject.dislikes
+	                ),
+	                _react2.default.createElement(
+	                    "td",
+	                    null,
+	                    subject.views
 	                )
 	            );
 	        });
@@ -40739,6 +40744,11 @@
 	                            "th",
 	                            { className: "one wide" },
 	                            "不喜歡"
+	                        ),
+	                        _react2.default.createElement(
+	                            "th",
+	                            { className: "one wide" },
+	                            "點擊數"
 	                        )
 	                    )
 	                ),
@@ -40795,68 +40805,6 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-
-	var _redux = __webpack_require__(178);
-
-	var _subjects = __webpack_require__(333);
-
-	var _subjects2 = _interopRequireDefault(_subjects);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var rootReducer = (0, _redux.combineReducers)({
-	    subjects: _subjects2.default
-	});
-
-	exports.default = rootReducer;
-
-/***/ },
-/* 333 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = Subjects;
-
-	var _actionTypes = __webpack_require__(298);
-
-	var ActionType = _interopRequireWildcard(_actionTypes);
-
-	var _immutable = __webpack_require__(304);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	var initialState = (0, _immutable.List)();
-	function Subjects() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
-	    var action = arguments[1];
-
-	    switch (action.type) {
-	        case ActionType.UPDATE_SUBJECTS:
-	            return (0, _immutable.List)(action.subjects);
-	        case ActionType.APPEND_SUBJECTS:
-	            return state.concat(action.subjects);
-	        default:
-	            return state;
-	    }
-	};
-
-/***/ },
-/* 334 */,
-/* 335 */,
-/* 336 */,
-/* 337 */,
-/* 338 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
 	exports.initSubjects = initSubjects;
 	exports.loadMoreSubjects = loadMoreSubjects;
 
@@ -40905,6 +40853,64 @@
 	        });
 	    };
 	}
+
+/***/ },
+/* 333 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _redux = __webpack_require__(178);
+
+	var _subjects = __webpack_require__(334);
+
+	var _subjects2 = _interopRequireDefault(_subjects);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var rootReducer = (0, _redux.combineReducers)({
+	    subjects: _subjects2.default
+	});
+
+	exports.default = rootReducer;
+
+/***/ },
+/* 334 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = Subjects;
+
+	var _actionTypes = __webpack_require__(298);
+
+	var ActionType = _interopRequireWildcard(_actionTypes);
+
+	var _immutable = __webpack_require__(304);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	var initialState = (0, _immutable.List)();
+	function Subjects() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case ActionType.UPDATE_SUBJECTS:
+	            return (0, _immutable.List)(action.subjects);
+	        case ActionType.APPEND_SUBJECTS:
+	            return state.concat(action.subjects);
+	        default:
+	            return state;
+	    }
+	};
 
 /***/ }
 /******/ ]);
