@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const {ObjectId} = mongoose.Types;
 const SubjectModel = require("../models/subject");
 
-const subjectFields = "_id name uri author postedAt likes dislikes";
+const subjectFields = "_id name uri author postedAt likes dislikes views";
 
 function getSubjectList (query) {
     const { skip = 0 } = query;
@@ -77,10 +77,32 @@ function dislikeSubject (subjectId) {
     });
 }
 
+function viewSubject (subjectId) {
+    return new Promise((resolve, reject) => {
+        SubjectModel.update({
+            _id: new ObjectId(subjectId)
+        }, {
+            $inc: {
+                views: 1,
+            },
+        }, (error, doc) => {
+            if (error) {
+                reject(error);
+                return;
+            }
+
+            resolve(SubjectModel.findOne({
+                _id: new ObjectId(subjectId)
+            }, subjectFields));
+        });
+    });
+}
+
 
 module.exports = {
     getSubjectList,
     getSubjectHtml,
     likeSubject,
     dislikeSubject,
+    viewSubject,
 };

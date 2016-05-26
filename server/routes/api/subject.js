@@ -87,4 +87,24 @@ router.post("/:subjectId/dislike", (req, res) => {
     });
 });
 
+router.post("/:subjectId/view", (req, res) => {
+    SubjectStore.viewSubject(req.params.subjectId)
+    .then((subject) => {
+        res.writeHead(200, {
+            "Content-Type": "text/html; charset=utf-8",
+        })
+        res.end();
+    })
+    .catch((error) => {
+        logger.error("error when getting stock info", error);
+        res.writeHead(400, {
+            "Content-Type": "application/json",
+        });
+        res.write(JSON.stringify({
+            message: "bad request",
+        }));
+        res.end();
+    });
+});
+
 module.exports = router;
