@@ -35,13 +35,13 @@ function getSubjectHtml (subjectId) {
     });
 }
 
-function likeSubject (subjectId) {
+function incSubjectLike (subjectId, count) {
     return new Promise((resolve, reject) => {
         SubjectModel.update({
             _id: new ObjectId(subjectId)
         }, {
             $inc: {
-                likes: 1,
+                likes: count,
             },
         }, (error, doc) => {
             if (error) {
@@ -56,13 +56,13 @@ function likeSubject (subjectId) {
     });
 }
 
-function dislikeSubject (subjectId) {
+function incSubjectDislike (subjectId, count) {
     return new Promise((resolve, reject) => {
         SubjectModel.update({
             _id: new ObjectId(subjectId)
         }, {
             $inc: {
-                dislikes: 1,
+                dislikes: count,
             },
         }, (error, doc) => {
             if (error) {
@@ -102,7 +102,7 @@ function viewSubject (subjectId) {
 module.exports = {
     getSubjectList,
     getSubjectHtml,
-    likeSubject,
-    dislikeSubject,
+    incSubjectLike,
+    incSubjectDislike,
     viewSubject,
 };

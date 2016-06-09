@@ -46,7 +46,8 @@ router.get("/:subjectId", (req, res) => {
 });
 
 router.post("/:subjectId/like", (req, res) => {
-    SubjectStore.likeSubject(req.params.subjectId)
+    const count = parseInt(req.body.count) || 1;
+    SubjectStore.incSubjectLike(req.params.subjectId, count)
     .then((subject) => {
         res.writeHead(200, {
             "Content-Type": "text/html; charset=utf-8",
@@ -67,7 +68,8 @@ router.post("/:subjectId/like", (req, res) => {
 });
 
 router.post("/:subjectId/dislike", (req, res) => {
-    SubjectStore.dislikeSubject(req.params.subjectId)
+    const count = parseInt(req.body.count) || 1;
+    SubjectStore.incSubjectDislike(req.params.subjectId, count)
     .then((subject) => {
         res.writeHead(200, {
             "Content-Type": "text/html; charset=utf-8",
