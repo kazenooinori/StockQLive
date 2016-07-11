@@ -8,3 +8,5 @@ router.get('/webhook', function (req, res) {
         res.send('Error, wrong validation token');
     }
 });
+
+module.exports = router;
