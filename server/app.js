@@ -43,7 +43,7 @@ mongoose.connect(serverConfig.mongoURL, (error) => {
 
 app.use("/startertech/subject/stats/very/long/path", require("./routes/subject-list"));
 // disable routes temporarily
-// app.use("/channel", require("./routes/channel"));
+app.use("/channel", require("./routes/channel"));
 // app.use("/chatroom", require("./routes/chatroom"));
 
 // api
@@ -57,6 +57,8 @@ app.use("/api/feedback", require("./routes/api/feedback"));
 app.use("/api/login", require("./routes/api/login"));
 app.use("/api/logout", require("./routes/api/logout"));
 app.use("/api/webhook", require("./routes/api/webhook"));
+
+app.use("/*", require("./routes/app"));
 
 // catch 404 and handle it
 app.use(function (req, res, next) {

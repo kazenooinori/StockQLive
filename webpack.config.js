@@ -8,6 +8,7 @@ module.exports = {
         chatroom: ['./chatroom.jsx'],//, 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000'],
         liveroom: ['./liveroom.jsx'],//, 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000'],
         timeline: ['./timeline.jsx'],//, 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000'],
+        app: ['./app.jsx'],
         'subject-list': ['./subject-list.jsx'],//, 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000'],
     },
     output: {
