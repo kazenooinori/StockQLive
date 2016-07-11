@@ -56,6 +56,7 @@ app.use("/api/feedback", require("./routes/api/feedback"));
 // app.use("/api/signup", require("./routes/api/signup"));
 app.use("/api/login", require("./routes/api/login"));
 app.use("/api/logout", require("./routes/api/logout"));
+app.use("/api/webhook", require("./routes/api/webhook"));
 
 // catch 404 and handle it
 app.use(function (req, res, next) {
