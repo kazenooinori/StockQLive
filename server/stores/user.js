@@ -38,7 +38,7 @@ passport.use(new FacebookStrategy({
     logger.info(refreshToken);
     logger.info(profile);
     const options = { upsert: true, new: true, setDefaultsOnInsert: true };
-    UserModel.findOneAndUpdate({facebookId: profile.id}, {
+    const userObject = {
         facebookId: profile.id,
         provider: profile.provider,
         displayName: profile.displayName,
@@ -47,10 +47,13 @@ passport.use(new FacebookStrategy({
             firstName: profile.givenName,
             middleName: profile.middleName,
         },
-        email: profile.emails,
-        photos: profile.photos,
+        email: profile.emails.length > 0 ? profile.emails[0].value : "",
+        photos: profile.photos.length > 0 ? profile.photos[0].value: "",
         profileUrl: profile.profileUrl,
-    }, options, function(err, user) {
+    };
+    UserModel.findOneAndUpdate({
+        facebookId: profile.id
+    }, userObject, options, function(err, user) {
         if (err) { return done(err); }
         done(null, user);
     });
