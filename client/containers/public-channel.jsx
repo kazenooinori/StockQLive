@@ -18,7 +18,6 @@ const BotChannel = React.createClass({
 });
 const mapStateToProps = function (state) {
     return {
-        messages: state.messages
     };
 }
 const mapDispatchToProps = function (dispatch) {

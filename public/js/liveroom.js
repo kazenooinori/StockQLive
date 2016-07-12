@@ -44029,23 +44029,37 @@
 	    displayName: "StockChart",
 
 	    propTypes: {
-	        stockSeries: PropTypes.object.isRequired
+	        _id: PropTypes.string.isRequired,
+	        stockSeries: PropTypes.object.isRequired,
+	        width: PropTypes.number,
+	        height: PropTypes.number
 	    },
 	    mixins: [_reactAddonsPureRenderMixin2.default],
-	    chart: undefined,
 	    componentDidMount: function componentDidMount() {
 	        this.renderStockChart(this.props.stockSeries.toJS());
 	    },
 	    componentWillUpdate: function componentWillUpdate(nextProps, nextState) {
-	        if (this.chart) {
-	            this.chart.destroy();
-	            this.renderStockChart(nextProps.stockSeries.toJS());
-	        }
+	        // if (Highcharts.StockChart('stock-chart')) {
+	        // this.chart.destroy();
+	        var _id = this.props._id;
+
+	        _highstock2.default.StockChart(_id).destroy();
+	        this.renderStockChart(nextProps.stockSeries.toJS());
+	        // }
 	    },
 	    renderStockChart: function renderStockChart(stockSeries) {
-	        this.chart = _highstock2.default.StockChart('stock-chart', {
+	        var _props = this.props;
+	        var _id = _props._id;
+	        var width = _props.width;
+	        var height = _props.height;
+
+	        _highstock2.default.StockChart(_id, {
 	            rangeSelector: {
 	                selected: 4
+	            },
+	            chart: {
+	                width: width || 500,
+	                height: height || 300
 	            },
 
 	            yAxis: {
@@ -44075,7 +44089,7 @@
 	        });
 	    },
 	    render: function render() {
-	        return _react2.default.createElement("div", { id: "stock-chart" });
+	        return _react2.default.createElement("div", { id: this.props._id });
 	    }
 	}));
 

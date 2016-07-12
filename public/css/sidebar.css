@@ -58,5 +58,8 @@
 
 
 .trending-bar {
-    
+    display: flex;
+    flex-flow: row;
+    background-color: white;
+    padding-left: 40px;
 }

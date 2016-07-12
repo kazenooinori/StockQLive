@@ -7,23 +7,32 @@ const {PropTypes} = React;
 
 const StockChart = React.createClass({
     propTypes: {
+        _id: PropTypes.string.isRequired,
         stockSeries: PropTypes.object.isRequired,
+        width: PropTypes.number,
+        height: PropTypes.number,
     },
     mixins: [PureRenderMixin],
-    chart: undefined,
     componentDidMount() {
         this.renderStockChart(this.props.stockSeries.toJS());
     },
     componentWillUpdate (nextProps, nextState) {
-        if (this.chart) {
-            this.chart.destroy();
-            this.renderStockChart(nextProps.stockSeries.toJS());
-        }
+        // if (Highcharts.StockChart('stock-chart')) {
+            // this.chart.destroy();
+        const { _id } = this.props;
+        Highcharts.StockChart(_id).destroy();
+        this.renderStockChart(nextProps.stockSeries.toJS());
+        // }
     },
     renderStockChart (stockSeries) {
-        this.chart = Highcharts.StockChart('stock-chart', {
-           rangeSelector: {
+        const { _id, width, height } = this.props;
+        Highcharts.StockChart(_id, {
+          rangeSelector: {
               selected: 4
+          },
+          chart: {
+              width: width || 500,
+              height: height || 300,
           },
 
           yAxis: {
@@ -54,7 +63,7 @@ const StockChart = React.createClass({
     },
     render () {
         return (
-            <div id="stock-chart"></div>
+            <div id={this.props._id}></div>
         );
     }
 });

@@ -1,3 +1,35 @@
 .app .full-col {
     margin-top: 100px;
 }
+
+.kanban {
+    min-width: 150px;
+    height: 90px;
+    padding: 5px;
+    display: flex;
+    flex-flow: row;
+}
+
+
+.index-panel {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+}
+.index-panel>* {
+    padding-bottom: 3px;
+}
+.index-panel>.index {
+    color: #f1453d;
+    font-size: 24px;
+}
+.index-panel>.difference {
+    color: #f1453d;
+    font-size: 14px;
+}
+
+
+.trending-bar .kanban {
+    margin-right: 28px;
+}
