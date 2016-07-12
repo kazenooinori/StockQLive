@@ -7,40 +7,52 @@ const FACEBOOK_APP_SECRET = "d36ad066d40922137be1f6933adcaa2e";
 const config = require("../config");
 const logger = require("../lib/logger");
 // login passport setup
-// passport.use(new LocalStrategy(
-//     function(username, password, done) {
-//         UserModel.findOne({ username: username }, function (err, user) {
-//             if (err) {
-//                 return done(err);
-//             }
-//             if (!user) {
-//                 return done(null, false, { message: 'Incorrect username.' });
-//             }
-//             if (user.password !== password) {
-//                 return done(null, false, { message: 'Incorrect password.' });
-//             }
-//             const returnUser = {
-//                 _id: user._id,
-//                 username: user.username,
-//             };
-//             return done(null, returnUser);
-//         });
-//     }
-// ));
+passport.use(new LocalStrategy(
+    function(username, password, done) {
+        UserModel.findOne({ username: username }, function (err, user) {
+            if (err) {
+                return done(err);
+            }
+            if (!user) {
+                return done(null, false, { message: 'Incorrect username.' });
+            }
+            if (user.password !== password) {
+                return done(null, false, { message: 'Incorrect password.' });
+            }
+            const returnUser = {
+                _id: user._id,
+                username: user.username,
+            };
+            return done(null, returnUser);
+        });
+    }
+));
 
 passport.use(new FacebookStrategy({
     clientID: FACEBOOK_APP_ID,
     clientSecret: FACEBOOK_APP_SECRET,
-    callbackURL: config.siteUrl + "/auth/facebook/callback",
-    profileFields: ['displayName', 'photos', 'email', 'gender', 'profileUrl'],
+    callbackURL: "http://localhost:3000/auth/facebook/callback",//config.siteUrl + "/auth/facebook/callback",
+    profileFields: ['displayName', 'photos', 'email', 'gender', 'profileUrl', 'familyName', 'givenName', 'middleName'],
 }, function(accessToken, refreshToken, profile, done) {
     logger.info(accessToken);
     logger.info(refreshToken);
     logger.info(profile);
-    // User.findOrCreate(..., function(err, user) {
-    //     if (err) { return done(err); }
-    //     done(null, user);
-    // });
+    User.findOrCreate({facebookId: profile.id}, {
+        facebookId: profile.id,
+        provider: profile.provider,
+        displayName: profile.displayName,
+        name: {
+            lastName: profile.familyName,
+            firstName: profile.givenName,
+            middleName: profile.middleName,
+        },
+        email: profile.email,
+        photos: profile.photos,
+        profileUrl: profile.profileUrl,
+    }, function(err, user) {
+        if (err) { return done(err); }
+        done(null, user);
+    });
 }));
 
 passport.serializeUser(function(user, done) {

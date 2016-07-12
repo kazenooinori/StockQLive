@@ -51,6 +51,7 @@
     "lodash": "^4.13.1",
     "moment": "^2.12.0",
     "mongoose": "^4.4.4",
+    "mongoose-find-one-or-create": "^0.2.0",
     "morgan": "^1.6.1",
     "mysql": "^2.10.2",
     "passport": "^0.3.2",

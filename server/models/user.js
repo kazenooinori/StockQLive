@@ -1,11 +1,13 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
+const findOneOrCreate = require('mongoose-find-one-or-create');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
     username: {
         type: String,
-        unique: true,
     },
+    facebookId: String,
+    profileUrl: String,
     password: String,
     provider: String,
     displayName: String,
@@ -14,8 +16,9 @@ const UserSchema = new Schema({
         firstName: String,
         middleName: String,
     },
-    emails: String,
+    email: String,
     photos: String,
 });
+UserSchema.plugin(findOneOrCreate);
 
 module.exports = mongoose.model("User", UserSchema);
