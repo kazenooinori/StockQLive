@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware } from "redux";
 import thunkMiddleWare from "redux-thunk";
 import createLogger from 'redux-logger'
-import reducer from "../reducers/chatroom";
+import reducer from "../reducers/app";
 
 const configureStore = () => {
     var middlewares = [thunkMiddleWare];

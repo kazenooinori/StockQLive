@@ -10,14 +10,6 @@ const {Component, PropTypes} = React;
 
 const Messager = React.createClass({
     mixins: [PureRenderMixin],
-    propTypes: {
-        user: PropTypes.object,
-        channel: PropTypes.object,
-        messages: PropTypes.array.isRequired,
-        onSendMessage: PropTypes.func.isRequired,
-        onFetchMessages: PropTypes.func.isRequired,
-        onAppendMessage: PropTypes.func.isRequired,
-    },
     getInitialState () {
         return {
             text: "",
@@ -44,12 +36,12 @@ const Messager = React.createClass({
     },
     componentDidMount() {
         // initialize messages
-        const {onFetchMessages, socket, onAppendMessage, channel} = this.props;
-        onFetchMessages(channel.get("chatroomId"));
+        const {fetchMessages, socket, appendMessage, channel} = this.props;
+        fetchMessages(channel.get("chatroomId"));
 
         socket.on("server push", function (data) {
             if (data.chatroomId && data.chatroomId === channel.get("chatroomId")) {
-                onAppendMessage(data);
+                appendMessage(data);
             }
         });
     },
@@ -99,21 +91,10 @@ const Messager = React.createClass({
 const mapStateToProps = function (state) {
     return {
         user: state.user,
+        channel: state.channel,
         messages: state.messages,
-    };
-}
-const mapDispatchToProps = function (dispatch) {
-    return {
-        onSendMessage: function (message) {
-            dispatch(ChaActions.sendMessage(message));
-        },
-        onFetchMessages: function (chatroomId) {
-            dispatch(ChaActions.fetchMessages(chatroomId));
-        },
-        onAppendMessage: function (message) {
-            dispatch(ChaActions.appendMessage(message));
-        },
+        socket: state.socket,
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Messager);
+export default connect(mapStateToProps, ChaActions)(Messager);

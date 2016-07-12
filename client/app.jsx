@@ -7,7 +7,6 @@ import App from "./containers/app.jsx";
 import BotChannel from "./containers/bot-channel.jsx";
 import PublicChannel from "./containers/public-channel.jsx";
 
-const socket = io("/chat");
 const store = configureStore();
 
 ReactDOM.render(

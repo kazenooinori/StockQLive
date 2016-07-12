@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 const TrendingBar = React.createClass({
     render () {
         return (
-            <div classname="trending-bar">
+            <div className="trending-bar">
                 大盤
             </div>
         )

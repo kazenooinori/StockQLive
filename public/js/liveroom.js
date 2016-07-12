@@ -29306,14 +29306,6 @@
 	    displayName: "Messager",
 
 	    mixins: [_reactAddonsPureRenderMixin2.default],
-	    propTypes: {
-	        user: PropTypes.object,
-	        channel: PropTypes.object,
-	        messages: PropTypes.array.isRequired,
-	        onSendMessage: PropTypes.func.isRequired,
-	        onFetchMessages: PropTypes.func.isRequired,
-	        onAppendMessage: PropTypes.func.isRequired
-	    },
 	    getInitialState: function getInitialState() {
 	        return {
 	            text: ""
@@ -29344,16 +29336,16 @@
 	    componentDidMount: function componentDidMount() {
 	        // initialize messages
 	        var _props2 = this.props;
-	        var onFetchMessages = _props2.onFetchMessages;
+	        var fetchMessages = _props2.fetchMessages;
 	        var socket = _props2.socket;
-	        var onAppendMessage = _props2.onAppendMessage;
+	        var appendMessage = _props2.appendMessage;
 	        var channel = _props2.channel;
 
-	        onFetchMessages(channel.get("chatroomId"));
+	        fetchMessages(channel.get("chatroomId"));
 
 	        socket.on("server push", function (data) {
 	            if (data.chatroomId && data.chatroomId === channel.get("chatroomId")) {
-	                onAppendMessage(data);
+	                appendMessage(data);
 	            }
 	        });
 	    },
@@ -29421,24 +29413,13 @@
 	var mapStateToProps = function mapStateToProps(state) {
 	    return {
 	        user: state.user,
-	        messages: state.messages
-	    };
-	};
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	    return {
-	        onSendMessage: function onSendMessage(message) {
-	            dispatch(ChaActions.sendMessage(message));
-	        },
-	        onFetchMessages: function onFetchMessages(chatroomId) {
-	            dispatch(ChaActions.fetchMessages(chatroomId));
-	        },
-	        onAppendMessage: function onAppendMessage(message) {
-	            dispatch(ChaActions.appendMessage(message));
-	        }
+	        channel: state.channel,
+	        messages: state.messages,
+	        socket: state.socket
 	    };
 	};
 
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Messager);
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, ChaActions)(Messager);
 
 /***/ },
 /* 281 */
