@@ -52,7 +52,8 @@ passport.use(new FacebookStrategy({
         facebookId: profile.id
     }, userObject, options, function(err, user) {
         if (err) { return done(err); }
-        done(null, user);
+        const _user = UserModel.findOne(user);
+        done(null, _user);
     });
 }));
 
