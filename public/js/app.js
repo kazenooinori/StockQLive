@@ -33552,7 +33552,9 @@
 
 	var initialState = (0, _immutable.Map)({
 	    _id: "",
-	    username: ""
+	    username: "",
+	    displayName: "",
+	    photos: ""
 	});
 	function user() {
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
@@ -33653,11 +33655,7 @@
 	                "div",
 	                { className: "full-col" },
 	                this.props.children
-	            ),
-	            _react2.default.createElement(_loginModal2.default, {
-	                onLogInUser: logInUser }),
-	            _react2.default.createElement(_signupModal2.default, {
-	                onSignUpUser: signUpUser })
+	            )
 	        );
 	    }
 	}));
@@ -50049,9 +50047,23 @@
 	var TrendingBar = _wrapComponent("_component")(_react2.default.createClass({
 	    displayName: "TrendingBar",
 	    renderLoginStatus: function renderLoginStatus() {
-	        var _props = this.props;
-	        var user = _props.user;
-	        var onLogOutUser = _props.onLogOutUser;
+	        var user = this.props.user;
+
+	        if (user.get("id")) {
+	            return _react2.default.createElement(
+	                "a",
+	                { className: "ui basic image label" },
+	                _react2.default.createElement("img", { src: user.get("photos") }),
+	                user.get("displayName")
+	            );
+	        } else {
+	            return _react2.default.createElement(
+	                "a",
+	                { className: "ui facebook button", href: "/auth/facebook" },
+	                _react2.default.createElement("i", { className: "facebook icon" }),
+	                "Facebook登入"
+	            );
+	        }
 	    },
 	    render: function render() {
 	        return _react2.default.createElement(
@@ -50086,12 +50098,7 @@
 	            _react2.default.createElement(
 	                "div",
 	                { className: "user" },
-	                _react2.default.createElement(
-	                    "a",
-	                    { className: "ui facebook button", href: "/auth/facebook" },
-	                    _react2.default.createElement("i", { className: "facebook icon" }),
-	                    "Facebook登入"
-	                )
+	                this.renderLoginStatus()
 	            )
 	        );
 	    }

@@ -11,7 +11,21 @@ import {List} from "immutable";
 
 const TrendingBar = React.createClass({
     renderLoginStatus () {
-        const {user, onLogOutUser} = this.props;
+        const { user } = this.props;
+        if (user.get("id")) {
+            return (
+                <a className="ui basic image label">
+                  <img src={user.get("photos")}/>
+                  {user.get("displayName")}
+                </a>
+            );
+        } else {
+            return (
+                <a className="ui facebook button" href="/auth/facebook">
+                    <i className="facebook icon"></i>Facebook登入
+                </a>
+            );
+        }
     },
     render () {
         return (
@@ -39,9 +53,7 @@ const TrendingBar = React.createClass({
                         height={80}/>
                 </div>
                 <div className="user">
-                    <a className="ui facebook button" href="/auth/facebook">
-                        <i className="facebook icon"></i>Facebook登入
-                    </a>
+                    {this.renderLoginStatus()}
                 </div>
             </div>
         )

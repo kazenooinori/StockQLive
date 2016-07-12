@@ -28225,7 +28225,9 @@
 
 	var initialState = (0, _immutable.Map)({
 	    _id: "",
-	    username: ""
+	    username: "",
+	    displayName: "",
+	    photos: ""
 	});
 	function user() {
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];

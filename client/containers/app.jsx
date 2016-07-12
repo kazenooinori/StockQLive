@@ -27,10 +27,6 @@ const App = React.createClass({
                 <div className="full-col">
                     {this.props.children}
                 </div>
-                <LoginModal
-                    onLogInUser={logInUser}/>
-                <SignUpModal
-                    onSignUpUser={signUpUser}/>
             </div>
         );
     },
