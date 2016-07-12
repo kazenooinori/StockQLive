@@ -84,6 +84,7 @@ export function initUser () {
             return response.json();
         })
         .then((user) => {
+            console.log(user);
             dispatch({
                 type: types.LOGIN,
                 user,

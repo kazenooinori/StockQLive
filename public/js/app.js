@@ -49724,6 +49724,7 @@
 	        }).then(fetchUtils.checkStatus).then(function (response) {
 	            return response.json();
 	        }).then(function (user) {
+	            console.log(user);
 	            dispatch({
 	                type: types.LOGIN,
 	                user: user
@@ -50049,7 +50050,7 @@
 	    renderLoginStatus: function renderLoginStatus() {
 	        var user = this.props.user;
 
-	        if (user.get("id")) {
+	        if (user.get("_id")) {
 	            return _react2.default.createElement(
 	                "a",
 	                { className: "ui basic image label" },

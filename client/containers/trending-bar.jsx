@@ -12,7 +12,7 @@ import {List} from "immutable";
 const TrendingBar = React.createClass({
     renderLoginStatus () {
         const { user } = this.props;
-        if (user.get("id")) {
+        if (user.get("_id")) {
             return (
                 <a className="ui basic image label">
                   <img src={user.get("photos")}/>

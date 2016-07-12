@@ -44772,6 +44772,7 @@
 	        }).then(fetchUtils.checkStatus).then(function (response) {
 	            return response.json();
 	        }).then(function (user) {
+	            console.log(user);
 	            dispatch({
 	                type: types.LOGIN,
 	                user: user
