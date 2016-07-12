@@ -32,12 +32,13 @@ passport.use(new FacebookStrategy({
     clientID: FACEBOOK_APP_ID,
     clientSecret: FACEBOOK_APP_SECRET,
     callbackURL: config.siteUrl + "/auth/facebook/callback",
-    profileFields: ['displayName', 'photos', 'email', 'gender', 'profileUrl', 'familyName', 'givenName', 'middleName'],
+    profileFields: ['displayName', 'photos', 'email', 'gender', 'profileUrl'],
 }, function(accessToken, refreshToken, profile, done) {
     logger.info(accessToken);
     logger.info(refreshToken);
     logger.info(profile);
-    User.findOrCreate({facebookId: profile.id}, {
+    const options = { upsert: true, new: true, setDefaultsOnInsert: true };
+    UserModel.findOneAndUpdate({facebookId: profile.id}, {
         facebookId: profile.id,
         provider: profile.provider,
         displayName: profile.displayName,
@@ -46,10 +47,10 @@ passport.use(new FacebookStrategy({
             firstName: profile.givenName,
             middleName: profile.middleName,
         },
-        email: profile.email,
+        email: profile.emails,
         photos: profile.photos,
         profileUrl: profile.profileUrl,
-    }, function(err, user) {
+    }, options, function(err, user) {
         if (err) { return done(err); }
         done(null, user);
     });
