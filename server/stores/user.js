@@ -52,8 +52,7 @@ passport.use(new FacebookStrategy({
         facebookId: profile.id
     }, userObject, options, function(err, user) {
         if (err) { return done(err); }
-        const _user = UserModel.findOne(user);
-        done(null, _user);
+        done(null, user);
     });
 }));
 
@@ -66,7 +65,7 @@ passport.deserializeUser(function(_id, done) {
             _id: user._id,
             username: user.username,
         };
-        done(null, returnUser);
+        done(null, user);
     });
 });
 
