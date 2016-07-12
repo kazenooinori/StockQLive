@@ -32,6 +32,7 @@ passport.use(new FacebookStrategy({
     clientID: FACEBOOK_APP_ID,
     clientSecret: FACEBOOK_APP_SECRET,
     callbackURL: config.siteUrl + "/auth/facebook/callback",
+    profileFields: ['displayName', 'photos', 'email', 'gender', 'profileUrl'],
 }, function(accessToken, refreshToken, profile, done) {
     logger.info(accessToken);
     logger.info(refreshToken);
