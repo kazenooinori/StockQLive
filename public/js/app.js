@@ -33626,6 +33626,9 @@
 	    displayName: "App",
 
 	    mixins: [_reactAddonsPureRenderMixin2.default],
+	    componentDidMount: function componentDidMount() {
+	        this.props.initUser();
+	    },
 	    render: function render() {
 	        var _props = this.props;
 	        var logInUser = _props.logInUser;

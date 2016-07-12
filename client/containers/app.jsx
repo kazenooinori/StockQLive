@@ -9,6 +9,9 @@ import * as AuthActions from '../actions/auth-actions';
 
 const App = React.createClass({
     mixins: [PureRenderMixin],
+    componentDidMount() {
+        this.props.initUser();
+    },
     render () {
         const { logInUser, signUpUser } = this.props;
         const channel = this.props.location.pathname.slice(1);

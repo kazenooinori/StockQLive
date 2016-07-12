@@ -34,9 +34,6 @@ passport.use(new FacebookStrategy({
     callbackURL: config.siteUrl + "/auth/facebook/callback",
     profileFields: ['displayName', 'photos', 'email', 'gender', 'profileUrl'],
 }, function(accessToken, refreshToken, profile, done) {
-    logger.info(accessToken);
-    logger.info(refreshToken);
-    logger.info(profile);
     const options = { upsert: true, new: true, setDefaultsOnInsert: true };
     const userObject = {
         facebookId: profile.id,
