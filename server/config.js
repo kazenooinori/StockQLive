@@ -10,5 +10,6 @@ const config = {
     },
 
     logFilePath: "/var/log/stock_node.log",
+    siteUrl: "http://ec2-54-238-195-108.ap-northeast-1.compute.amazonaws.com:3000",
 };
 module.exports = config;

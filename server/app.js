@@ -58,6 +58,14 @@ app.use("/api/login", require("./routes/api/login"));
 app.use("/api/logout", require("./routes/api/logout"));
 app.use("/api/webhook", require("./routes/api/webhook"));
 
+/**
+ * facebook authentications
+ */
+app.get('/auth/facebook', passport.authenticate('facebook'));
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { successRedirect: '/',
+                                      failureRedirect: '/login' }));
+
 app.use("/*", require("./routes/app"));
 
 // catch 404 and handle it

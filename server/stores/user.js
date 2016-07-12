@@ -1,28 +1,47 @@
 const UserModel = require("../models/user");
 const passport = require("passport"),
-      LocalStrategy = require("passport-local").Strategy;
-
+      LocalStrategy = require("passport-local").Strategy,
+      FacebookStrategy = require("passport-facebook").Strategy;
+const FACEBOOK_APP_ID = "1741830396105332";
+const FACEBOOK_APP_SECRET = "d36ad066d40922137be1f6933adcaa2e";
+const config = require("../config");
+const logger = require("../lib/logger");
 // login passport setup
-passport.use(new LocalStrategy(
-    function(username, password, done) {
-        UserModel.findOne({ username: username }, function (err, user) {
-            if (err) {
-                return done(err);
-            }
-            if (!user) {
-                return done(null, false, { message: 'Incorrect username.' });
-            }
-            if (user.password !== password) {
-                return done(null, false, { message: 'Incorrect password.' });
-            }
-            const returnUser = {
-                _id: user._id,
-                username: user.username,
-            };
-            return done(null, returnUser);
-        });
-    }
-));
+// passport.use(new LocalStrategy(
+//     function(username, password, done) {
+//         UserModel.findOne({ username: username }, function (err, user) {
+//             if (err) {
+//                 return done(err);
+//             }
+//             if (!user) {
+//                 return done(null, false, { message: 'Incorrect username.' });
+//             }
+//             if (user.password !== password) {
+//                 return done(null, false, { message: 'Incorrect password.' });
+//             }
+//             const returnUser = {
+//                 _id: user._id,
+//                 username: user.username,
+//             };
+//             return done(null, returnUser);
+//         });
+//     }
+// ));
+
+passport.use(new FacebookStrategy({
+    clientID: FACEBOOK_APP_ID,
+    clientSecret: FACEBOOK_APP_SECRET,
+    callbackURL: config.siteUrl + "/auth/facebook/callback",
+}, function(accessToken, refreshToken, profile, done) {
+    logger.info(accessToken);
+    logger.info(refreshToken);
+    logger.info(profile);
+    // User.findOrCreate(..., function(err, user) {
+    //     if (err) { return done(err); }
+    //     done(null, user);
+    // });
+}));
+
 passport.serializeUser(function(user, done) {
     done(null, user._id);
 });

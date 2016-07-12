@@ -49859,8 +49859,130 @@
 /* 399 */,
 /* 400 */,
 /* 401 */,
-/* 402 */,
-/* 403 */,
+/* 402 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var LoggedInController = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "LoggedInController",
+
+	    propTypes: {
+	        user: PropTypes.object,
+	        onLogOutUser: PropTypes.func
+	    },
+	    render: function render() {
+	        var _props = this.props;
+	        var user = _props.user;
+	        var onLogOutUser = _props.onLogOutUser;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "login" },
+	            user.get("username"),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "button-groups" },
+	                _react2.default.createElement(
+	                    "button",
+	                    { className: "ui yellow button", onClick: onLogOutUser },
+	                    "logout"
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = LoggedInController;
+
+/***/ },
+/* 403 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var LoggingInController = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "LoggingInController",
+
+	    propTypes: {
+	        onClickLogin: PropTypes.func,
+	        onClickSignUp: PropTypes.func
+	    },
+	    render: function render() {
+	        var _props = this.props;
+	        var onClickLogin = _props.onClickLogin;
+	        var onClickSignUp = _props.onClickSignUp;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "login" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "button-groups" },
+	                _react2.default.createElement(
+	                    "button",
+	                    { className: "ui primary button", onClick: onClickLogin },
+	                    "login"
+	                ),
+	                _react2.default.createElement(
+	                    "button",
+	                    { className: "ui green button", onClick: onClickSignUp },
+	                    "signup"
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = LoggingInController;
+
+/***/ },
 /* 404 */,
 /* 405 */,
 /* 406 */,
@@ -49899,6 +50021,14 @@
 
 	var _indexPanel2 = _interopRequireDefault(_indexPanel);
 
+	var _loggedInController = __webpack_require__(402);
+
+	var _loggedInController2 = _interopRequireDefault(_loggedInController);
+
+	var _loggingInController = __webpack_require__(403);
+
+	var _loggingInController2 = _interopRequireDefault(_loggingInController);
+
 	var _immutable = __webpack_require__(261);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -49915,6 +50045,11 @@
 
 	var TrendingBar = _wrapComponent("_component")(_react2.default.createClass({
 	    displayName: "TrendingBar",
+	    renderLoginStatus: function renderLoginStatus() {
+	        var _props = this.props;
+	        var user = _props.user;
+	        var onLogOutUser = _props.onLogOutUser;
+	    },
 	    render: function render() {
 	        return _react2.default.createElement(
 	            "div",
@@ -49944,12 +50079,26 @@
 	                    stockSeries: (0, _immutable.List)(),
 	                    width: 150,
 	                    height: 80 })
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "user" },
+	                _react2.default.createElement(
+	                    "a",
+	                    { className: "ui facebook button", href: "/auth/facebook" },
+	                    _react2.default.createElement("i", { className: "facebook icon" }),
+	                    "Facebook登入"
+	                )
 	            )
 	        );
 	    }
 	}));
-
-	exports.default = (0, _reactRedux.connect)()(TrendingBar);
+	var mapStateToProps = function mapStateToProps(state) {
+	    return {
+	        user: state.user
+	    };
+	};
+	exports.default = (0, _reactRedux.connect)(mapStateToProps)(TrendingBar);
 
 /***/ },
 /* 416 */

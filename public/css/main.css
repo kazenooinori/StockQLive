@@ -116,3 +116,7 @@ body {
 .stock-popup {
     width: 280px;
 }
+
+.floated.right {
+    float: right;
+}
