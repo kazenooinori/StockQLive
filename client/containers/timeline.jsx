@@ -18,10 +18,10 @@ const Timeline = React.createClass({
     render () {
         return (
             <div className="timeline">
-                <div className="left_col">
+                <div className="left-col">
                     <StockTrendRail/>
                 </div>
-                <div className="main_col">
+                <div className="main-col">
                     <div className="trend-card-list">
                         <div className="trend-card ui card">
                           <div className="content">
@@ -785,7 +785,7 @@ const Timeline = React.createClass({
 
                     </div>
                 </div>
-                <div className="right_col">
+                <div className="right-col">
                     <InformationRail/>
                 </div>
             </div>

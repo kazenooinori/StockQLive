@@ -63,10 +63,10 @@ const Liveroom = React.createClass({
         } = this.props;
         return (
             <div className="liveroom">
-                <div className="left_col">
+                <div className="left-col">
                     <MenuRail/>
                 </div>
-                <div className="main_col">
+                <div className="main-col">
                     <h1 className="ui dividing header">
                         {channel.get("name")}
                     </h1>
@@ -83,7 +83,7 @@ const Liveroom = React.createClass({
                         </div>
                     </div>
                 </div>
-                <div className="right_col">
+                <div className="right-col">
                     <Messager
                         channel={channel}
                         socket={socket}/>

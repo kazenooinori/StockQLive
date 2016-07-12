@@ -6,6 +6,8 @@
     <link rel="stylesheet" type="text/css" href="/semantic/semantic.min.css">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/messager.css">
+    <link rel="stylesheet" href="/css/sidebar.css">
+    <link rel="stylesheet" href="/css/app.css">
   </head>
   <body>
     <div id="main">Loading...</div>

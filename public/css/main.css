@@ -25,7 +25,7 @@ body {
     left: 0px;
     right: 0px;
 }
-.left_col {
+.left-col {
     position: absolute;
     top: 0px;
     left: 0px;
@@ -33,7 +33,7 @@ body {
     width: 250px;
     overflow: scroll;
 }
-.main_col {
+.main-col {
     position: absolute;
     top: 0px;
     left: 250px;
@@ -41,7 +41,7 @@ body {
     right: 300px;
     overflow: scroll;
 }
-.right_col {
+.right-col {
     position: absolute;
     top: 0px;
     right: 0px;
@@ -49,6 +49,21 @@ body {
     width: 300px;
     z-index: 3;
     overflow: scroll;;
+}
+.full-col {
+    position: absolute;
+    top: 0px;
+    left: 250px;
+    bottom: 0px;
+    right: 0px;
+    overflow: scroll;
+}
+.top-head {
+    position: absolute;
+    top: 0px;
+    left: 250px;
+    height: 100px;
+    right: 0px;
 }
 
 .tail {

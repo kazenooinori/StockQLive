@@ -14,8 +14,8 @@ ReactDOM.render(
     <Provider store={store}>
         <Router history={browserHistory}>
             <Route path="/" component={App}>
-                <IndexRoute component={BotChannel}/>
-                <Route path="public" component={PublicChannel}/>
+                <IndexRoute component={PublicChannel}/>
+                <Route path="stockbot" component={BotChannel}/>
             </Route>
         </Router>
     </Provider>,

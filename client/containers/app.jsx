@@ -3,7 +3,8 @@ import PureRenderMixin from "react-addons-pure-render-mixin";
 import {connect} from "react-redux";
 
 import InformationRail from "./information-rail.jsx";
-import MenuRail from "./menu-rail.jsx";
+import MenuSidebar from "./menu-sidebar.jsx";
+import TrendingBar from "./trending-bar.jsx";
 import Messager from "./messager.jsx";
 
 import TextMessage from "../components/text-message.jsx";
@@ -40,19 +41,20 @@ const App = React.createClass({
         // this.props.updateStocks();
     },
     render () {
+        const channel = this.props.location.pathname.slice(1);
         return (
-            <div className="liveroom">
-                <div className="left_col">
-                    <MenuRail/>
+            <div className="app">
+                <div className="left-col">
+                    <MenuSidebar
+                        channel={channel || "public"}/>
                 </div>
-                <div className="main_col">
-                    <h1 className="ui dividing header">
-                        大盤
-                    </h1>
+                <div className="top-head">
+                    <TrendingBar/>
+                </div>
+                <div className="full-col">
+
                     {this.props.children}
                 </div>
-
-
             </div>
         );
     },

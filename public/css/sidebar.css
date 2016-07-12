@@ -1,0 +1,62 @@
+.menu-sidebar {
+    background-color: #535353;
+    height: 100%;
+}
+.menu-sidebar>.logo {
+    display: block;
+    padding-top: 20px;
+    padding-left: 20px;
+}
+.menu-sidebar>.logo img {
+    width: 200px;
+}
+
+.menu-sidebar>.channels {
+    margin: 10px 10px 20px 10px;
+}
+.menu-sidebar>.channels>.channel {
+    background-color: none;
+    color: #FFF;
+    text-shadow: none;
+    background-image: none;
+    display: block;
+    font-size: 1rem;
+
+    cursor: pointer;
+    min-height: 1em;
+    outline: 0;
+    border: none;
+    vertical-align: baseline;
+    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+    padding: .78571429em 1.5em;
+
+    text-transform: none;
+    text-shadow: none;
+    font-weight: 700;
+    line-height: 1em;
+    font-style: normal;
+    text-decoration: none;
+    border-radius: .28571429rem;
+    box-shadow: 0 0 0 1px transparent inset,0 0 0 0 rgba(34,36,38,.15) inset;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-transition: opacity .1s ease,background-color .1s ease,color .1s ease,box-shadow .1s ease,background .1s ease;
+    transition: opacity .1s ease,background-color .1s ease,color .1s ease,box-shadow .1s ease,background .1s ease;
+    -webkit-tap-highlight-color: transparent;
+
+    margin-top: 5px;
+}
+
+.menu-sidebar>.channels>.channel.selected {
+    background-color: #5ac8fa;
+}
+.menu-sidebar>.channels>.channel:hover {
+    background-color: #38a6d8;
+}
+
+
+.trending-bar {
+    
+}
