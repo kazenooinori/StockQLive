@@ -1,6 +1,6 @@
 import React, { PropTypes } from "react";
 import PureRenderMixin from "react-addons-pure-render-mixin";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import Messager from "./messager";
 import * as ChaActions from "../actions/cha-actions";
 

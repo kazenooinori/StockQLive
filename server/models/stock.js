@@ -22,7 +22,7 @@ function getHistory (stockNumber, from, to) {
     return new Promise((resolve, reject) => {
         mysql.getConnection()
         .then((connection) => {
-            connection.query('SELECT * FROM stock_history WHERE number = ' + stockNumber + " ORDER BY record_time DESC",
+            connection.query('SELECT * FROM stock_history WHERE number = "' + stockNumber + '" ORDER BY record_time DESC',
             function(error, rows, fields) {
                 connection.release();
                 if (error) {

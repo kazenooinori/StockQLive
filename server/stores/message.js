@@ -9,6 +9,7 @@ function createMessage (attributes) {
             senderDisplayName: attributes.senderDisplayName,
             chatroomId: attributes.chatroomId,
             content: attributes.content,
+            type: attributes.type,
         }, (error, message) => {
             if (error) {
                 reject(error);
@@ -22,7 +23,7 @@ function createMessage (attributes) {
 function findMessage (attributes) {
     return MessageModel.find({
         chatroomId: attributes.chatroomId,
-    }, "senderId senderDisplayName chatroomId content createdAt updatedAt").exec();
+    }, "senderId senderDisplayName chatroomId content type createdAt updatedAt").exec();
 }
 
 module.exports = {

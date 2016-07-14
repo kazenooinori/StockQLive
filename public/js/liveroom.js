@@ -22995,6 +22995,7 @@
 	var SEND_MESSAGE = exports.SEND_MESSAGE = "SEND_MESSAGE";
 	var APPEND_MESSAGE = exports.APPEND_MESSAGE = "APPEND_MESSAGE";
 	var APPEND_MESSAGES = exports.APPEND_MESSAGES = "APPEND_MESSAGES";
+	var UPDATE_MESSAGES = exports.UPDATE_MESSAGES = "UPDATE_MESSAGES";
 	var CREATE_REQUEST = exports.CREATE_REQUEST = "CREATE_REQUEST";
 	var APPEND_REQUEST = exports.APPEND_REQUEST = "APPEND_REQUEST";
 
@@ -28032,6 +28033,10 @@
 	                return {
 	                    v: state.concat(action.messages)
 	                };
+	            case types.UPDATE_MESSAGES:
+	                return {
+	                    v: (0, _immutable.List)(action.messages)
+	                };
 	            case types.APPEND_MESSAGE:
 	                var message = action.message;
 
@@ -28078,8 +28083,8 @@
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	var initialState = (0, _immutable.Map)({
-	    _id: "123",
-	    username: "123",
+	    _id: "123456",
+	    username: "123456",
 	    displayName: "Dazlee",
 	    photos: "https://scontent-tpe1-1.xx.fbcdn.net/v/t1.0-1/c8.0.80.80/p80x80/10153880_10202861108760535_1171467779_n.jpg?oh=4f01035bebe96f5502ef38b2d81d9727&oe=57EF3664"
 	});
@@ -29772,6 +29777,14 @@
 
 	var _textMessage2 = _interopRequireDefault(_textMessage);
 
+	var _message = __webpack_require__(418);
+
+	var _message2 = _interopRequireDefault(_message);
+
+	var _stockCard = __webpack_require__(419);
+
+	var _stockCard2 = _interopRequireDefault(_stockCard);
+
 	var _chaActions = __webpack_require__(393);
 
 	var ChaActions = _interopRequireWildcard(_chaActions);
@@ -29790,7 +29803,6 @@
 	    };
 	}
 
-	var Component = _react2.default.Component;
 	var PropTypes = _react2.default.PropTypes;
 
 
@@ -29853,9 +29865,22 @@
 
 	        messageBox.scrollTop = messageList.offsetHeight;
 	    },
-	    renderTextMessage: function renderTextMessage(messages) {
+	    renderMessage: function renderMessage(messages) {
 	        return messages.map(function (message, index) {
-	            return _react2.default.createElement(_textMessage2.default, { key: index, message: message });
+	            switch (message.type) {
+	                case 'text':
+	                    return _react2.default.createElement(
+	                        _message2.default,
+	                        { key: index, message: message },
+	                        message.content
+	                    );
+	                case 'stock':
+	                    return _react2.default.createElement(
+	                        _message2.default,
+	                        { key: index, message: message },
+	                        _react2.default.createElement(_stockCard2.default, { stock: message.content })
+	                    );
+	            }
 	        });
 	    },
 	    renderMessageInputArea: function renderMessageInputArea(user) {
@@ -29894,7 +29919,7 @@
 	                    _react2.default.createElement(
 	                        "div",
 	                        { className: "message-list", ref: "messageList" },
-	                        this.renderTextMessage(messages)
+	                        this.renderMessage(messages)
 	                    )
 	                )
 	            ),
@@ -44084,6 +44109,7 @@
 	exports.setChannel = undefined;
 	exports.sendMessage = sendMessage;
 	exports.appendMessages = appendMessages;
+	exports.updateMessages = updateMessages;
 	exports.appendMessage = appendMessage;
 	exports.fetchMessages = fetchMessages;
 	exports.createChannel = createChannel;
@@ -44119,6 +44145,13 @@
 	    };
 	}
 
+	function updateMessages(messages) {
+	    return {
+	        type: types.UPDATE_MESSAGES,
+	        messages: messages
+	    };
+	}
+
 	function appendMessage(message) {
 	    return {
 	        type: types.APPEND_MESSAGE,
@@ -44139,7 +44172,7 @@
 	        }).then(function (response) {
 	            return response.json();
 	        }).then(function (json) {
-	            dispatch(appendMessages(json));
+	            dispatch(updateMessages(json));
 	        }).catch(function (error) {
 	            console.error("error when fetching messages", error);
 	        });
@@ -45482,6 +45515,177 @@
 	}));
 
 	exports.default = CreateChannelModal;
+
+/***/ },
+/* 409 */,
+/* 410 */,
+/* 411 */,
+/* 412 */,
+/* 413 */,
+/* 414 */,
+/* 415 */,
+/* 416 */,
+/* 417 */,
+/* 418 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _momentUtils = __webpack_require__(288);
+
+	var momentUtils = _interopRequireWildcard(_momentUtils);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var Message = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "Message",
+
+	    propTypes: {
+	        message: PropTypes.object
+	    },
+	    render: function render() {
+	        var _props$message = this.props.message;
+	        var senderDisplayName = _props$message.senderDisplayName;
+	        var content = _props$message.content;
+	        var createdAt = _props$message.createdAt;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "comment" },
+	            _react2.default.createElement(
+	                "a",
+	                { className: "avatar" },
+	                _react2.default.createElement("img", { src: "/images/" + senderDisplayName + ".jpg" })
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "content" },
+	                _react2.default.createElement(
+	                    "a",
+	                    { className: "author" },
+	                    senderDisplayName
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "metadata" },
+	                    _react2.default.createElement(
+	                        "span",
+	                        { className: "date" },
+	                        momentUtils.relativeDateTime(createdAt)
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "text" },
+	                    this.props.children
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = Message;
+
+/***/ },
+/* 419 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _momentUtils = __webpack_require__(288);
+
+	var momentUtils = _interopRequireWildcard(_momentUtils);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var StockCard = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "StockCard",
+
+	    propTypes: {
+	        stock: PropTypes.object
+	    },
+	    renderStocks: function renderStocks(stocks) {
+	        if (stocks) {
+	            return stocks.map(function (stock) {
+	                return _react2.default.createElement(
+	                    "div",
+	                    null,
+	                    "stock"
+	                );
+	            });
+	        }
+	    },
+	    render: function render() {
+	        var stock = this.props.stock;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "ui card" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "content" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "header" },
+	                    stock.number
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "description" },
+	                    this.renderStocks(stock.data)
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = StockCard;
 
 /***/ }
 /******/ ]);

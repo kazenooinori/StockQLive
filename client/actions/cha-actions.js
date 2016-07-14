@@ -16,6 +16,13 @@ export function appendMessages (messages) {
     };
 }
 
+export function updateMessages (messages) {
+    return {
+        type: types.UPDATE_MESSAGES,
+        messages
+    };
+}
+
 export function appendMessage (message) {
     return {
         type: types.APPEND_MESSAGE,
@@ -38,7 +45,7 @@ export function fetchMessages (chatroomId) {
             return response.json();
         })
         .then(json => {
-            dispatch(appendMessages(json));
+            dispatch(updateMessages(json));
         })
         .catch((error) => {
             console.error("error when fetching messages", error);

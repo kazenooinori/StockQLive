@@ -6,6 +6,8 @@ export default function messages (state = initialState, action) {
     switch (action.type) {
         case types.APPEND_MESSAGES:
             return state.concat(action.messages);
+        case types.UPDATE_MESSAGES:
+            return List(action.messages);
         case types.APPEND_MESSAGE:
             const {message} = action;
             let shouldAppend = true;

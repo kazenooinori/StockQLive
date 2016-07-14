@@ -1,12 +1,12 @@
 import React from "react";
 import PureRenderMixin from "react-addons-pure-render-mixin";
-import {connect} from "react-redux";
-
+import { connect } from "react-redux";
 import TextMessage from "../components/text-message.jsx";
-
+import Message from "../components/message.jsx";
+import StockCard from "../components/stock-card.jsx";
 import * as ChaActions from '../actions/cha-actions';
 
-const {Component, PropTypes} = React;
+const { PropTypes } = React;
 
 const Messager = React.createClass({
     mixins: [PureRenderMixin],
@@ -17,8 +17,8 @@ const Messager = React.createClass({
     },
     handleSubmitMessage (e) {
         e.preventDefault();
-        const {user, channel} = this.props;
-        const {text} = this.state;
+        const { user, channel } = this.props;
+        const { text } = this.state;
         this.props.socket.emit('client send', {
             senderId: user.get("_id"),
             senderDisplayName: user.get("displayName"),
@@ -50,11 +50,26 @@ const Messager = React.createClass({
         }
     },
     componentDidUpdate() {
-        const {messageBox, messageList} = this.refs;
+        const { messageBox, messageList } = this.refs;
         messageBox.scrollTop = messageList.offsetHeight;
     },
-    renderTextMessage (messages) {
-        return messages.map((message, index) => (<TextMessage key={index} message={message}/>));
+    renderMessage (messages) {
+        return messages.map((message, index) => {
+            switch (message.type) {
+                case 'text':
+                    return (
+                        <Message key={index} message={message}>
+                            {message.content}
+                        </Message>
+                    );
+                case 'stock':
+                    return (
+                        <Message key={index} message={message}>
+                            <StockCard stock={message.content}/>
+                        </Message>
+                    );
+            }
+        });
     },
     renderMessageInputArea (user) {
         if (user.get("username")) {
@@ -74,13 +89,13 @@ const Messager = React.createClass({
         }
     },
     render () {
-        const {messages, user} = this.props;
+        const { messages, user } = this.props;
         return (
             <div className="messager">
                 <div id="message-box" className="message-box" ref="messageBox">
                     <div className="ui comments">
                         <div className="message-list" ref="messageList">
-                            {this.renderTextMessage(messages)}
+                            {this.renderMessage(messages)}
                         </div>
                     </div>
                 </div>
