@@ -13,7 +13,6 @@ const App = React.createClass({
         this.props.initUser();
     },
     render () {
-        const { logInUser, signUpUser } = this.props;
         const channel = this.props.location.pathname.slice(1);
         return (
             <div className="app">

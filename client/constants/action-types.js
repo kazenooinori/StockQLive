@@ -6,7 +6,7 @@ export const APPEND_REQUEST = "APPEND_REQUEST";
 
 export const APPEND_CHANNEL = "APPEND_CHANNEL";
 export const APPEND_CHANNELS = "APPEND_CHANNELS";
-export const UPDATE_CHANNEL = "UPDATE_CHANNEL";
+export const SET_CHANNEL = "SET_CHANNEL";
 
 export const UPDATE_STOCKS = "UPDATE_STOCKS";
 

@@ -9,7 +9,7 @@ const initialState = Map({
 });
 export default function Channel (state = initialState, action) {
     switch (action.type) {
-        case types.UPDATE_CHANNEL:
+        case types.SET_CHANNEL:
             return state.merge(action.channel);
         default:
             return state;

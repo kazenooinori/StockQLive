@@ -21,7 +21,7 @@ const Messager = React.createClass({
         const {text} = this.state;
         this.props.socket.emit('client send', {
             senderId: user.get("_id"),
-            senderUsername: user.get("username"),
+            senderDisplayName: user.get("displayName"),
             chatroomId: channel.get("chatroomId"),
             content: text,
         });
@@ -35,15 +35,19 @@ const Messager = React.createClass({
         });
     },
     componentDidMount() {
-        // initialize messages
-        const {fetchMessages, socket, appendMessage, channel} = this.props;
-        fetchMessages(channel.get("chatroomId"));
+        const { socket } = this.props;
+        socket.on("server push", (data) => {
+            const {appendMessage, channel} = this.props;
 
-        socket.on("server push", function (data) {
             if (data.chatroomId && data.chatroomId === channel.get("chatroomId")) {
                 appendMessage(data);
             }
         });
+    },
+    componentWillUpdate(nextProps) {
+        if (nextProps.channel !== this.props.channel) {
+            this.props.fetchMessages(nextProps.channel.get("chatroomId"));
+        }
     },
     componentDidUpdate() {
         const {messageBox, messageList} = this.refs;

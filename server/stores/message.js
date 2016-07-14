@@ -6,7 +6,7 @@ function createMessage (attributes) {
     return new Promise((resolve, reject) => {
         MessageModel.create({
             senderId: attributes.senderId,
-            senderUsername: attributes.senderUsername,
+            senderDisplayName: attributes.senderDisplayName,
             chatroomId: attributes.chatroomId,
             content: attributes.content,
         }, (error, message) => {
@@ -22,7 +22,7 @@ function createMessage (attributes) {
 function findMessage (attributes) {
     return MessageModel.find({
         chatroomId: attributes.chatroomId,
-    }, "senderId senderUsername chatroomId content createdAt updatedAt").exec();
+    }, "senderId senderDisplayName chatroomId content createdAt updatedAt").exec();
 }
 
 module.exports = {

@@ -14,7 +14,7 @@ export default function chatSocket (server) {
         socket.on("client send", function (data) {
             MessageStore.createMessage({
                 senderId: data.senderId,
-                senderUsername: data.senderUsername,
+                senderDisplayName: data.senderDisplayName,
                 chatroomId: data.chatroomId,
                 content: data.content,
             })

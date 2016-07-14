@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(410);
+	module.exports = __webpack_require__(414);
 
 
 /***/ },
@@ -22964,7 +22964,7 @@
 
 	var APPEND_CHANNEL = exports.APPEND_CHANNEL = "APPEND_CHANNEL";
 	var APPEND_CHANNELS = exports.APPEND_CHANNELS = "APPEND_CHANNELS";
-	var UPDATE_CHANNEL = exports.UPDATE_CHANNEL = "UPDATE_CHANNEL";
+	var SET_CHANNEL = exports.SET_CHANNEL = "SET_CHANNEL";
 
 	var UPDATE_STOCKS = exports.UPDATE_STOCKS = "UPDATE_STOCKS";
 
@@ -27965,38 +27965,7 @@
 
 /***/ },
 /* 262 */,
-/* 263 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.default = Stocks;
-
-	var _actionTypes = __webpack_require__(260);
-
-	var types = _interopRequireWildcard(_actionTypes);
-
-	var _immutable = __webpack_require__(261);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	var initialState = (0, _immutable.List)();
-	function Stocks() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
-	    var action = arguments[1];
-
-	    switch (action.type) {
-	        case types.UPDATE_STOCKS:
-	            return (0, _immutable.List)(action.stocks);
-	        default:
-	            return state;
-	    }
-	}
-
-/***/ },
+/* 263 */,
 /* 264 */,
 /* 265 */,
 /* 266 */,
@@ -28004,202 +27973,30 @@
 /* 268 */,
 /* 269 */,
 /* 270 */,
-/* 271 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(34);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	var _reactRedux = __webpack_require__(235);
-
-	var _stockActions = __webpack_require__(272);
-
-	var StockActions = _interopRequireWildcard(_stockActions);
-
-	var _stockItem = __webpack_require__(276);
-
-	var _stockItem2 = _interopRequireDefault(_stockItem);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var Component = _react2.default.Component;
-	var PropTypes = _react2.default.PropTypes;
-
-
-	var checkLatestPrice = function checkLatestPrice(stock) {
-	    return stock.latest_price !== -1;
-	};
-	var InformationRail = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "InformationRail",
-
-	    propTypes: {
-	        stocks: PropTypes.array
-	    },
-	    componentDidMount: function componentDidMount() {
-	        $(_reactDom2.default.findDOMNode(this.refs.menu)).find('.item').tab();
-
-	        this.props.updateStocks();
-	    },
-	    renderStockItems: function renderStockItems(stocks) {
-	        return stocks.filter(checkLatestPrice).map(function (stock) {
-	            return _react2.default.createElement(_stockItem2.default, {
-	                key: stock.number,
-	                name: stock.name,
-	                latestPrice: stock.latest_price,
-	                yesterdayPrice: stock.yesterday_price });
-	        });
-	    },
-	    render: function render() {
-	        var stocks = this.props.stocks;
-
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "information-rail" },
-	            _react2.default.createElement(
-	                "div",
-	                { className: "ui secondary menu", ref: "menu" },
-	                _react2.default.createElement(
-	                    "a",
-	                    { className: "item active", "data-tab": "stockprice" },
-	                    "股價"
-	                )
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "ui tab segment board active", "data-tab": "stockprice" },
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "stock-list ui middle aligned selection list" },
-	                    this.renderStockItems(stocks)
-	                )
-	            )
-	        );
-	    }
-	}));
-
-	var mapStateToProps = function mapStateToProps(state) {
-	    return {
-	        stocks: state.stocks
-	    };
-	};
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	    return {
-	        updateStocks: function updateStocks() {
-	            dispatch(StockActions.updateStocks());
-	        }
-	    };
-	};
-
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(InformationRail);
-
-/***/ },
-/* 272 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.updateStocks = updateStocks;
-	exports.fetchStockSeries = fetchStockSeries;
-
-	var _actionTypes = __webpack_require__(260);
-
-	var types = _interopRequireWildcard(_actionTypes);
-
-	var _isomorphicFetch = __webpack_require__(273);
-
-	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
-
-	var _fetchUtils = __webpack_require__(275);
-
-	var fetchUtils = _interopRequireWildcard(_fetchUtils);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function updateStocks() {
-	    return function (dispatch, getState) {
-	        return (0, _isomorphicFetch2.default)("/api/stock", {
-	            method: "GET",
-	            headers: {
-	                "Content-Type": "application/json",
-	                "Accept": "application/json"
-	            },
-	            credentials: true
-	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stocks) {
-	            dispatch({
-	                type: types.UPDATE_STOCKS,
-	                stocks: stocks
-	            });
-	        }).catch(function (error) {
-	            console.error("create channel error", error);
-	        });
-	    };
-	}
-	function fetchStockSeries(series) {
-	    return function (dispatch, getState) {
-	        var stockNumber = series[0];
-	        return (0, _isomorphicFetch2.default)("/api/stock/" + stockNumber, {
-	            method: "GET",
-	            headers: {
-	                "Content-Type": "application/json",
-	                "Accept": "application/json"
-	            },
-	            credentials: true
-	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stockSeries) {
-	            dispatch({
-	                type: types.APPEND_STOCK_SERIES,
-	                stockSeries: {
-	                    name: stockNumber,
-	                    data: stockSeries
-	                }
-	            });
-	        }).catch(function (error) {
-	            console.error("fetch stock series error", error);
-	        });
-	    };
-	}
-
-/***/ },
-/* 273 */
+/* 271 */,
+/* 272 */,
+/* 273 */,
+/* 274 */,
+/* 275 */,
+/* 276 */,
+/* 277 */,
+/* 278 */,
+/* 279 */,
+/* 280 */,
+/* 281 */,
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// the whatwg-fetch polyfill installs the fetch() function
 	// on the global object (window or self)
 	//
 	// Return that as the export for use in Webpack, Browserify etc.
-	__webpack_require__(274);
+	__webpack_require__(283);
 	module.exports = self.fetch.bind(self);
 
 
 /***/ },
-/* 274 */
+/* 283 */
 /***/ function(module, exports) {
 
 	(function(self) {
@@ -28638,7 +28435,7 @@
 
 
 /***/ },
-/* 275 */
+/* 284 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -28663,7 +28460,155 @@
 	}
 
 /***/ },
-/* 276 */
+/* 285 */,
+/* 286 */,
+/* 287 */,
+/* 288 */,
+/* 289 */,
+/* 290 */,
+/* 291 */,
+/* 292 */,
+/* 293 */,
+/* 294 */,
+/* 295 */,
+/* 296 */,
+/* 297 */,
+/* 298 */,
+/* 299 */,
+/* 300 */,
+/* 301 */,
+/* 302 */,
+/* 303 */,
+/* 304 */,
+/* 305 */,
+/* 306 */,
+/* 307 */,
+/* 308 */,
+/* 309 */,
+/* 310 */,
+/* 311 */,
+/* 312 */,
+/* 313 */,
+/* 314 */,
+/* 315 */,
+/* 316 */,
+/* 317 */,
+/* 318 */,
+/* 319 */,
+/* 320 */,
+/* 321 */,
+/* 322 */,
+/* 323 */,
+/* 324 */,
+/* 325 */,
+/* 326 */,
+/* 327 */,
+/* 328 */,
+/* 329 */,
+/* 330 */,
+/* 331 */,
+/* 332 */,
+/* 333 */,
+/* 334 */,
+/* 335 */,
+/* 336 */,
+/* 337 */,
+/* 338 */,
+/* 339 */,
+/* 340 */,
+/* 341 */,
+/* 342 */,
+/* 343 */,
+/* 344 */,
+/* 345 */,
+/* 346 */,
+/* 347 */,
+/* 348 */,
+/* 349 */,
+/* 350 */,
+/* 351 */,
+/* 352 */,
+/* 353 */,
+/* 354 */,
+/* 355 */,
+/* 356 */,
+/* 357 */,
+/* 358 */,
+/* 359 */,
+/* 360 */,
+/* 361 */,
+/* 362 */,
+/* 363 */,
+/* 364 */,
+/* 365 */,
+/* 366 */,
+/* 367 */,
+/* 368 */,
+/* 369 */,
+/* 370 */,
+/* 371 */,
+/* 372 */,
+/* 373 */,
+/* 374 */,
+/* 375 */,
+/* 376 */,
+/* 377 */,
+/* 378 */,
+/* 379 */,
+/* 380 */,
+/* 381 */,
+/* 382 */,
+/* 383 */,
+/* 384 */,
+/* 385 */,
+/* 386 */,
+/* 387 */,
+/* 388 */,
+/* 389 */,
+/* 390 */,
+/* 391 */,
+/* 392 */,
+/* 393 */,
+/* 394 */,
+/* 395 */,
+/* 396 */,
+/* 397 */,
+/* 398 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = Stocks;
+
+	var _actionTypes = __webpack_require__(260);
+
+	var types = _interopRequireWildcard(_actionTypes);
+
+	var _immutable = __webpack_require__(261);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	var initialState = (0, _immutable.List)();
+	function Stocks() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case types.UPDATE_STOCKS:
+	            return (0, _immutable.List)(action.stocks);
+	        default:
+	            return state;
+	    }
+	}
+
+/***/ },
+/* 399 */,
+/* 400 */,
+/* 401 */,
+/* 402 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -28680,7 +28625,190 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _stockItemPopup = __webpack_require__(277);
+	var _reactRedux = __webpack_require__(235);
+
+	var _stockActions = __webpack_require__(403);
+
+	var StockActions = _interopRequireWildcard(_stockActions);
+
+	var _stockItem = __webpack_require__(404);
+
+	var _stockItem2 = _interopRequireDefault(_stockItem);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var Component = _react2.default.Component;
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var checkLatestPrice = function checkLatestPrice(stock) {
+	    return stock.latest_price !== -1;
+	};
+	var InformationRail = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "InformationRail",
+
+	    propTypes: {
+	        stocks: PropTypes.array
+	    },
+	    componentDidMount: function componentDidMount() {
+	        $(_reactDom2.default.findDOMNode(this.refs.menu)).find('.item').tab();
+
+	        this.props.updateStocks();
+	    },
+	    renderStockItems: function renderStockItems(stocks) {
+	        return stocks.filter(checkLatestPrice).map(function (stock) {
+	            return _react2.default.createElement(_stockItem2.default, {
+	                key: stock.number,
+	                name: stock.name,
+	                latestPrice: stock.latest_price,
+	                yesterdayPrice: stock.yesterday_price });
+	        });
+	    },
+	    render: function render() {
+	        var stocks = this.props.stocks;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "information-rail" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "ui secondary menu", ref: "menu" },
+	                _react2.default.createElement(
+	                    "a",
+	                    { className: "item active", "data-tab": "stockprice" },
+	                    "股價"
+	                )
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "ui tab segment board active", "data-tab": "stockprice" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "stock-list ui middle aligned selection list" },
+	                    this.renderStockItems(stocks)
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	var mapStateToProps = function mapStateToProps(state) {
+	    return {
+	        stocks: state.stocks
+	    };
+	};
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	    return {
+	        updateStocks: function updateStocks() {
+	            dispatch(StockActions.updateStocks());
+	        }
+	    };
+	};
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(InformationRail);
+
+/***/ },
+/* 403 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.updateStocks = updateStocks;
+	exports.fetchStockSeries = fetchStockSeries;
+
+	var _actionTypes = __webpack_require__(260);
+
+	var types = _interopRequireWildcard(_actionTypes);
+
+	var _isomorphicFetch = __webpack_require__(282);
+
+	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+	var _fetchUtils = __webpack_require__(284);
+
+	var fetchUtils = _interopRequireWildcard(_fetchUtils);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function updateStocks() {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/api/stock", {
+	            method: "GET",
+	            headers: {
+	                "Content-Type": "application/json",
+	                "Accept": "application/json"
+	            },
+	            credentials: true
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stocks) {
+	            dispatch({
+	                type: types.UPDATE_STOCKS,
+	                stocks: stocks
+	            });
+	        }).catch(function (error) {
+	            console.error("create channel error", error);
+	        });
+	    };
+	}
+	function fetchStockSeries(series) {
+	    return function (dispatch, getState) {
+	        var stockNumber = series[0];
+	        return (0, _isomorphicFetch2.default)("/api/stock/" + stockNumber, {
+	            method: "GET",
+	            headers: {
+	                "Content-Type": "application/json",
+	                "Accept": "application/json"
+	            },
+	            credentials: true
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stockSeries) {
+	            dispatch({
+	                type: types.APPEND_STOCK_SERIES,
+	                stockSeries: {
+	                    name: stockNumber,
+	                    data: stockSeries
+	                }
+	            });
+	        }).catch(function (error) {
+	            console.error("fetch stock series error", error);
+	        });
+	    };
+	}
+
+/***/ },
+/* 404 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(34);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _stockItemPopup = __webpack_require__(405);
 
 	var _stockItemPopup2 = _interopRequireDefault(_stockItemPopup);
 
@@ -28761,7 +28889,7 @@
 	exports.default = StockItem;
 
 /***/ },
-/* 277 */
+/* 405 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -28927,139 +29055,15 @@
 	exports.default = StockItemPopup;
 
 /***/ },
-/* 278 */,
-/* 279 */,
-/* 280 */,
-/* 281 */,
-/* 282 */,
-/* 283 */,
-/* 284 */,
-/* 285 */,
-/* 286 */,
-/* 287 */,
-/* 288 */,
-/* 289 */,
-/* 290 */,
-/* 291 */,
-/* 292 */,
-/* 293 */,
-/* 294 */,
-/* 295 */,
-/* 296 */,
-/* 297 */,
-/* 298 */,
-/* 299 */,
-/* 300 */,
-/* 301 */,
-/* 302 */,
-/* 303 */,
-/* 304 */,
-/* 305 */,
-/* 306 */,
-/* 307 */,
-/* 308 */,
-/* 309 */,
-/* 310 */,
-/* 311 */,
-/* 312 */,
-/* 313 */,
-/* 314 */,
-/* 315 */,
-/* 316 */,
-/* 317 */,
-/* 318 */,
-/* 319 */,
-/* 320 */,
-/* 321 */,
-/* 322 */,
-/* 323 */,
-/* 324 */,
-/* 325 */,
-/* 326 */,
-/* 327 */,
-/* 328 */,
-/* 329 */,
-/* 330 */,
-/* 331 */,
-/* 332 */,
-/* 333 */,
-/* 334 */,
-/* 335 */,
-/* 336 */,
-/* 337 */,
-/* 338 */,
-/* 339 */,
-/* 340 */,
-/* 341 */,
-/* 342 */,
-/* 343 */,
-/* 344 */,
-/* 345 */,
-/* 346 */,
-/* 347 */,
-/* 348 */,
-/* 349 */,
-/* 350 */,
-/* 351 */,
-/* 352 */,
-/* 353 */,
-/* 354 */,
-/* 355 */,
-/* 356 */,
-/* 357 */,
-/* 358 */,
-/* 359 */,
-/* 360 */,
-/* 361 */,
-/* 362 */,
-/* 363 */,
-/* 364 */,
-/* 365 */,
-/* 366 */,
-/* 367 */,
-/* 368 */,
-/* 369 */,
-/* 370 */,
-/* 371 */,
-/* 372 */,
-/* 373 */,
-/* 374 */,
-/* 375 */,
-/* 376 */,
-/* 377 */,
-/* 378 */,
-/* 379 */,
-/* 380 */,
-/* 381 */,
-/* 382 */,
-/* 383 */,
-/* 384 */,
-/* 385 */,
-/* 386 */,
-/* 387 */,
-/* 388 */,
-/* 389 */,
-/* 390 */,
-/* 391 */,
-/* 392 */,
-/* 393 */,
-/* 394 */,
-/* 395 */,
-/* 396 */,
-/* 397 */,
-/* 398 */,
-/* 399 */,
-/* 400 */,
-/* 401 */,
-/* 402 */,
-/* 403 */,
-/* 404 */,
-/* 405 */,
 /* 406 */,
 /* 407 */,
 /* 408 */,
 /* 409 */,
-/* 410 */
+/* 410 */,
+/* 411 */,
+/* 412 */,
+/* 413 */,
+/* 414 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -29072,7 +29076,7 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _timeline = __webpack_require__(411);
+	var _timeline = __webpack_require__(415);
 
 	var _timeline2 = _interopRequireDefault(_timeline);
 
@@ -29088,7 +29092,7 @@
 
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 
-	var _timeline3 = __webpack_require__(413);
+	var _timeline3 = __webpack_require__(417);
 
 	var _timeline4 = _interopRequireDefault(_timeline3);
 
@@ -29104,7 +29108,7 @@
 	), document.getElementById("main"));
 
 /***/ },
-/* 411 */
+/* 415 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -29121,11 +29125,11 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _informationRail = __webpack_require__(271);
+	var _informationRail = __webpack_require__(402);
 
 	var _informationRail2 = _interopRequireDefault(_informationRail);
 
-	var _stockTrendRail = __webpack_require__(412);
+	var _stockTrendRail = __webpack_require__(416);
 
 	var _stockTrendRail2 = _interopRequireDefault(_stockTrendRail);
 
@@ -31374,7 +31378,7 @@
 	exports.default = (0, _reactRedux.connect)()(Timeline);
 
 /***/ },
-/* 412 */
+/* 416 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31663,7 +31667,7 @@
 	exports.default = StockTrendRail;
 
 /***/ },
-/* 413 */
+/* 417 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31674,7 +31678,7 @@
 
 	var _redux = __webpack_require__(242);
 
-	var _stocks = __webpack_require__(263);
+	var _stocks = __webpack_require__(398);
 
 	var _stocks2 = _interopRequireDefault(_stocks);
 

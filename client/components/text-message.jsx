@@ -8,14 +8,14 @@ const TextMessage = React.createClass({
         message: PropTypes.object
     },
     render () {
-        const {senderUsername, content, createdAt} = this.props.message;
+        const {senderDisplayName, content, createdAt} = this.props.message;
         return (
             <div className="comment">
                 <a className="avatar">
-                    <img src={"/images/" + senderUsername + ".jpg"}/>
+                    <img src={"/images/" + senderDisplayName + ".jpg"}/>
                 </a>
                 <div className="content">
-                    <a className="author">{senderUsername}</a>
+                    <a className="author">{senderDisplayName}</a>
                     <div className="metadata">
                         <span className="date">{momentUtils.relativeDateTime(createdAt)}</span>
                     </div>

@@ -94,3 +94,7 @@ export function fetchChannels () {
         });
     };
 }
+export const setChannel = (channel) => ({
+    type: types.SET_CHANNEL,
+    channel
+});

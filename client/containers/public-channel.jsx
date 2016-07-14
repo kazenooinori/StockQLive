@@ -2,11 +2,18 @@ import React, { PropTypes } from "react";
 import PureRenderMixin from "react-addons-pure-render-mixin";
 import {connect} from "react-redux";
 import Messager from "./messager";
+import * as ChaActions from "../actions/cha-actions";
 
-const channelId = "public_channel";
-const BotChannel = React.createClass({
+const channel = {
+    _id: "public_channel",
+    ownerUsername: "admin",
+    name: "public",
+    chatroomId: "public_channel"
+};
+const PublicChannel = React.createClass({
     mixins: [PureRenderMixin],
     componentDidMount() {
+        this.props.setChannel(channel);
     },
     render () {
         return (
@@ -16,14 +23,5 @@ const BotChannel = React.createClass({
         );
     },
 });
-const mapStateToProps = function (state) {
-    return {
-    };
-}
-const mapDispatchToProps = function (dispatch) {
-    return {
-
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(BotChannel);
+const mapStateToProps = (state) => ({});
+export default connect(mapStateToProps, ChaActions)(PublicChannel);
