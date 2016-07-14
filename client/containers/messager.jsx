@@ -22,6 +22,7 @@ const Messager = React.createClass({
         this.props.socket.emit('client send', {
             senderId: user.get("_id"),
             senderDisplayName: user.get("displayName"),
+            senderPhoto: user.get("photos"),
             chatroomId: channel.get("chatroomId"),
             content: text,
         });

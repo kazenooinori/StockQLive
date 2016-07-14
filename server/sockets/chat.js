@@ -21,6 +21,7 @@ export default function chatSocket (server) {
                 MessageStore.createMessage({
                     senderId: data.senderId,
                     senderDisplayName: data.senderDisplayName,
+                    senderPhoto: data.senderPhoto,
                     chatroomId: data.chatroomId,
                     content: data.content,
                 })
@@ -34,6 +35,7 @@ export default function chatSocket (server) {
                 MessageStore.createMessage({
                     senderId: data.senderId,
                     senderDisplayName: data.senderDisplayName,
+                    senderPhoto: data.senderPhoto,
                     chatroomId: data.chatroomId,
                     content: data.content,
                 })
@@ -45,6 +47,7 @@ export default function chatSocket (server) {
                             return MessageStore.createMessage({
                                 senderId: "bot",
                                 senderDisplayName: "Bot",
+                                senderPhoto: "/images/Bot.jpg",
                                 chatroomId: data.chatroomId,
                                 content: {
                                     number: data.content,
@@ -57,6 +60,7 @@ export default function chatSocket (server) {
                         return MessageStore.createMessage({
                             senderId: "bot",
                             senderDisplayName: "Bot",
+                            senderPhoto: "/images/Bot.jpg",
                             chatroomId: data.chatroomId,
                             content: "請輸入股票代號"
                         });

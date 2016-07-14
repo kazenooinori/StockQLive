@@ -10,6 +10,9 @@ const MessageSchema = new Schema({
         type: String,
         required: true,
     },
+    senderPhoto: {
+        type: String,
+    },
     chatroomId: {
         type: String,
         required: true,

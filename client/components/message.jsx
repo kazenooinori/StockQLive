@@ -8,11 +8,11 @@ const Message = React.createClass({
         message: PropTypes.object
     },
     render () {
-        const {senderDisplayName, content, createdAt} = this.props.message;
+        const {senderDisplayName, senderPhoto, content, createdAt} = this.props.message;
         return (
             <div className="comment">
                 <a className="avatar">
-                    <img src={"/images/" + senderDisplayName + ".jpg"}/>
+                    <img src={senderPhoto ? senderPhoto : "/images/avatar.jpg"}/>
                 </a>
                 <div className="content">
                     <a className="author">{senderDisplayName}</a>

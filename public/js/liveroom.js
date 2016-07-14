@@ -29825,6 +29825,7 @@
 	        this.props.socket.emit('client send', {
 	            senderId: user.get("_id"),
 	            senderDisplayName: user.get("displayName"),
+	            senderPhoto: user.get("photos"),
 	            chatroomId: channel.get("chatroomId"),
 	            content: text
 	        });
@@ -45569,6 +45570,7 @@
 	    render: function render() {
 	        var _props$message = this.props.message;
 	        var senderDisplayName = _props$message.senderDisplayName;
+	        var senderPhoto = _props$message.senderPhoto;
 	        var content = _props$message.content;
 	        var createdAt = _props$message.createdAt;
 
@@ -45578,7 +45580,7 @@
 	            _react2.default.createElement(
 	                "a",
 	                { className: "avatar" },
-	                _react2.default.createElement("img", { src: "/images/" + senderDisplayName + ".jpg" })
+	                _react2.default.createElement("img", { src: senderPhoto ? senderPhoto : "/images/avatar.jpg" })
 	            ),
 	            _react2.default.createElement(
 	                "div",

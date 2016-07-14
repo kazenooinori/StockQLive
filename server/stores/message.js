@@ -7,6 +7,7 @@ function createMessage (attributes) {
         MessageModel.create({
             senderId: attributes.senderId,
             senderDisplayName: attributes.senderDisplayName,
+            senderPhoto: attributes.senderPhoto,
             chatroomId: attributes.chatroomId,
             content: attributes.content,
             type: attributes.type,
@@ -23,7 +24,7 @@ function createMessage (attributes) {
 function findMessage (attributes) {
     return MessageModel.find({
         chatroomId: attributes.chatroomId,
-    }, "senderId senderDisplayName chatroomId content type createdAt updatedAt").exec();
+    }, "senderId senderDisplayName senderPhoto chatroomId content type createdAt updatedAt").exec();
 }
 
 module.exports = {
