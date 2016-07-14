@@ -73,7 +73,7 @@ const Messager = React.createClass({
         });
     },
     renderMessageInputArea (user) {
-        if (user.get("username")) {
+        if (user.get("_id")) {
             return (
                 <form onSubmit={this.handleSubmitMessage}>
                     <div className="ui input">

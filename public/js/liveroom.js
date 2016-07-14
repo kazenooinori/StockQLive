@@ -29891,7 +29891,7 @@
 	        });
 	    },
 	    renderMessageInputArea: function renderMessageInputArea(user) {
-	        if (user.get("username")) {
+	        if (user.get("_id")) {
 	            return _react2.default.createElement(
 	                "form",
 	                { onSubmit: this.handleSubmitMessage },
