@@ -3,12 +3,14 @@
     height: 100%;
 }
 .menu-sidebar>.logo {
-    display: block;
+    display: flex;
+    justify-content: center;
     padding-top: 20px;
-    padding-left: 20px;
+    padding-bottom: 10px;
 }
 .menu-sidebar>.logo img {
-    width: 200px;
+    width: 40px;
+    height: 40px;
 }
 
 .menu-sidebar>.channels {
