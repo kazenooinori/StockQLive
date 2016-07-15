@@ -33596,18 +33596,18 @@
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-	var initialState = (0, _immutable.Map)({
-	    _id: "123456",
-	    username: "123456",
-	    displayName: "Dazlee",
-	    photos: "https://scontent-tpe1-1.xx.fbcdn.net/v/t1.0-1/c8.0.80.80/p80x80/10153880_10202861108760535_1171467779_n.jpg?oh=4f01035bebe96f5502ef38b2d81d9727&oe=57EF3664"
-	});
 	// const initialState = Map({
-	//     _id: "",
-	//     username: "",
-	//     displayName: "",
-	//     photos: "",
+	//     _id: "123456",
+	//     username: "123456",
+	//     displayName: "Dazlee",
+	//     photos: "https://scontent-tpe1-1.xx.fbcdn.net/v/t1.0-1/c8.0.80.80/p80x80/10153880_10202861108760535_1171467779_n.jpg?oh=4f01035bebe96f5502ef38b2d81d9727&oe=57EF3664",
 	// });
+	var initialState = (0, _immutable.Map)({
+	    _id: "",
+	    username: "",
+	    displayName: "",
+	    photos: ""
+	});
 	function user() {
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 	    var action = arguments[1];
@@ -34000,8 +34000,8 @@
 	    displayName: "TrendingBar",
 	    componentDidMount: function componentDidMount() {
 	        // TODO should fetch multiple stock price at once
-	        this.props.fetchStockCurrentPrice("o00");
 	        this.props.fetchStockCurrentPrice("t00");
+	        this.props.fetchStockCurrentPrice("o00");
 	    },
 	    renderLoginStatus: function renderLoginStatus() {
 	        var user = this.props.user;
@@ -34025,8 +34025,8 @@
 	    render: function render() {
 	        var stockByNumber = this.props.stockByNumber;
 
-	        var TSE = stockByNumber.get("o00"); // 加權指數
-	        var OTC = stockByNumber.get("t00"); // 上櫃指數
+	        var TSE = stockByNumber.get("t00"); // 加權指數
+	        var OTC = stockByNumber.get("o00"); // 上櫃指數
 	        return _react2.default.createElement(
 	            "div",
 	            { className: "trending-bar" },

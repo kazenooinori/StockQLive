@@ -14,8 +14,8 @@ import {List} from "immutable";
 const TrendingBar = React.createClass({
     componentDidMount () {
         // TODO should fetch multiple stock price at once
-        this.props.fetchStockCurrentPrice("o00");
         this.props.fetchStockCurrentPrice("t00");
+        this.props.fetchStockCurrentPrice("o00");
     },
     renderLoginStatus () {
         const { user } = this.props;
@@ -36,8 +36,8 @@ const TrendingBar = React.createClass({
     },
     render () {
         const { stockByNumber } = this.props;
-        const TSE = stockByNumber.get("o00"); // 加權指數
-        const OTC = stockByNumber.get("t00"); // 上櫃指數
+        const TSE = stockByNumber.get("t00"); // 加權指數
+        const OTC = stockByNumber.get("o00"); // 上櫃指數
         return (
             <div className="trending-bar">
                 <StockPanel
