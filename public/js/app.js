@@ -34000,8 +34000,8 @@
 	    displayName: "TrendingBar",
 	    componentDidMount: function componentDidMount() {
 	        // TODO should fetch multiple stock price at once
-	        this.props.fetchStockCurrentPrice("0000");
-	        this.props.fetchStockCurrentPrice("1100");
+	        this.props.fetchStockCurrentPrice("o00");
+	        this.props.fetchStockCurrentPrice("t00");
 	    },
 	    renderLoginStatus: function renderLoginStatus() {
 	        var user = this.props.user;
@@ -34025,8 +34025,8 @@
 	    render: function render() {
 	        var stockByNumber = this.props.stockByNumber;
 
-	        var TSE = stockByNumber.get("0000"); // 加權指數
-	        var OTC = stockByNumber.get("1100"); // 上櫃指數
+	        var TSE = stockByNumber.get("o00"); // 加權指數
+	        var OTC = stockByNumber.get("t00"); // 上櫃指數
 	        return _react2.default.createElement(
 	            "div",
 	            { className: "trending-bar" },
