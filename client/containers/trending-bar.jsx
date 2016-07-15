@@ -44,14 +44,14 @@ const TrendingBar = React.createClass({
                     _id="stock-exchange"
                     name="加權指數"
                     latestPrice={TSE ? TSE.get('latest_price') : "--"}
-                    difference={TSE ? TSE.get("yesterday_price") - TSE.get('latest_price') : 0}
+                    difference={TSE ? TSE.get('latest_price') - TSE.get("yesterday_price") : 0}
                     chartWidth={150}
                     chartHeight={80}/>
                 <StockPanel
                     _id="over-the-counter"
                     name="上櫃指數"
                     latestPrice={OTC ? OTC.get('latest_price') : "--"}
-                    difference={OTC ? OTC.get("yesterday_price") - OTC.get('latest_price') : 0}
+                    difference={OTC ? OTC.get('latest_price') - OTC.get("yesterday_price"): 0}
                     chartWidth={150}
                     chartHeight={80}/>
                 <div className="user">

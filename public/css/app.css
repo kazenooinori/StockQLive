@@ -25,10 +25,16 @@
     font-size: 24px;
 }
 .index-panel>.difference {
-    color: #f1453d;
     font-size: 14px;
 }
-
+.index-panel>.index,
+.index-panel>.difference {
+    color: #00b3a1;
+}
+.index-panel.red>.index,
+.index-panel.red>.difference {
+    color: #f1453d;
+}
 
 .trending-bar .kanban {
     margin-right: 28px;

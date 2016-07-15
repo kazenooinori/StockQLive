@@ -34034,14 +34034,14 @@
 	                _id: "stock-exchange",
 	                name: "加權指數",
 	                latestPrice: TSE ? TSE.get('latest_price') : "--",
-	                difference: TSE ? TSE.get("yesterday_price") - TSE.get('latest_price') : 0,
+	                difference: TSE ? TSE.get('latest_price') - TSE.get("yesterday_price") : 0,
 	                chartWidth: 150,
 	                chartHeight: 80 }),
 	            _react2.default.createElement(_stockPanel2.default, {
 	                _id: "over-the-counter",
 	                name: "上櫃指數",
 	                latestPrice: OTC ? OTC.get('latest_price') : "--",
-	                difference: OTC ? OTC.get("yesterday_price") - OTC.get('latest_price') : 0,
+	                difference: OTC ? OTC.get('latest_price') - OTC.get("yesterday_price") : 0,
 	                chartWidth: 150,
 	                chartHeight: 80 }),
 	            _react2.default.createElement(
@@ -34625,6 +34625,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _classnames = __webpack_require__(270);
+
+	var _classnames2 = _interopRequireDefault(_classnames);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var IndexPanel = function IndexPanel(_ref) {
@@ -34633,7 +34637,7 @@
 	    var difference = _ref.difference;
 	    return _react2.default.createElement(
 	        "div",
-	        { className: "index-panel" },
+	        { className: (0, _classnames2.default)("index-panel", { red: difference >= 0 }) },
 	        _react2.default.createElement(
 	            "div",
 	            { className: "name" },
