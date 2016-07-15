@@ -6,6 +6,7 @@
     bottom: 0px;
     overflow-x: hidden;
     overflow-y: hidden;
+    background-color: white;
 }
 .message-box {
     position: absolute;
