@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(395);
+	module.exports = __webpack_require__(397);
 
 
 /***/ },
@@ -23012,6 +23012,7 @@
 	var LOGOUT = exports.LOGOUT = "LOGOUT";
 
 	var APPEND_STOCK_SERIES = exports.APPEND_STOCK_SERIES = "APPEND_STOCK_SERIES";
+	var ADD_STOCK_CURRENT_PRICE = exports.ADD_STOCK_CURRENT_PRICE = "ADD_STOCK_CURRENT_PRICE";
 
 	var UPDATE_SUBJECTS = exports.UPDATE_SUBJECTS = "UPDATE_SUBJECTS";
 	var APPEND_SUBJECTS = exports.APPEND_SUBJECTS = "APPEND_SUBJECTS";
@@ -28082,18 +28083,18 @@
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-	// const initialState = Map({
-	//     _id: "123456",
-	//     username: "123456",
-	//     displayName: "Dazlee",
-	//     photos: "https://scontent-tpe1-1.xx.fbcdn.net/v/t1.0-1/c8.0.80.80/p80x80/10153880_10202861108760535_1171467779_n.jpg?oh=4f01035bebe96f5502ef38b2d81d9727&oe=57EF3664",
-	// });
 	var initialState = (0, _immutable.Map)({
-	    _id: "",
-	    username: "",
-	    displayName: "",
-	    photos: ""
+	    _id: "123456",
+	    username: "123456",
+	    displayName: "Dazlee",
+	    photos: "https://scontent-tpe1-1.xx.fbcdn.net/v/t1.0-1/c8.0.80.80/p80x80/10153880_10202861108760535_1171467779_n.jpg?oh=4f01035bebe96f5502ef38b2d81d9727&oe=57EF3664"
 	});
+	// const initialState = Map({
+	//     _id: "",
+	//     username: "",
+	//     displayName: "",
+	//     photos: "",
+	// });
 	function user() {
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 	    var action = arguments[1];
@@ -28713,15 +28714,15 @@
 
 	var _textMessage2 = _interopRequireDefault(_textMessage);
 
-	var _message = __webpack_require__(418);
+	var _message = __webpack_require__(393);
 
 	var _message2 = _interopRequireDefault(_message);
 
-	var _stockCard = __webpack_require__(419);
+	var _stockCard = __webpack_require__(394);
 
 	var _stockCard2 = _interopRequireDefault(_stockCard);
 
-	var _chaActions = __webpack_require__(393);
+	var _chaActions = __webpack_require__(395);
 
 	var ChaActions = _interopRequireWildcard(_chaActions);
 
@@ -43043,6 +43044,169 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _momentUtils = __webpack_require__(288);
+
+	var momentUtils = _interopRequireWildcard(_momentUtils);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var Message = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "Message",
+
+	    propTypes: {
+	        message: PropTypes.object
+	    },
+	    render: function render() {
+	        var _props$message = this.props.message;
+	        var senderDisplayName = _props$message.senderDisplayName;
+	        var senderPhoto = _props$message.senderPhoto;
+	        var content = _props$message.content;
+	        var createdAt = _props$message.createdAt;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "comment" },
+	            _react2.default.createElement(
+	                "a",
+	                { className: "avatar" },
+	                _react2.default.createElement("img", { src: senderPhoto ? senderPhoto : "/images/avatar.jpg" })
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "content" },
+	                _react2.default.createElement(
+	                    "a",
+	                    { className: "author" },
+	                    senderDisplayName
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "metadata" },
+	                    _react2.default.createElement(
+	                        "span",
+	                        { className: "date" },
+	                        momentUtils.relativeDateTime(createdAt)
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "text" },
+	                    this.props.children
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = Message;
+
+/***/ },
+/* 394 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _momentUtils = __webpack_require__(288);
+
+	var momentUtils = _interopRequireWildcard(_momentUtils);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var StockCard = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "StockCard",
+
+	    propTypes: {
+	        stock: PropTypes.object
+	    },
+	    renderStocks: function renderStocks(stocks) {
+	        if (stocks) {
+	            return stocks.map(function (stock) {
+	                return _react2.default.createElement(
+	                    "div",
+	                    null,
+	                    "stock"
+	                );
+	            });
+	        }
+	    },
+	    render: function render() {
+	        var stock = this.props.stock;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "ui card" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "content" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "header" },
+	                    stock.number
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "description" },
+	                    this.renderStocks(stock.data)
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = StockCard;
+
+/***/ },
+/* 395 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	exports.setChannel = undefined;
 	exports.sendMessage = sendMessage;
 	exports.appendMessages = appendMessages;
@@ -43163,8 +43327,8 @@
 	};
 
 /***/ },
-/* 394 */,
-/* 395 */
+/* 396 */,
+/* 397 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -43185,7 +43349,7 @@
 
 	var _reactRedux = __webpack_require__(235);
 
-	var _chatroom = __webpack_require__(396);
+	var _chatroom = __webpack_require__(398);
 
 	var _chatroom2 = _interopRequireDefault(_chatroom);
 
@@ -43227,7 +43391,7 @@
 	), container);
 
 /***/ },
-/* 396 */
+/* 398 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -43242,15 +43406,15 @@
 
 	var _channel2 = _interopRequireDefault(_channel);
 
-	var _channels = __webpack_require__(397);
+	var _channels = __webpack_require__(399);
 
 	var _channels2 = _interopRequireDefault(_channels);
 
-	var _stocks = __webpack_require__(398);
+	var _stocks = __webpack_require__(400);
 
 	var _stocks2 = _interopRequireDefault(_stocks);
 
-	var _stockSeries = __webpack_require__(399);
+	var _stockSeries = __webpack_require__(401);
 
 	var _stockSeries2 = _interopRequireDefault(_stockSeries);
 
@@ -43276,7 +43440,7 @@
 	exports.default = rootReducer;
 
 /***/ },
-/* 397 */
+/* 399 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -43310,7 +43474,7 @@
 	}
 
 /***/ },
-/* 398 */
+/* 400 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -43342,7 +43506,7 @@
 	}
 
 /***/ },
-/* 399 */
+/* 401 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -43372,187 +43536,6 @@
 	            return state;
 	    }
 	}
-
-/***/ },
-/* 400 */,
-/* 401 */,
-/* 402 */,
-/* 403 */,
-/* 404 */,
-/* 405 */,
-/* 406 */,
-/* 407 */,
-/* 408 */,
-/* 409 */,
-/* 410 */,
-/* 411 */,
-/* 412 */,
-/* 413 */,
-/* 414 */,
-/* 415 */,
-/* 416 */,
-/* 417 */,
-/* 418 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _momentUtils = __webpack_require__(288);
-
-	var momentUtils = _interopRequireWildcard(_momentUtils);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var PropTypes = _react2.default.PropTypes;
-
-
-	var Message = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "Message",
-
-	    propTypes: {
-	        message: PropTypes.object
-	    },
-	    render: function render() {
-	        var _props$message = this.props.message;
-	        var senderDisplayName = _props$message.senderDisplayName;
-	        var senderPhoto = _props$message.senderPhoto;
-	        var content = _props$message.content;
-	        var createdAt = _props$message.createdAt;
-
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "comment" },
-	            _react2.default.createElement(
-	                "a",
-	                { className: "avatar" },
-	                _react2.default.createElement("img", { src: senderPhoto ? senderPhoto : "/images/avatar.jpg" })
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "content" },
-	                _react2.default.createElement(
-	                    "a",
-	                    { className: "author" },
-	                    senderDisplayName
-	                ),
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "metadata" },
-	                    _react2.default.createElement(
-	                        "span",
-	                        { className: "date" },
-	                        momentUtils.relativeDateTime(createdAt)
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "text" },
-	                    this.props.children
-	                )
-	            )
-	        );
-	    }
-	}));
-
-	exports.default = Message;
-
-/***/ },
-/* 419 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _momentUtils = __webpack_require__(288);
-
-	var momentUtils = _interopRequireWildcard(_momentUtils);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _components = {
-	    _component: {}
-	};
-
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var PropTypes = _react2.default.PropTypes;
-
-
-	var StockCard = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "StockCard",
-
-	    propTypes: {
-	        stock: PropTypes.object
-	    },
-	    renderStocks: function renderStocks(stocks) {
-	        if (stocks) {
-	            return stocks.map(function (stock) {
-	                return _react2.default.createElement(
-	                    "div",
-	                    null,
-	                    "stock"
-	                );
-	            });
-	        }
-	    },
-	    render: function render() {
-	        var stock = this.props.stock;
-
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "ui card" },
-	            _react2.default.createElement(
-	                "div",
-	                { className: "content" },
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "header" },
-	                    stock.number
-	                ),
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "description" },
-	                    this.renderStocks(stock.data)
-	                )
-	            )
-	        );
-	    }
-	}));
-
-	exports.default = StockCard;
 
 /***/ }
 /******/ ]);

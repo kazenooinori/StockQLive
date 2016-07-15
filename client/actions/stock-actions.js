@@ -52,3 +52,24 @@ export function fetchStockSeries (series) {
         });
     };
 }
+
+export const fetchStockCurrentPrice = (stockNumber) => (dispatch, getState) => {
+    return fetch("/api/stock/"+stockNumber+"/current", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        },
+    })
+    .then(fetchUtils.checkStatus)
+    .then(fetchUtils.parseJSON)
+    .then((stock) => {
+        dispatch({
+            type: types.ADD_STOCK_CURRENT_PRICE,
+            stock
+        });
+    })
+    .catch((error) => {
+        console.error("fetch stock series error", error);
+    });
+}

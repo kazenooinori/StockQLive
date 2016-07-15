@@ -20,6 +20,28 @@ router.get("/", (req, res) => {
     });
 });
 
+router.get("/:stockNumber/current", (req, res) => {
+    const { stockNumber } = req.params;
+    StockStore.getCurrentStockPrice(stockNumber)
+    .then((rows) => {
+        if (rows && rows.length > 0) {
+            res.json(rows[0]);
+        } else {
+            throw new Error("cannot find stock");
+        }
+    })
+    .catch((error) => {
+        logger.error("error when getting stock info", error);
+        res.writeHead(400, {
+            "Content-Type": "application/json",
+        });
+        res.write(JSON.stringify({
+            message: "bad request",
+        }));
+        res.end();
+    });
+});
+
 router.get("/:stockNumber", (req, res) => {
     const {stockNumber} = req.params;
     StockStore.getStockHistory(stockNumber)

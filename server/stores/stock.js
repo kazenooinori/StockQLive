@@ -9,6 +9,9 @@ function filterHighChartsFormat (stock) {
 function getCurrentStock () {
     return StockModel.getCurrent();
 }
+function getCurrentStockPrice (stockNumber) {
+    return StockModel.getCurrentStockPrice(stockNumber);
+}
 function getStockHistory (stockNumber) {
     return StockModel.getHistory(stockNumber)
     .then((rows) => {
@@ -21,5 +24,6 @@ function getStockHistory (stockNumber) {
 
 module.exports = {
     getCurrentStock,
+    getCurrentStockPrice,
     getStockHistory,
 };

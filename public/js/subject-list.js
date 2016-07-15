@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(409);
+	module.exports = __webpack_require__(411);
 
 
 /***/ },
@@ -22976,6 +22976,7 @@
 	var LOGOUT = exports.LOGOUT = "LOGOUT";
 
 	var APPEND_STOCK_SERIES = exports.APPEND_STOCK_SERIES = "APPEND_STOCK_SERIES";
+	var ADD_STOCK_CURRENT_PRICE = exports.ADD_STOCK_CURRENT_PRICE = "ADD_STOCK_CURRENT_PRICE";
 
 	var UPDATE_SUBJECTS = exports.UPDATE_SUBJECTS = "UPDATE_SUBJECTS";
 	var APPEND_SUBJECTS = exports.APPEND_SUBJECTS = "APPEND_SUBJECTS";
@@ -42636,7 +42637,9 @@
 /* 406 */,
 /* 407 */,
 /* 408 */,
-/* 409 */
+/* 409 */,
+/* 410 */,
+/* 411 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -42649,7 +42652,7 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _subjectList = __webpack_require__(410);
+	var _subjectList = __webpack_require__(412);
 
 	var _subjectList2 = _interopRequireDefault(_subjectList);
 
@@ -42665,7 +42668,7 @@
 
 	var _reactRedux = __webpack_require__(235);
 
-	var _subjectList3 = __webpack_require__(412);
+	var _subjectList3 = __webpack_require__(414);
 
 	var _subjectList4 = _interopRequireDefault(_subjectList3);
 
@@ -42681,7 +42684,7 @@
 	), document.getElementById("main"));
 
 /***/ },
-/* 410 */
+/* 412 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -42704,7 +42707,7 @@
 
 	var _reactRedux = __webpack_require__(235);
 
-	var _subjectActions = __webpack_require__(411);
+	var _subjectActions = __webpack_require__(413);
 
 	var SubjectActions = _interopRequireWildcard(_subjectActions);
 
@@ -42894,7 +42897,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SubjectList);
 
 /***/ },
-/* 411 */
+/* 413 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -42952,7 +42955,7 @@
 	}
 
 /***/ },
-/* 412 */
+/* 414 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -42963,7 +42966,7 @@
 
 	var _redux = __webpack_require__(242);
 
-	var _subjects = __webpack_require__(413);
+	var _subjects = __webpack_require__(415);
 
 	var _subjects2 = _interopRequireDefault(_subjects);
 
@@ -42976,7 +42979,7 @@
 	exports.default = rootReducer;
 
 /***/ },
-/* 413 */
+/* 415 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";

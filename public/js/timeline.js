@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(414);
+	module.exports = __webpack_require__(416);
 
 
 /***/ },
@@ -22976,6 +22976,7 @@
 	var LOGOUT = exports.LOGOUT = "LOGOUT";
 
 	var APPEND_STOCK_SERIES = exports.APPEND_STOCK_SERIES = "APPEND_STOCK_SERIES";
+	var ADD_STOCK_CURRENT_PRICE = exports.ADD_STOCK_CURRENT_PRICE = "ADD_STOCK_CURRENT_PRICE";
 
 	var UPDATE_SUBJECTS = exports.UPDATE_SUBJECTS = "UPDATE_SUBJECTS";
 	var APPEND_SUBJECTS = exports.APPEND_SUBJECTS = "APPEND_SUBJECTS";
@@ -28574,7 +28575,9 @@
 /* 395 */,
 /* 396 */,
 /* 397 */,
-/* 398 */
+/* 398 */,
+/* 399 */,
+/* 400 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -28606,10 +28609,10 @@
 	}
 
 /***/ },
-/* 399 */,
-/* 400 */,
 /* 401 */,
-/* 402 */
+/* 402 */,
+/* 403 */,
+/* 404 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -28628,11 +28631,11 @@
 
 	var _reactRedux = __webpack_require__(235);
 
-	var _stockActions = __webpack_require__(403);
+	var _stockActions = __webpack_require__(405);
 
 	var StockActions = _interopRequireWildcard(_stockActions);
 
-	var _stockItem = __webpack_require__(404);
+	var _stockItem = __webpack_require__(406);
 
 	var _stockItem2 = _interopRequireDefault(_stockItem);
 
@@ -28721,7 +28724,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(InformationRail);
 
 /***/ },
-/* 403 */
+/* 405 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -28729,6 +28732,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.fetchStockCurrentPrice = undefined;
 	exports.updateStocks = updateStocks;
 	exports.fetchStockSeries = fetchStockSeries;
 
@@ -28791,8 +28795,27 @@
 	    };
 	}
 
+	var fetchStockCurrentPrice = exports.fetchStockCurrentPrice = function fetchStockCurrentPrice(stockNumber) {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/api/stock/" + stockNumber + "/current", {
+	            method: "GET",
+	            headers: {
+	                "Content-Type": "application/json",
+	                "Accept": "application/json"
+	            }
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stock) {
+	            dispatch({
+	                type: types.ADD_STOCK_CURRENT_PRICE,
+	                stock: stock
+	            });
+	        }).catch(function (error) {
+	            console.error("fetch stock series error", error);
+	        });
+	    };
+	};
+
 /***/ },
-/* 404 */
+/* 406 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -28809,7 +28832,7 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _stockItemPopup = __webpack_require__(405);
+	var _stockItemPopup = __webpack_require__(407);
 
 	var _stockItemPopup2 = _interopRequireDefault(_stockItemPopup);
 
@@ -28890,7 +28913,7 @@
 	exports.default = StockItem;
 
 /***/ },
-/* 405 */
+/* 407 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -29056,15 +29079,15 @@
 	exports.default = StockItemPopup;
 
 /***/ },
-/* 406 */,
-/* 407 */,
 /* 408 */,
 /* 409 */,
 /* 410 */,
 /* 411 */,
 /* 412 */,
 /* 413 */,
-/* 414 */
+/* 414 */,
+/* 415 */,
+/* 416 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -29077,7 +29100,7 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _timeline = __webpack_require__(415);
+	var _timeline = __webpack_require__(417);
 
 	var _timeline2 = _interopRequireDefault(_timeline);
 
@@ -29093,7 +29116,7 @@
 
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 
-	var _timeline3 = __webpack_require__(417);
+	var _timeline3 = __webpack_require__(419);
 
 	var _timeline4 = _interopRequireDefault(_timeline3);
 
@@ -29109,7 +29132,7 @@
 	), document.getElementById("main"));
 
 /***/ },
-/* 415 */
+/* 417 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -29126,11 +29149,11 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _informationRail = __webpack_require__(402);
+	var _informationRail = __webpack_require__(404);
 
 	var _informationRail2 = _interopRequireDefault(_informationRail);
 
-	var _stockTrendRail = __webpack_require__(416);
+	var _stockTrendRail = __webpack_require__(418);
 
 	var _stockTrendRail2 = _interopRequireDefault(_stockTrendRail);
 
@@ -31379,7 +31402,7 @@
 	exports.default = (0, _reactRedux.connect)()(Timeline);
 
 /***/ },
-/* 416 */
+/* 418 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31668,7 +31691,7 @@
 	exports.default = StockTrendRail;
 
 /***/ },
-/* 417 */
+/* 419 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31679,7 +31702,7 @@
 
 	var _redux = __webpack_require__(242);
 
-	var _stocks = __webpack_require__(398);
+	var _stocks = __webpack_require__(400);
 
 	var _stocks2 = _interopRequireDefault(_stocks);
 

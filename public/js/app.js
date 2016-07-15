@@ -77,7 +77,7 @@
 
 	var _botChannel2 = _interopRequireDefault(_botChannel);
 
-	var _publicChannel = __webpack_require__(394);
+	var _publicChannel = __webpack_require__(396);
 
 	var _publicChannel2 = _interopRequireDefault(_publicChannel);
 
@@ -28443,13 +28443,18 @@
 
 	var _socket2 = _interopRequireDefault(_socket);
 
+	var _stockByNumber = __webpack_require__(420);
+
+	var _stockByNumber2 = _interopRequireDefault(_stockByNumber);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var reducer = (0, _redux.combineReducers)({
 	    channel: _channel2.default,
 	    messages: _messages2.default,
 	    user: _user2.default,
-	    socket: _socket2.default
+	    socket: _socket2.default,
+	    stockByNumber: _stockByNumber2.default
 	});
 
 	exports.default = reducer;
@@ -28520,6 +28525,7 @@
 	var LOGOUT = exports.LOGOUT = "LOGOUT";
 
 	var APPEND_STOCK_SERIES = exports.APPEND_STOCK_SERIES = "APPEND_STOCK_SERIES";
+	var ADD_STOCK_CURRENT_PRICE = exports.ADD_STOCK_CURRENT_PRICE = "ADD_STOCK_CURRENT_PRICE";
 
 	var UPDATE_SUBJECTS = exports.UPDATE_SUBJECTS = "UPDATE_SUBJECTS";
 	var APPEND_SUBJECTS = exports.APPEND_SUBJECTS = "APPEND_SUBJECTS";
@@ -33590,18 +33596,18 @@
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-	// const initialState = Map({
-	//     _id: "123456",
-	//     username: "123456",
-	//     displayName: "Dazlee",
-	//     photos: "https://scontent-tpe1-1.xx.fbcdn.net/v/t1.0-1/c8.0.80.80/p80x80/10153880_10202861108760535_1171467779_n.jpg?oh=4f01035bebe96f5502ef38b2d81d9727&oe=57EF3664",
-	// });
 	var initialState = (0, _immutable.Map)({
-	    _id: "",
-	    username: "",
-	    displayName: "",
-	    photos: ""
+	    _id: "123456",
+	    username: "123456",
+	    displayName: "Dazlee",
+	    photos: "https://scontent-tpe1-1.xx.fbcdn.net/v/t1.0-1/c8.0.80.80/p80x80/10153880_10202861108760535_1171467779_n.jpg?oh=4f01035bebe96f5502ef38b2d81d9727&oe=57EF3664"
 	});
+	// const initialState = Map({
+	//     _id: "",
+	//     username: "",
+	//     displayName: "",
+	//     photos: "",
+	// });
 	function user() {
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 	    var action = arguments[1];
@@ -33958,6 +33964,14 @@
 
 	var _indexPanel2 = _interopRequireDefault(_indexPanel);
 
+	var _stockPanel = __webpack_require__(421);
+
+	var _stockPanel2 = _interopRequireDefault(_stockPanel);
+
+	var _stockActions = __webpack_require__(405);
+
+	var StockActions = _interopRequireWildcard(_stockActions);
+
 	var _loggedInController = __webpack_require__(275);
 
 	var _loggedInController2 = _interopRequireDefault(_loggedInController);
@@ -33967,6 +33981,8 @@
 	var _loggingInController2 = _interopRequireDefault(_loggingInController);
 
 	var _immutable = __webpack_require__(261);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -33982,6 +33998,11 @@
 
 	var TrendingBar = _wrapComponent("_component")(_react2.default.createClass({
 	    displayName: "TrendingBar",
+	    componentDidMount: function componentDidMount() {
+	        // TODO should fetch multiple stock price at once
+	        this.props.fetchStockCurrentPrice("0000");
+	        this.props.fetchStockCurrentPrice("1100");
+	    },
 	    renderLoginStatus: function renderLoginStatus() {
 	        var user = this.props.user;
 
@@ -34002,35 +34023,27 @@
 	        }
 	    },
 	    render: function render() {
+	        var stockByNumber = this.props.stockByNumber;
+
+	        var TSE = stockByNumber.get("0000"); // 加權指數
+	        var OTC = stockByNumber.get("1100"); // 上櫃指數
 	        return _react2.default.createElement(
 	            "div",
 	            { className: "trending-bar" },
-	            _react2.default.createElement(
-	                "div",
-	                { className: "kanban" },
-	                _react2.default.createElement(_indexPanel2.default, {
-	                    name: "上市指數",
-	                    index: 8754.29,
-	                    difference: 10.2 }),
-	                _react2.default.createElement(_stockChart2.default, {
-	                    _id: "stock-exchange",
-	                    stockSeries: (0, _immutable.List)(),
-	                    width: 150,
-	                    height: 80 })
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "kanban" },
-	                _react2.default.createElement(_indexPanel2.default, {
-	                    name: "上櫃指數",
-	                    index: 8754.29,
-	                    difference: 10.2 }),
-	                _react2.default.createElement(_stockChart2.default, {
-	                    _id: "over-the-counter",
-	                    stockSeries: (0, _immutable.List)(),
-	                    width: 150,
-	                    height: 80 })
-	            ),
+	            _react2.default.createElement(_stockPanel2.default, {
+	                _id: "stock-exchange",
+	                name: "加權指數",
+	                latestPrice: TSE ? TSE.get('latest_price') : "--",
+	                difference: TSE ? TSE.get("yesterday_price") - TSE.get('latest_price') : 0,
+	                chartWidth: 150,
+	                chartHeight: 80 }),
+	            _react2.default.createElement(_stockPanel2.default, {
+	                _id: "over-the-counter",
+	                name: "上櫃指數",
+	                latestPrice: OTC ? OTC.get('latest_price') : "--",
+	                difference: OTC ? OTC.get("yesterday_price") - OTC.get('latest_price') : 0,
+	                chartWidth: 150,
+	                chartHeight: 80 }),
 	            _react2.default.createElement(
 	                "div",
 	                { className: "user" },
@@ -34041,10 +34054,11 @@
 	}));
 	var mapStateToProps = function mapStateToProps(state) {
 	    return {
-	        user: state.user
+	        user: state.user,
+	        stockByNumber: state.stockByNumber
 	    };
 	};
-	exports.default = (0, _reactRedux.connect)(mapStateToProps)(TrendingBar);
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, StockActions)(TrendingBar);
 
 /***/ },
 /* 272 */
@@ -34633,7 +34647,7 @@
 	        _react2.default.createElement(
 	            "div",
 	            { className: "difference" },
-	            difference >= 0 ? "+" + difference : "-" + difference
+	            difference >= 0 ? "+" + difference.toFixed(2) : difference.toFixed(2)
 	        )
 	    );
 	};
@@ -35668,7 +35682,7 @@
 
 	var _messager2 = _interopRequireDefault(_messager);
 
-	var _chaActions = __webpack_require__(393);
+	var _chaActions = __webpack_require__(395);
 
 	var ChaActions = _interopRequireWildcard(_chaActions);
 
@@ -35741,15 +35755,15 @@
 
 	var _textMessage2 = _interopRequireDefault(_textMessage);
 
-	var _message = __webpack_require__(418);
+	var _message = __webpack_require__(393);
 
 	var _message2 = _interopRequireDefault(_message);
 
-	var _stockCard = __webpack_require__(419);
+	var _stockCard = __webpack_require__(394);
 
 	var _stockCard2 = _interopRequireDefault(_stockCard);
 
-	var _chaActions = __webpack_require__(393);
+	var _chaActions = __webpack_require__(395);
 
 	var ChaActions = _interopRequireWildcard(_chaActions);
 
@@ -50071,6 +50085,169 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _momentUtils = __webpack_require__(288);
+
+	var momentUtils = _interopRequireWildcard(_momentUtils);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var Message = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "Message",
+
+	    propTypes: {
+	        message: PropTypes.object
+	    },
+	    render: function render() {
+	        var _props$message = this.props.message;
+	        var senderDisplayName = _props$message.senderDisplayName;
+	        var senderPhoto = _props$message.senderPhoto;
+	        var content = _props$message.content;
+	        var createdAt = _props$message.createdAt;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "comment" },
+	            _react2.default.createElement(
+	                "a",
+	                { className: "avatar" },
+	                _react2.default.createElement("img", { src: senderPhoto ? senderPhoto : "/images/avatar.jpg" })
+	            ),
+	            _react2.default.createElement(
+	                "div",
+	                { className: "content" },
+	                _react2.default.createElement(
+	                    "a",
+	                    { className: "author" },
+	                    senderDisplayName
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "metadata" },
+	                    _react2.default.createElement(
+	                        "span",
+	                        { className: "date" },
+	                        momentUtils.relativeDateTime(createdAt)
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "text" },
+	                    this.props.children
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = Message;
+
+/***/ },
+/* 394 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _momentUtils = __webpack_require__(288);
+
+	var momentUtils = _interopRequireWildcard(_momentUtils);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _components = {
+	    _component: {}
+	};
+
+	function _wrapComponent(id) {
+	    return function (Component) {
+	        return Component;
+	    };
+	}
+
+	var PropTypes = _react2.default.PropTypes;
+
+
+	var StockCard = _wrapComponent("_component")(_react2.default.createClass({
+	    displayName: "StockCard",
+
+	    propTypes: {
+	        stock: PropTypes.object
+	    },
+	    renderStocks: function renderStocks(stocks) {
+	        if (stocks) {
+	            return stocks.map(function (stock) {
+	                return _react2.default.createElement(
+	                    "div",
+	                    null,
+	                    "stock"
+	                );
+	            });
+	        }
+	    },
+	    render: function render() {
+	        var stock = this.props.stock;
+
+	        return _react2.default.createElement(
+	            "div",
+	            { className: "ui card" },
+	            _react2.default.createElement(
+	                "div",
+	                { className: "content" },
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "header" },
+	                    stock.number
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "description" },
+	                    this.renderStocks(stock.data)
+	                )
+	            )
+	        );
+	    }
+	}));
+
+	exports.default = StockCard;
+
+/***/ },
+/* 395 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 	exports.setChannel = undefined;
 	exports.sendMessage = sendMessage;
 	exports.appendMessages = appendMessages;
@@ -50191,7 +50368,7 @@
 	};
 
 /***/ },
-/* 394 */
+/* 396 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -50214,7 +50391,7 @@
 
 	var _messager2 = _interopRequireDefault(_messager);
 
-	var _chaActions = __webpack_require__(393);
+	var _chaActions = __webpack_require__(395);
 
 	var ChaActions = _interopRequireWildcard(_chaActions);
 
@@ -50259,8 +50436,6 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, ChaActions)(PublicChannel);
 
 /***/ },
-/* 395 */,
-/* 396 */,
 /* 397 */,
 /* 398 */,
 /* 399 */,
@@ -50269,7 +50444,97 @@
 /* 402 */,
 /* 403 */,
 /* 404 */,
-/* 405 */,
+/* 405 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.fetchStockCurrentPrice = undefined;
+	exports.updateStocks = updateStocks;
+	exports.fetchStockSeries = fetchStockSeries;
+
+	var _actionTypes = __webpack_require__(260);
+
+	var types = _interopRequireWildcard(_actionTypes);
+
+	var _isomorphicFetch = __webpack_require__(282);
+
+	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+	var _fetchUtils = __webpack_require__(284);
+
+	var fetchUtils = _interopRequireWildcard(_fetchUtils);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function updateStocks() {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/api/stock", {
+	            method: "GET",
+	            headers: {
+	                "Content-Type": "application/json",
+	                "Accept": "application/json"
+	            },
+	            credentials: true
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stocks) {
+	            dispatch({
+	                type: types.UPDATE_STOCKS,
+	                stocks: stocks
+	            });
+	        }).catch(function (error) {
+	            console.error("create channel error", error);
+	        });
+	    };
+	}
+	function fetchStockSeries(series) {
+	    return function (dispatch, getState) {
+	        var stockNumber = series[0];
+	        return (0, _isomorphicFetch2.default)("/api/stock/" + stockNumber, {
+	            method: "GET",
+	            headers: {
+	                "Content-Type": "application/json",
+	                "Accept": "application/json"
+	            },
+	            credentials: true
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stockSeries) {
+	            dispatch({
+	                type: types.APPEND_STOCK_SERIES,
+	                stockSeries: {
+	                    name: stockNumber,
+	                    data: stockSeries
+	                }
+	            });
+	        }).catch(function (error) {
+	            console.error("fetch stock series error", error);
+	        });
+	    };
+	}
+
+	var fetchStockCurrentPrice = exports.fetchStockCurrentPrice = function fetchStockCurrentPrice(stockNumber) {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/api/stock/" + stockNumber + "/current", {
+	            method: "GET",
+	            headers: {
+	                "Content-Type": "application/json",
+	                "Accept": "application/json"
+	            }
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stock) {
+	            dispatch({
+	                type: types.ADD_STOCK_CURRENT_PRICE,
+	                stock: stock
+	            });
+	        }).catch(function (error) {
+	            console.error("fetch stock series error", error);
+	        });
+	    };
+	};
+
+/***/ },
 /* 406 */,
 /* 407 */,
 /* 408 */,
@@ -50282,7 +50547,9 @@
 /* 415 */,
 /* 416 */,
 /* 417 */,
-/* 418 */
+/* 418 */,
+/* 419 */,
+/* 420 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -50290,84 +50557,34 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.default = stockByNumber;
 
-	var _react = __webpack_require__(2);
+	var _actionTypes = __webpack_require__(260);
 
-	var _react2 = _interopRequireDefault(_react);
+	var types = _interopRequireWildcard(_actionTypes);
 
-	var _momentUtils = __webpack_require__(288);
-
-	var momentUtils = _interopRequireWildcard(_momentUtils);
+	var _immutable = __webpack_require__(261);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-	var _components = {
-	    _component: {}
-	};
+	var initialState = (0, _immutable.Map)();
 
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
+	function stockByNumber() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+	    var action = arguments[1];
 
-	var PropTypes = _react2.default.PropTypes;
-
-
-	var Message = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "Message",
-
-	    propTypes: {
-	        message: PropTypes.object
-	    },
-	    render: function render() {
-	        var _props$message = this.props.message;
-	        var senderDisplayName = _props$message.senderDisplayName;
-	        var senderPhoto = _props$message.senderPhoto;
-	        var content = _props$message.content;
-	        var createdAt = _props$message.createdAt;
-
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "comment" },
-	            _react2.default.createElement(
-	                "a",
-	                { className: "avatar" },
-	                _react2.default.createElement("img", { src: senderPhoto ? senderPhoto : "/images/avatar.jpg" })
-	            ),
-	            _react2.default.createElement(
-	                "div",
-	                { className: "content" },
-	                _react2.default.createElement(
-	                    "a",
-	                    { className: "author" },
-	                    senderDisplayName
-	                ),
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "metadata" },
-	                    _react2.default.createElement(
-	                        "span",
-	                        { className: "date" },
-	                        momentUtils.relativeDateTime(createdAt)
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "text" },
-	                    this.props.children
-	                )
-	            )
-	        );
+	    switch (action.type) {
+	        case types.ADD_STOCK_CURRENT_PRICE:
+	            return state.merge(_defineProperty({}, action.stock.number, action.stock));
+	        default:
+	            return state;
 	    }
-	}));
-
-	exports.default = Message;
+	};
 
 /***/ },
-/* 419 */
+/* 421 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -50380,69 +50597,41 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _momentUtils = __webpack_require__(288);
+	var _indexPanel = __webpack_require__(274);
 
-	var momentUtils = _interopRequireWildcard(_momentUtils);
+	var _indexPanel2 = _interopRequireDefault(_indexPanel);
 
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	var _stockChart = __webpack_require__(272);
+
+	var _stockChart2 = _interopRequireDefault(_stockChart);
+
+	var _immutable = __webpack_require__(261);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var _components = {
-	    _component: {}
+	var StockPanel = function StockPanel(_ref) {
+	    var _id = _ref._id;
+	    var name = _ref.name;
+	    var latestPrice = _ref.latestPrice;
+	    var difference = _ref.difference;
+	    var chartWidth = _ref.chartWidth;
+	    var chartHeight = _ref.chartHeight;
+	    return _react2.default.createElement(
+	        "div",
+	        { className: "kanban" },
+	        _react2.default.createElement(_indexPanel2.default, {
+	            name: name,
+	            index: latestPrice,
+	            difference: difference }),
+	        _react2.default.createElement(_stockChart2.default, {
+	            _id: _id,
+	            stockSeries: (0, _immutable.List)(),
+	            width: chartWidth,
+	            height: chartHeight })
+	    );
 	};
 
-	function _wrapComponent(id) {
-	    return function (Component) {
-	        return Component;
-	    };
-	}
-
-	var PropTypes = _react2.default.PropTypes;
-
-
-	var StockCard = _wrapComponent("_component")(_react2.default.createClass({
-	    displayName: "StockCard",
-
-	    propTypes: {
-	        stock: PropTypes.object
-	    },
-	    renderStocks: function renderStocks(stocks) {
-	        if (stocks) {
-	            return stocks.map(function (stock) {
-	                return _react2.default.createElement(
-	                    "div",
-	                    null,
-	                    "stock"
-	                );
-	            });
-	        }
-	    },
-	    render: function render() {
-	        var stock = this.props.stock;
-
-	        return _react2.default.createElement(
-	            "div",
-	            { className: "ui card" },
-	            _react2.default.createElement(
-	                "div",
-	                { className: "content" },
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "header" },
-	                    stock.number
-	                ),
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "description" },
-	                    this.renderStocks(stock.data)
-	                )
-	            )
-	        );
-	    }
-	}));
-
-	exports.default = StockCard;
+	exports.default = StockPanel;
 
 /***/ }
 /******/ ]);
