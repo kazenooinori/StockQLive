@@ -12,8 +12,8 @@ function getCurrentStock () {
 function getCurrentStockPrice (stockNumber) {
     return StockModel.getCurrentStockPrice(stockNumber);
 }
-function getStockHistory (stockNumber) {
-    return StockModel.getHistory(stockNumber)
+function getStockHistory (stock) {
+    return StockModel.getHistory(stock)
     .then((rows) => {
         return new Promise((resolve, reject) => {
             let stocks = rows.map(filterHighChartsFormat);

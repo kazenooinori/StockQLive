@@ -41,30 +41,30 @@ export default function chatSocket (server) {
                 })
                 .then((message) => {
                     _chatSocket.emit("server push", message);
-                    if (numberChecker(data.content)) {
-                        return StockStore.getStockHistory(data.content)
+                    return StockStore.getStockHistory(data.content)
                         .then((stocks) => {
-                            return MessageStore.createMessage({
-                                senderId: "bot",
-                                senderDisplayName: "Bot",
-                                senderPhoto: "/images/Bot.jpg",
-                                chatroomId: data.chatroomId,
-                                content: {
-                                    number: data.content,
-                                    data: stocks,
-                                },
-                                type: "stock"
-                            });
+                            if (stocks && stocks.length > 0) {
+                                return MessageStore.createMessage({
+                                    senderId: "bot",
+                                    senderDisplayName: "Bot",
+                                    senderPhoto: "/images/Bot.jpg",
+                                    chatroomId: data.chatroomId,
+                                    content: {
+                                        number: data.content,
+                                        data: stocks,
+                                    },
+                                    type: "stock"
+                                });
+                            } else {
+                                return MessageStore.createMessage({
+                                    senderId: "bot",
+                                    senderDisplayName: "Bot",
+                                    senderPhoto: "/images/Bot.jpg",
+                                    chatroomId: data.chatroomId,
+                                    content: "查無此股"
+                                });
+                            }
                         });
-                    } else {
-                        return MessageStore.createMessage({
-                            senderId: "bot",
-                            senderDisplayName: "Bot",
-                            senderPhoto: "/images/Bot.jpg",
-                            chatroomId: data.chatroomId,
-                            content: "請輸入股票代號"
-                        });
-                    }
                 })
                 .then((message) => {
                     _chatSocket.emit("server push", message);

@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(416);
+	module.exports = __webpack_require__(418);
 
 
 /***/ },
@@ -27981,24 +27981,110 @@
 /* 274 */,
 /* 275 */,
 /* 276 */,
-/* 277 */,
-/* 278 */,
-/* 279 */,
-/* 280 */,
-/* 281 */,
-/* 282 */
+/* 277 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.fetchStockCurrentPrice = undefined;
+	exports.updateStocks = updateStocks;
+	exports.fetchStockSeries = fetchStockSeries;
+
+	var _actionTypes = __webpack_require__(260);
+
+	var types = _interopRequireWildcard(_actionTypes);
+
+	var _isomorphicFetch = __webpack_require__(278);
+
+	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+	var _fetchUtils = __webpack_require__(280);
+
+	var fetchUtils = _interopRequireWildcard(_fetchUtils);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function updateStocks() {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/api/stock", {
+	            method: "GET",
+	            headers: {
+	                "Content-Type": "application/json",
+	                "Accept": "application/json"
+	            },
+	            credentials: true
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stocks) {
+	            dispatch({
+	                type: types.UPDATE_STOCKS,
+	                stocks: stocks
+	            });
+	        }).catch(function (error) {
+	            console.error("create channel error", error);
+	        });
+	    };
+	}
+	function fetchStockSeries(series) {
+	    return function (dispatch, getState) {
+	        var stockNumber = series[0];
+	        return (0, _isomorphicFetch2.default)("/api/stock/" + stockNumber, {
+	            method: "GET",
+	            headers: {
+	                "Content-Type": "application/json",
+	                "Accept": "application/json"
+	            },
+	            credentials: true
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stockSeries) {
+	            dispatch({
+	                type: types.APPEND_STOCK_SERIES,
+	                stockSeries: {
+	                    name: stockNumber,
+	                    data: stockSeries
+	                }
+	            });
+	        }).catch(function (error) {
+	            console.error("fetch stock series error", error);
+	        });
+	    };
+	}
+
+	var fetchStockCurrentPrice = exports.fetchStockCurrentPrice = function fetchStockCurrentPrice(stockNumber) {
+	    return function (dispatch, getState) {
+	        return (0, _isomorphicFetch2.default)("/api/stock/" + stockNumber + "/current", {
+	            method: "GET",
+	            headers: {
+	                "Content-Type": "application/json",
+	                "Accept": "application/json"
+	            }
+	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stock) {
+	            dispatch({
+	                type: types.ADD_STOCK_CURRENT_PRICE,
+	                stock: stock
+	            });
+	        }).catch(function (error) {
+	            console.error("fetch stock series error", error);
+	        });
+	    };
+	};
+
+/***/ },
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// the whatwg-fetch polyfill installs the fetch() function
 	// on the global object (window or self)
 	//
 	// Return that as the export for use in Webpack, Browserify etc.
-	__webpack_require__(283);
+	__webpack_require__(279);
 	module.exports = self.fetch.bind(self);
 
 
 /***/ },
-/* 283 */
+/* 279 */
 /***/ function(module, exports) {
 
 	(function(self) {
@@ -28437,7 +28523,7 @@
 
 
 /***/ },
-/* 284 */
+/* 280 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -28462,6 +28548,10 @@
 	}
 
 /***/ },
+/* 281 */,
+/* 282 */,
+/* 283 */,
+/* 284 */,
 /* 285 */,
 /* 286 */,
 /* 287 */,
@@ -28577,7 +28667,10 @@
 /* 397 */,
 /* 398 */,
 /* 399 */,
-/* 400 */
+/* 400 */,
+/* 401 */,
+/* 402 */,
+/* 403 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -28609,10 +28702,10 @@
 	}
 
 /***/ },
-/* 401 */,
-/* 402 */,
-/* 403 */,
-/* 404 */
+/* 404 */,
+/* 405 */,
+/* 406 */,
+/* 407 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -28631,11 +28724,11 @@
 
 	var _reactRedux = __webpack_require__(235);
 
-	var _stockActions = __webpack_require__(405);
+	var _stockActions = __webpack_require__(277);
 
 	var StockActions = _interopRequireWildcard(_stockActions);
 
-	var _stockItem = __webpack_require__(406);
+	var _stockItem = __webpack_require__(408);
 
 	var _stockItem2 = _interopRequireDefault(_stockItem);
 
@@ -28724,98 +28817,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(InformationRail);
 
 /***/ },
-/* 405 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.fetchStockCurrentPrice = undefined;
-	exports.updateStocks = updateStocks;
-	exports.fetchStockSeries = fetchStockSeries;
-
-	var _actionTypes = __webpack_require__(260);
-
-	var types = _interopRequireWildcard(_actionTypes);
-
-	var _isomorphicFetch = __webpack_require__(282);
-
-	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
-
-	var _fetchUtils = __webpack_require__(284);
-
-	var fetchUtils = _interopRequireWildcard(_fetchUtils);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function updateStocks() {
-	    return function (dispatch, getState) {
-	        return (0, _isomorphicFetch2.default)("/api/stock", {
-	            method: "GET",
-	            headers: {
-	                "Content-Type": "application/json",
-	                "Accept": "application/json"
-	            },
-	            credentials: true
-	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stocks) {
-	            dispatch({
-	                type: types.UPDATE_STOCKS,
-	                stocks: stocks
-	            });
-	        }).catch(function (error) {
-	            console.error("create channel error", error);
-	        });
-	    };
-	}
-	function fetchStockSeries(series) {
-	    return function (dispatch, getState) {
-	        var stockNumber = series[0];
-	        return (0, _isomorphicFetch2.default)("/api/stock/" + stockNumber, {
-	            method: "GET",
-	            headers: {
-	                "Content-Type": "application/json",
-	                "Accept": "application/json"
-	            },
-	            credentials: true
-	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stockSeries) {
-	            dispatch({
-	                type: types.APPEND_STOCK_SERIES,
-	                stockSeries: {
-	                    name: stockNumber,
-	                    data: stockSeries
-	                }
-	            });
-	        }).catch(function (error) {
-	            console.error("fetch stock series error", error);
-	        });
-	    };
-	}
-
-	var fetchStockCurrentPrice = exports.fetchStockCurrentPrice = function fetchStockCurrentPrice(stockNumber) {
-	    return function (dispatch, getState) {
-	        return (0, _isomorphicFetch2.default)("/api/stock/" + stockNumber + "/current", {
-	            method: "GET",
-	            headers: {
-	                "Content-Type": "application/json",
-	                "Accept": "application/json"
-	            }
-	        }).then(fetchUtils.checkStatus).then(fetchUtils.parseJSON).then(function (stock) {
-	            dispatch({
-	                type: types.ADD_STOCK_CURRENT_PRICE,
-	                stock: stock
-	            });
-	        }).catch(function (error) {
-	            console.error("fetch stock series error", error);
-	        });
-	    };
-	};
-
-/***/ },
-/* 406 */
+/* 408 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -28832,7 +28834,7 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _stockItemPopup = __webpack_require__(407);
+	var _stockItemPopup = __webpack_require__(409);
 
 	var _stockItemPopup2 = _interopRequireDefault(_stockItemPopup);
 
@@ -28913,7 +28915,7 @@
 	exports.default = StockItem;
 
 /***/ },
-/* 407 */
+/* 409 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -29079,15 +29081,15 @@
 	exports.default = StockItemPopup;
 
 /***/ },
-/* 408 */,
-/* 409 */,
 /* 410 */,
 /* 411 */,
 /* 412 */,
 /* 413 */,
 /* 414 */,
 /* 415 */,
-/* 416 */
+/* 416 */,
+/* 417 */,
+/* 418 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -29100,7 +29102,7 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _timeline = __webpack_require__(417);
+	var _timeline = __webpack_require__(419);
 
 	var _timeline2 = _interopRequireDefault(_timeline);
 
@@ -29116,7 +29118,7 @@
 
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 
-	var _timeline3 = __webpack_require__(419);
+	var _timeline3 = __webpack_require__(421);
 
 	var _timeline4 = _interopRequireDefault(_timeline3);
 
@@ -29132,7 +29134,7 @@
 	), document.getElementById("main"));
 
 /***/ },
-/* 417 */
+/* 419 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -29149,11 +29151,11 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _informationRail = __webpack_require__(404);
+	var _informationRail = __webpack_require__(407);
 
 	var _informationRail2 = _interopRequireDefault(_informationRail);
 
-	var _stockTrendRail = __webpack_require__(418);
+	var _stockTrendRail = __webpack_require__(420);
 
 	var _stockTrendRail2 = _interopRequireDefault(_stockTrendRail);
 
@@ -31402,7 +31404,7 @@
 	exports.default = (0, _reactRedux.connect)()(Timeline);
 
 /***/ },
-/* 418 */
+/* 420 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31691,7 +31693,7 @@
 	exports.default = StockTrendRail;
 
 /***/ },
-/* 419 */
+/* 421 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31702,7 +31704,7 @@
 
 	var _redux = __webpack_require__(242);
 
-	var _stocks = __webpack_require__(400);
+	var _stocks = __webpack_require__(403);
 
 	var _stocks2 = _interopRequireDefault(_stocks);
 
