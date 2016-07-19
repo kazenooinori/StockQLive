@@ -44,3 +44,54 @@
     right: 40px;
     top: 30px;
 }
+
+/* this is for article list in messager bot */
+.list-group {
+    display: inline-block;
+    overflow-y: auto;
+    white-space: nowrap;
+}
+
+.article-block {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 3px;
+
+    border: 1px solid rgba(0, 0, 0, .10);
+    border-radius: 2px;
+    box-sizing: border-box;
+    max-width: 252px;
+}
+
+.article-img {
+    background-position: 50% 50%;
+    background-size: cover;
+    display: block;
+    padding-bottom: 52%;
+    position: relative;
+}
+
+.article-detail {
+    font-weight: bold;
+    white-space: normal;
+}
+
+.article-title {
+    padding: 6px;
+}
+
+.article-function div {
+    border-top: 1px solid rgba(0, 0, 0, .10);
+    display: block;
+}
+
+.article-function {
+    line-height: 32px;
+    text-align: center;
+}
+
+.article-function a {
+    color: #365899;
+    cursor: pointer;
+    text-decoration: none;
+}
