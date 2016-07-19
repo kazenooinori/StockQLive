@@ -33596,18 +33596,18 @@
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-	var initialState = (0, _immutable.Map)({
-	    _id: "123456",
-	    username: "123456",
-	    displayName: "Dazlee",
-	    photos: "https://scontent-tpe1-1.xx.fbcdn.net/v/t1.0-1/c8.0.80.80/p80x80/10153880_10202861108760535_1171467779_n.jpg?oh=4f01035bebe96f5502ef38b2d81d9727&oe=57EF3664"
-	});
 	// const initialState = Map({
-	//     _id: "",
-	//     username: "",
-	//     displayName: "",
-	//     photos: "",
+	//     _id: "123456",
+	//     username: "123456",
+	//     displayName: "Dazlee",
+	//     photos: "https://scontent-tpe1-1.xx.fbcdn.net/v/t1.0-1/c8.0.80.80/p80x80/10153880_10202861108760535_1171467779_n.jpg?oh=4f01035bebe96f5502ef38b2d81d9727&oe=57EF3664",
 	// });
+	var initialState = (0, _immutable.Map)({
+	    _id: "",
+	    username: "",
+	    displayName: "",
+	    photos: ""
+	});
 	function user() {
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 	    var action = arguments[1];
@@ -33910,6 +33910,12 @@
 	                { className: (0, _classnames2.default)("channel", { selected: channel === "stockbot" }), to: "/stockbot" },
 	                _react2.default.createElement("i", { className: "spy icon" }),
 	                "個股Bot"
+	            ),
+	            _react2.default.createElement(
+	                "a",
+	                { className: "channel", href: "https://startertech.webinarninja.co/my/wnwebinarlist/index?webinar_id=16589", target: "_blank" },
+	                _react2.default.createElement("i", { className: "spy icon" }),
+	                "直播網址"
 	            )
 	        )
 	    );
