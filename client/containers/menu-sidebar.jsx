@@ -15,6 +15,9 @@ const MenuSidebar = ({ channel }) => (
             <Link className={classNames("channel", {selected: channel === "stockbot"})} to="/stockbot">
                 <i className="spy icon"></i>個股Bot
             </Link>
+            <a className="channel" href="https://startertech.webinarninja.co/my/wnwebinarlist/index?webinar_id=16589" target="_blank">
+                <i className="record icon"></i>直播網址
+            </a>
         </div>
     </div>
 );
