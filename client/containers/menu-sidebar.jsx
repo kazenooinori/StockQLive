@@ -16,7 +16,7 @@ const MenuSidebar = ({ channel }) => (
                 <i className="spy icon"></i>個股Bot
             </Link>
             <a className="channel" href="https://startertech.webinarninja.co/my/wnwebinarlist/index?webinar_id=16589" target="_blank">
-                <i className="spy icon"></i>直播網址
+                <i className="record icon"></i>直播網址
             </a>
         </div>
     </div>

@@ -33914,7 +33914,7 @@
 	            _react2.default.createElement(
 	                "a",
 	                { className: "channel", href: "https://startertech.webinarninja.co/my/wnwebinarlist/index?webinar_id=16589", target: "_blank" },
-	                _react2.default.createElement("i", { className: "spy icon" }),
+	                _react2.default.createElement("i", { className: "record icon" }),
 	                "直播網址"
 	            )
 	        )
